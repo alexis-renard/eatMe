@@ -1,0 +1,10 @@
+__pycache__/*
+../../venv/*
+../../venv
+venv
+requirements.txt
+sondages/__pycache__/*
+__pycache__
+./quest.db
+*~
+
