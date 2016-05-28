@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block main %}
+
+<h1> {{ title }} </h1>
+
+    <div class = "container">
+
+
+        {% if current_user.is_authenticated %}
+        <!--Si l'user est authentifié -->
+              <h2>{{ titleAlbums }}</h2>
+              {% if albums_user %}
+                <div class="row carrousel_albums_playlists leger_margin">
+
+                {% for x in albums_user %}
+                    <div class = "home-margin">
+                        {% if x.img != None %}
+                            <a href="{{ url_for('one_album', id=x.id) }}"><img class="img imgHome" src="{{ url_for('static', filename='img/'+x.img)}}" onerror=this.src="{{ url_for('static', filename='images/404.jpg')}}"></a>
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/404.jpg')}}">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                </div>
+              {% else %}
+                <div class="row leger_margin">
+                  <div class="col-md-12">Aucun album n'est affilié à aucune de vos playlist. <a href ="{{ url_for('one_playlist') }}">Gérer ses playlists</a></div>
+                </div>
+            {% endif %}
+
+            <h2>{{ titlePlaylist }}</h2>
+            <div class="row">
+              <div class="col-md-12">
+            {% if playlists %}
+              {% for playlist in playlists %}
+                <div class="row leger_margin_b">
+                  <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-4 leger_margin_b_playlist">
+                      <span class="carouselTitle"><a href="{{ url_for('one_playlist', id=playlist.id) }}">{{ playlist.name }}</a></span>
+                    </div>
+                  </div>
+                  <!-- Slick carrousel -->
+
+                  {% if playlist.albums != [] %}
+                    <div class="row carrousel_albums_playlists">
+                    {% for album in playlist.albums %}
+                        <div>
+                          {% if album.img != None %}
+                              <a href="{{ url_for('one_album', id=album.id) }}"><img class = "img imgHome" src="{{ url_for('static', filename='img/'+album.img)}}" onerror=this.src="{{ url_for('static', filename='images/404.jpg')}}"></a>
+                              {% else %}
+                              <img src="{{ url_for('static', filename='images/404.jpg')}}">
+                          {% endif %}
+                        </div>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                    <div class="col-md-12 centered">Aucun album à afficher</div>
+                  {% endif %}
+                </div>
+                </div>
+              {% endfor %}
+            {% else %}
+                <div class="row leger_margin">
+                    <div class="col-md-12 centered">Aucune playlist à afficher, n'hésitez pas à en <a href ="{{ url_for('ajouter_playlist') }}">créer une</a> !</div>
+                </div>
+            {% endif %}
+          </div>
+          </div>
+            <h2>{{ titreGenre }}</h2>
+            <div class="row leger_margin">
+            {% if genre %}
+            <div class="col-md-12 col-centered">
+                {% for g in genre %}
+                    <span class="contour">
+                        <a href="{{ url_for('one_genre', id=g.id) }}">{{ g.name_g }}</a>
+                    </span>
+                {% endfor %}
+            </div>
+            {% else %}
+                    <div class="col-md-12 centered">Aucun genre à afficher, car vos <a href ="{{ url_for('one_playlist') }}"> playlistes </a> sont vides !</div>
+            {% endif %}
+          </div>
+         {% else %}
+          <!--Si l'user n'est pas authentifié -->
+          <div>
+              Vous ne pouvez pas accéder aux playlist, <a href="{{ url_for('register') }}">enregistrez-vous</a> ou <a href="{{ url_for('login') }}">connectez vous</a>
+          </div>
+      </br>
+            <div class="row row-centered">
+            {% for x in albums %}
+                <div class = "col-md-3 col-centered col-fixed home-margin">
+                    {% if x.img != None %}
+                        <a href="{{ url_for('one_album', id=x.id) }}"><img class="img imgHome" src="{{ url_for('static', filename='img/'+x.img)}}" onerror=this.src="{{ url_for('static', filename='images/404.jpg')}}"></a>
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/404.jpg')}}">
+                    {% endif %}
+                </div>
+            {% endfor %}
+            </div>
+
+        {% endif %}
+        {% if playlist_publique %}
+          <h2>Playlists publiques</h2>
+            <div class="row leger_margin">
+              <table class="table">
+                  {% for playlist in playlist_publique %}
+                      <tr>
+                          <td class="contour">
+                              <a href="{{ url_for('one_playlist', id=playlist.id) }}">{{ playlist.name }}</a>
+                          </td>
+                          {% if playlist.user_name != current_user.username %}
+                          <td>
+                              appartenant à {{ playlist.user_name }}
+                          </td>
+                          {% else %}
+                          <td>
+                              vous appartenant.
+                          </td>
+                          {% endif %}
+                      </tr>
+                  {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

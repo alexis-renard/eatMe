@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block main %}
+{% if current_user.is_authenticated %}
+<h1>Edit genre : {{ genre.name_g }}</h1>
+<form role="form" method="POST" action="{{ url_for('save_genre') }}">
+    {{ form.hidden_tag() }}
+    <div class={% if form.name_g.errors %}
+        "form-group has-error"
+        {% else %}
+        "form-group"
+        {% endif %}
+        >
+        {{ form.name_g.label }} {{ form.name_g(size=50, class_="form-control") }}
+    </div>
+    {% if form.name_g.errors %}
+    <ul class="list-group">
+        {% for e in form.name_g.errors %}
+        <li class="list-group-item list-group-item-danger">{{ e }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <input class="btn btn-default" type ="submit" value="Enregistrer">
+</form>
+{% endif %}
+{% endblock %}
