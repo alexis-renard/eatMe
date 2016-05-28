@@ -16,26 +16,26 @@
               {{ form.hidden_tag() }}
 
 
-              {% if form.email.errors %}
+              {% if form.username.errors %}
                   <div>
                       <ul class="list-group">
-                          {% for e in form.email.errors %}
+                          {% for e in form.username.errors %}
                           <li class="list-group-item list-group-item-danger">{{ e }}</li>
                           {% endfor %}
                       </ul>
                   </div>
               {% endif %}
-                  <div class={% if form.email.errors %}
+                  <div class={% if form.username.errors %}
                       "form-group has-error"
                       {% else %}
                       "form-group"
                       {% endif %}
                       >
-                      <label for="email" class="col-sm-2 control-label">
-                          {{ form.email.label }}
+                      <label for="username" class="col-sm-2 control-label">
+                          {{ form.username.label }}
                       </label>
                       <div class="col-sm-10">
-                          {{ form.email(size=50, class_="form-control", placeholder="email") }}
+                          {{ form.username(size=50, class_="form-control", placeholder="Username") }}
                       </div>
                   </div>
 

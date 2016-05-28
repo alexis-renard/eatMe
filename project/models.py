@@ -86,27 +86,24 @@ def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
 
 class LoginForm(Form):
-    email = StringField('Email', [validators.Required(), validators.Email()])
-    password = PasswordField('Password', [validators.Length(min=4), validators.Required()])
+    username = StringField('Username', [validators.Required()])
+    password = PasswordField('Password', [validators.Required()])
     next = HiddenField()
 
     def get_authenticated_user(self):
-        # print('get authenticated')
-        # print (self.email)
-        # print (self.password)
-        # print (self.email.data)
-        user = get_user_by_email(self.email.data)
-        # user = User.query.get(self.email.data)
-        # print(user)
+        print('get authenticated')
+        print (self.password)
+        user = get_user(self.username.data)
+        print(user)
         if user is None:
             return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        # print('passwd')
-        # print (passwd)
-        # print('passwd user')
-        # print (user.password)
+        print('passwd')
+        print (passwd)
+        print('passwd user')
+        print (user.password)
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
