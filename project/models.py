@@ -44,8 +44,8 @@ belong_Category = db.Table('belong_Category',
 
 
 
-class User(db.Model):
-    id          = db.Column(db.Integer, primary_key=True)
+class User(db.Model, UserMixin):
+    username    = db.Column(db.String(100), primary_key=True)
     firstName   = db.Column(db.String(100))
     lastName    = db.Column(db.String(100))
     email       = db.Column(db.String(100), unique=True)
@@ -64,8 +64,8 @@ class User(db.Model):
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
-    def get_id(self):
-        return self.id
+    def get_username(self):
+        return self.username
 
     def get_firstName(self):
         return self.name
@@ -73,14 +73,17 @@ class User(db.Model):
     def get_email(self):
         return self.email
 
-    def get_users():
-        return User.query.all()
+def get_users():
+    return User.query.all()
 
-    def get_user(id):
-        return User.query.get(id)
+def get_user(username):
+    return User.query.get(username)
 
-    def get_food_liked_by_user(id):
-        return get_user(id).liked.all()
+def get_food_liked_by_user(username):
+    return get_user(username).liked
+
+def get_user_by_email(email):
+    return User.query.filter(User.email==email).first()
 
 class LoginForm(Form):
     email = StringField('Email', [validators.Required(), validators.Email()])
@@ -88,12 +91,22 @@ class LoginForm(Form):
     next = HiddenField()
 
     def get_authenticated_user(self):
-        user = User.query.get(self.email.data)
+        # print('get authenticated')
+        # print (self.email)
+        # print (self.password)
+        # print (self.email.data)
+        user = get_user_by_email(self.email.data)
+        # user = User.query.get(self.email.data)
+        # print(user)
         if user is None:
             return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
+        # print('passwd')
+        # print (passwd)
+        # print('passwd user')
+        # print (user.password)
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
@@ -235,3 +248,10 @@ class Category(db.Model):
 
     def get_category(name):
         return Category.query.filter(Category.name.lower().like("%" + name.lower() + "%")).first()
+
+class SearchForm(Form):
+    element=StringField("Recherche",validators=[DataRequired()])
+
+@login_manager.user_loader
+def load_user(username):
+    return User.query.get(username)

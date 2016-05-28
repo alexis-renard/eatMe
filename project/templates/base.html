@@ -41,38 +41,13 @@
   {% endblock %}
 
   {% block title %}{{ title }}{% endblock %}
-  {% block content %}
     <body data-spy="scroll" data-target=".navbar-fixed-top">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <header id="section_header" class="navbar-fixed-top main-nav" role="banner">
-        	<div class="container">
-        		<!-- <div class="row"> -->
-                     <div class="navbar-header ">
-                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="/">
-                                <p> Eat Me </p>
-                            </a>
-                     </div><!--Navbar header End-->
-                     	<nav class="collapse navbar-collapse navigation" id="bs-example-navbar-collapse-1" role="navigation">
-                            <ul class="nav navbar-nav navbar-right ">
-                                <li><a href="#slider_part"  class="page-scroll">Actualité</a> </li>
-                                <li><a href="#service" class="page-scroll" >Utilisation </a> </li>
-                                <li><a href="/login/"> Connexion </a> </li>
-                                <li><a href="/register/"> Inscription </a> </li>
-                            </ul>
-                         </nav>
-                    </div><!-- /.container-fluid -->
-        </header>
-        {% endblock %}
-        {% block main %}{% endblock %}
+    {% block header %}{% endblock %}
+    {% block main %}{% endblock %}
 
     <div class="footer_b">
         <div class="container">

@@ -10,10 +10,6 @@ from flask.ext.login import login_user, current_user, logout_user, login_require
 import copy #Importation de copy pour gérer les pointeurs lors de la suppression d'albums
 
 
-
-class SearchForm(Form):
-    element=StringField("Recherche",validators=[DataRequired()])
-
 @app.before_request
 def before_request():
     g.user = current_user
@@ -37,12 +33,15 @@ def login():
         f.next.data = request.args.get("next")
     elif f.validate_on_submit():
         user = f.get_authenticated_user()
+        print ("validate_on_submit")
+        print (f.password.data)
+        print (user)
         if user:
             login_user(user)
             next = f.next.data or url_for("home")
             return redirect(next)
         else:
-            error = "Login ou mot de passe incorrect"
+            error = "Incorrect Login or password "
     return render_template("login.html",form = f, error=error)
 
 @app.route("/register/", methods=("GET","POST",))
@@ -53,7 +52,8 @@ def register():
         f.next.data = request.args.get("next")
     elif f.validate_on_submit():
         users = get_user(f.username.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-        if users == None:
+        users_email = get_user_by_email(f.email.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
+    if (users_email == None or users_username == None):
             m = sha256()
             m.update(f.password.data.encode())
             u = User(username=f.username.data, password=m.hexdigest(), admin=0)
@@ -63,7 +63,13 @@ def register():
             next = f.next.data or url_for("home")
             return redirect(next)
         else:
-            error = "Un user existe déjà avec ce username"
+            error=""
+            if (users_email == None):
+                error+="This email has already been taken"
+                if (users_username == None):
+                    error+=", and this username too. Please focus."
+            if (users_username == None):
+                error+="This user already exists"
     return render_template("register.html",form = f, error = error)
 
 @app.route("/logout/")
@@ -82,8 +88,8 @@ def my_plate_route():
     return render_template("myplates.html", data=data)
 
 
-@app.route("/addcook/search/<String:query>",methods=("GET",))
-def searchcook():
+@app.route("/addcook/search/<string:query>",methods=("GET",))
+def searchcook(query):
     r=SearchForm()
     if r.validate_on_submit():
         a=r.element.data
@@ -93,10 +99,10 @@ def searchcook():
             results=b,
             form=r,
             )
-    
 
-@app.route("/addplates/search/<String:query>",methods=("GET",))
-def searchplates():
+
+@app.route("/addplates/search/<string:query>",methods=("GET",))
+def searchplates(query):
     r=SearchForm()
     if r.validate_on_submit():
         a=r.element.data

@@ -1,3 +1,5 @@
+#python manage.py loaddb project/static/yml/user.yml project/static/yml/town.yml project/static/yml/country.yml project/static/yml/food.yml project/static/yml/category.yml project/static/yml/class_db.yml 
+
 - entryId: 1
   firstName : Gerard
   lastName: Durand
