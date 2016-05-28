@@ -71,6 +71,17 @@ class User(db.Model):
     def get_firstName(self):
         return self.name
 
+    def get_email(self):
+        return self.email
+
+    def get_users():
+        return User.query.all()
+
+    def get_user(id):
+        return User.query.get(id)
+
+    def get_food_liked_by_user(id):
+        return get_user(id).liked.all()
 
 class LoginForm(Form):
     email = db.Column(db.String(100))
@@ -119,6 +130,47 @@ class Food(db.Model):
     def get_img(self):
         return self.img
 
+    def get_food(id):
+        return Food.query.get(id)
+
+    def get_all_food():
+        return Food.query.all()
+
+    def l_contient(l, m):
+        for ll in l:
+            if m in ll.name.lower():
+                return True
+        return False
+
+    def get_food_by_name(name):
+        try:
+            foods = get_all_food()
+            return [food for food in foods if food.name.like("%" + name.lower() + "%")]
+        except NoResultFound:
+            return []
+
+    def get_food_by_category(name):
+        try:
+            foods = get_all_food()
+            return [food for food in foods if l_contient(food.foodCategory, name.lower())]
+        except NoResultFound:
+            return []
+
+    def get_food_by_class(name):
+        try:
+            foods = get_all_food()
+            return [food for food in foods if l_contient(food.foodClass, name.lower())]
+        except NoResultFound:
+            return []
+
+    def get_food_by_class_and_category(cat_name,class_name):
+        try:
+            foods = get_all_food()
+            return [food for food in foods if (l_contient(food.foodClass, class_name.lower()) and l_contient(food.foodCategory, cat_name.lower()))]
+        except NoResultFound:
+            return []
+
+
 class Town(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     name        = db.Column(db.String(100))
@@ -140,6 +192,21 @@ class Town(db.Model):
     def get_country(self):
         return self.country
 
+    def get_towns():
+        return Town.query.all()
+
+    def get_town(id):
+        return Town.query.get(id)
+
+    def get_town_by_name(name):
+        try:
+            towns = get_towns()
+            return [town for town in towns if town.name.like("%" + name.lower() + "%")]
+        except NoResultFound:
+            return []
+
+
+
 class Class(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
@@ -149,6 +216,12 @@ class Class(db.Model):
     def get_name(self):
         return self.name
 
+    def get_classes():
+        return Class.query.all()
+
+    def get_class(name):
+        return Genre.query.filter(Class.name.lower().like("%" + name.lower() + "%")).first()
+
 class Category(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
@@ -157,3 +230,9 @@ class Category(db.Model):
 
     def get_name(self):
         return self.name
+
+    def get_caegories():
+        return Category.query.all()
+
+    def get_category(name):
+        return Category.query.filter(Category.name.lower().like("%" + name.lower() + "%")).first()
