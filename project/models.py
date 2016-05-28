@@ -89,26 +89,25 @@ class LoginForm(Form):
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
-    firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-    lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-	email = StringField('Email', [validators.Length(min=4), validators.Required()])
-	password = PasswordField('Password', [
+    firstName = StringField('First Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    lastName = StringField('Last Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    email = StringField('Email',[validators.Length(min=4),validators.Required()])
+    password = PasswordField('Password', [
 		validators.Required(),
 		validators.EqualTo('confirm', message='Passwords must match'),
         validators.Length(min=4),
-        validators.Email()
-	])
-	confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
+        validators.Email()])
+    confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
     desc = StringField('Description', [validators.Length(min=4), validators.Required()])
-	next = HiddenField()
+    next = HiddenField()
 
 
 class Food(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     name        = db.Column(db.String(100))
     img         = db.Column(db.String(100))
-    foodCategory = db.relationship("Food",secondary=belong_Category, backref = db.backref("food_category", lazy="dynamic"))
-    foodClass = db.relationship("Food",secondary=belong_Class, backref = db.backref("food_classes", lazy="dynamic"))
+    foodCategory = db.relationship("Category",secondary=belong_Category, backref = db.backref("food_category", lazy="dynamic"))
+    foodClass = db.relationship("Class",secondary=belong_Class, backref = db.backref("food_classes", lazy="dynamic"))
 
     def __repr__(self):
         return "<Food (%d) %s>" % (self.id, self.name)
