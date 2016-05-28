@@ -1,6 +1,6 @@
-#python manage.py loaddb project/static/yml/user.yml project/static/yml/town.yml project/static/yml/country.yml project/static/yml/food.yml project/static/yml/category.yml project/static/yml/class_db.yml 
+#python manage.py loaddb project/static/yml/user.yml project/static/yml/town.yml project/static/yml/country.yml project/static/yml/food.yml project/static/yml/category.yml project/static/yml/class_db.yml
 
-- entryId: 1
+- username: Gerard
   firstName : Gerard
   lastName: Durand
   password : c537c4e1f90e847bb641e97695227fc42155ff7acca8ed8fa649d2d7f90e1b25
@@ -9,10 +9,10 @@
   desc:  Coucouu c'est gégé!
   foodLevel:  2
   town : 1
-  love: [2,3]
+  love: [Suala,Alexis]
   cook: [1,2,3]
   like: [1,2,3,5]
-- entryId: 2
+- username: Suala
   firstName : Suala
   lastName: Karine
   password : 12702e6a86aade454dfaf7bdaeb9347a02d8657ad271d0916fb886ba64365b3e
@@ -21,10 +21,10 @@
   desc: Oh my god!
   foodLevel: 1
   town : 2
-  love: [4]
+  love: [Clement]
   cook: [4]
   like: [1,2]
-- entryId: 3
+- username: Alexis
   firstName : Alexis
   lastName:  Renard
   password : d6a7304069f99c5a5bfe62f1bf9134fb10e109eb5042210045ac422e90b61e6e
@@ -33,10 +33,10 @@
   desc: Eh c'est zorro !
   foodLevel:  5
   town : 2
-  love: [1,2,4,5]
+  love: [Gerard,Suala,Clement,Bibiche]
   cook: []
   like: [1,2,3,4,5]
-- entryId: 4
+- username: Clement
   firstName : Clement
   lastName: Gaal
   password : b2fffcdb3f64e783d1b981ae3ab431282b3ad25160d02e66986b31f8de919123
@@ -45,10 +45,10 @@
   desc: Coucou c'est moi !
   foodLevel: 3
   town : 3
-  love: [2]
+  love: [Suala]
   cook: [1,2,3,4,5]
   like: [1,2,4]
-- entryId: 5
+- username: Gregoire
   firstName : Gregoire
   lastName: Molveau
   password : 8d903bc7fa5779dbbc30c72c36b955ff5b88d295374f6d02017f5dee114f4a5c
@@ -57,10 +57,10 @@
   desc: Uesh t'as vu !
   foodLevel: 1
   town : 4
-  love: [3]
+  love: [Alexis]
   cook: []
   like: [3,5]
-- entryId: 6
+- username: Bibiche
   firstName : Bibiche
   lastName: Pitch
   password : 49f9e47c31eca963eb7f5d73222311de8afef54d84c73e354e6ad803b3bc1f41
@@ -69,6 +69,6 @@
   desc: Hum que c'est savoureux !
   foodLevel: 0
   town : 1
-  love: [3,5]
+  love: [Alexis,Clement]
   cook: [2,4]
   like: [2,4]
