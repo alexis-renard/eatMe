@@ -1,0 +1,10 @@
+- id_food: 1
+  category : Plat
+- id_food: 2
+  category : Plat
+- id_food: 3
+  category : Entree
+- id_food: 4
+  category : Plat
+- id_food: 5
+  category : Entree

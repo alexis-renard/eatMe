@@ -1,0 +1,14 @@
+- id_food: 1
+  class : Gras
+- id_food: 2
+  class : Gras
+- id_food: 3
+  class : Bio
+- id_food: 3
+  class : Vegetarien
+- id_food: 4
+  class : Gras
+- id_food: 5
+  class : Bio
+- id_food:
+  class : Vegetarien
