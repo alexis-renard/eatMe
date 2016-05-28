@@ -1,2 +1,2 @@
 #! /usr/bin/env python3
-from projet import manager
+from project import manager
