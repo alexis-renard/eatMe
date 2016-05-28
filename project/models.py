@@ -28,7 +28,6 @@ like = db.Table('like',
 )
 
 
-
 #Création de la table belong_Class enre food et class
 belong_Class = db.Table('belong_Class',
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
@@ -98,9 +97,9 @@ class LoginForm(Form):
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
-    firstName = StringField('First Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-    lastName = StringField('Last Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-    email = StringField('Email',[validators.Length(min=4),validators.Required()])
+    firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    email = StringField('Email', [validators.Length(min=4), validators.Required(), validators.Email()])
     password = PasswordField('Password', [
     	validators.Required(),
     	validators.EqualTo('confirm', message='Passwords must match'),
