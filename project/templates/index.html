@@ -133,7 +133,7 @@
     <!--/ Slider end -->
 
 <!-- Service Area start -->
-{% if !current_user.is_authenticated %}
+{% if not current_user.is_authenticated %}
     <section id="service">
         <div class="container">
                 <div class="row">
@@ -182,6 +182,169 @@
     </section>
 {% endif %}
 {% if current_user.is_authenticated %}
+    <section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="feature_header text-center">
+                    <h3 class="feature_title">Vos possibilités du jour</h3>
+                    <div class="divider"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="feature-tab">
+               <div class="col-md-2 col-sm-3 col-xs-12">
+                    <ul class="nav nav-tabs main-tab-list text-center" role="tablist">
+                          <li role="presentation" class="active">
+                            <a href="#home" role="tab" data-toggle="tab" >
+                              <div class="single-tab">
+                                    <div class="f-icon">
+                                        <i class="fa fa-laptop"></i>
+                                    </div>
+                                </div>
+                                 <h4>Plats aimés</h4>
+                            </a>
+                          </li>
+                          <li role="presentation" >
+                            <a href="#profile" role="tab" data-toggle="tab">
+                                <div class="single-tab">
+                                    <div class="f-icon">
+                                        <i class="fa fa-send"></i>
+                                    </div>
+                                </div>
+                                <h4>Email Marketing</h4>
+                            </a>
+                          </li>
+                          <li role="presentation" >
+                            <a href="#messages" role="tab" data-toggle="tab">
+                                <div class="single-tab">
+                                    <div class="f-icon">
+                                        <i class="fa fa-heart"></i>
+                                    </div>
+                                </div>
+                                <h4>Graphics</h4>
+                            </a>
+                          </li>
+                          <li role="presentation" >
+                            <a href="#photo" role="tab" data-toggle="tab">
+                                <div class="single-tab">
+                                    <div class="f-icon">
+                                        <i class="fa fa-camera"></i>
+                                    </div>
+                                </div>
+                                <h4>Photography</h4>
+                            </a>
+                          </li>
+                            <li role="presentation" >
+                            <a href="#ios" role="tab" data-toggle="tab">
+                              <div class="single-tab">
+                                    <div class="f-icon">
+                                        <i class="fa fa-send"></i>
+                                    </div>
+                                </div>
+                               <h4>ios application</h4>
+                            </a>
+                          </li>
+                    </ul>
+                </div>  <!-- col-md-12 end -->
+                <div class="col-md-10 col-sm-9 col-xs-12">
+                    <div class="tab-content main-tab-content">
+                          <div role="tabpanel" class="tab-pane active " id="home">
+                                <div class="col-md-12 col-sm-9">
+                                     <img src="images/about/web1.png" alt="" class="img-responsive">
+                                </div>
+                                <div class="col-md-12 col-sm-9">
+                                    <div class="c-tab">
+                                         <h4>Web Design and Development</h4>
+                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <br>
+                                         <p>
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
+                                         </p>
+                                         <br>
+                                         <a href="#"> Learn More</a>
+                                    </div>
+                                </div>
+                               
+                          </div>
+                          <div role="tabpanel" class="tab-pane" id="profile">
+                                <div class="col-md-12 col-sm-9">
+                                     <img src="images/about/browse.png" alt="" class="img-responsive">
+                                </div>
+                                <div class="col-md-12 col-sm-9">
+                                    <div class="c-tab">
+                                         <h4>Email and Socail Marketing</h4>
+                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <br>
+                                         <p>
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
+                                         </p>
+                                         <br>
+                                         <a href="#"> Learn More</a>
+                                    </div>
+                                </div>
+                          </div>
+                          <div role="tabpanel" class="tab-pane" id="messages">
+                               <div class="col-md-12 col-sm-9">
+                                     <img src="images/about/web1.png" alt="" class="img-responsive">
+                                </div>
+                               <div class="col-md-12 col-sm-9">
+                                    <div class="c-tab">
+                                         <h4>Graphics Brand Identity</h4>
+                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <br>
+                                         <p>
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
+                                         </p>
+                                         <br>
+                                        <a href="#"> Learn More</a>
+                                    </div>
+                                </div>
+                          </div>
+                          <div role="tabpanel" class="tab-pane" id="photo">
+                               <div class="col-md-12 col-sm-9">
+                                     <img src="images/about/graphics.png" alt="" class="img-responsive">
+                                </div>
+                               <div class="col-md-12 col-sm-9">
+                                    <div class="c-tab">
+                                        <h4>Photography Design</h4>
+                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <br>
+                                         <p>
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
+                                         </p>
+                                         <br>
+                                        <a href="#"> Learn More</a>
+                                    </div>
+                                </div>
+                          </div>
+                            <div role="tabpanel" class="tab-pane" id="ios">
+                                <div class="col-md-12 col-sm-9">
+                                     <img src="images/about/web1.png" alt="" class="img-responsive">
+                                </div>
+                               <div class="col-md-12 col-sm-9">
+                                    <div class="c-tab">
+                                         <h4>ios application</h4>
+                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <br>
+                                         <p>
+                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
+                                         </p>
+                                         <br>
+                                         <a href="#"> Learn More</a>
+                                    </div>
+                                </div>
+                             </div>
+                    </div>
+                </div>
+ 
+                 
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 
 <!-- Portfolio works Start -->
