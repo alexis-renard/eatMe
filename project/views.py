@@ -82,3 +82,29 @@ def logout():
 def my_plate_route():
     data = get_food_liked_by_user(current_user.id)
     return render_template("myplates.html", data=data)
+
+
+@app.route("/addcook/search/<String:query>",methods=("GET",))
+def searchcook():
+    r=SearchForm()
+    if r.validate_on_submit():
+        a=r.element.data
+        b=get_food_by_name(a)
+        return render_template(
+            "addcook.html",
+            results=b,
+            form=r,
+            )
+    
+
+@app.route("/addplates/search/<String:query>",methods=("GET",))
+def searchplates():
+    r=SearchForm()
+    if r.validate_on_submit():
+        a=r.element.data
+        b=get_food_by_name(a)
+        return render_template(
+            "addplates.html",
+            results=b,
+            form=r,
+            )
