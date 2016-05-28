@@ -9,6 +9,11 @@ from hashlib import sha256
 from flask.ext.login import login_user, current_user, logout_user, login_required
 import copy #Importation de copy pour gérer les pointeurs lors de la suppression d'albums
 
+
+
+class SearchForm(Form):
+    element=StringField("Recherche",validators=[DataRequired()])
+
 @app.before_request
 def before_request():
     g.user = current_user
@@ -75,3 +80,29 @@ def logout():
 def my_plate_route():
     data = get_food_liked_by_user(current_user.id)
     return render_template("myplates.html", data=data)
+
+
+@app.route("/addcook/search/<String:query>",methods=("GET",))
+def searchcook():
+    r=SearchForm()
+    if r.validate_on_submit():
+        a=r.element.data
+        b=get_food_by_name(a)
+        return render_template(
+            "addcook.html",
+            results=b,
+            form=r,
+            )
+    
+
+@app.route("/addplates/search/<String:query>",methods=("GET",))
+def searchplates():
+    r=SearchForm()
+    if r.validate_on_submit():
+        a=r.element.data
+        b=get_food_by_name(a)
+        return render_template(
+            "addplates.html",
+            results=b,
+            form=r,
+            )

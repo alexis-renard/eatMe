@@ -33,5 +33,27 @@
     </div>
 </div>
 
+{% if results!=[] %}
+<div class="row">
+    <h3>Resultats</h3>
+    <table class="table col-sm-3">
+        <thead>
+        <tr>
+            <th>Nom</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        {% for e in results %}
+        <tr>
+            <td>{{ e.nom }}</td>
+            <td><a id="add" href="addcook"><span class="glyphicons glyphicons-plus-sign"></span></a></td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endif %}
+
 
 {% endblock %}
