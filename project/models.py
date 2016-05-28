@@ -9,7 +9,7 @@ from flask.ext.login import login_user, current_user, logout_user, login_require
 #Création de la table love entre deux user
 love = db.Table('love',
     db.Column('lover_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
-    db.Column('lover_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('loved_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
 )
 
 
@@ -58,7 +58,7 @@ class User(db.Model):
     town        = db.relationship("Town", backref="user")
     loved = db.relationship('User',
                            secondary=love,
-                           primaryjoin=(love.c.lover_id == id),
+                           primaryjoin=(love.c.loved_id == id),
                            secondaryjoin=(love.c.lover_id == id),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')

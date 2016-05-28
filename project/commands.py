@@ -5,7 +5,6 @@ from project.models import *
 
 @manager.command
 def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
-    print("debut load")
     db.create_all()
 
     import yaml
@@ -15,7 +14,6 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
     foods_table = yaml.load(open(food_file))
     categories_table = yaml.load(open(category_file))
     classes_table = yaml.load(open(class_file))
-    print("debut town")
 
     # create towns
     towns = {}
@@ -28,20 +26,16 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             db.session.add(o)
             towns[town["name"]] = o
     db.session.commit()
-    print("debut food")
 
     # create class
     classes = {}
     for _class in classes_table:
         if _class["name"] not in classes:
             name = _class["name"]
-            print(name)
             o = Class(name=name)
             db.session.add(o)
             classes[_class["name"]] = o
-            print("ajoute : "+_class["name"])
             db.session.commit()
-            print("debut cat")
 
     # create category
     categories = {}
@@ -61,23 +55,14 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             img = food["img"]
             food_class = food["class"]
             food_category= food["category"]
-            print("création objet food")
             o = Food(name=name, img=img)
             foods[food["entryId"]] = o
-            print("création objet")
-            print("debut food_class")
             for cla in food_class:
                 o.foodClass.append(classes[cla])
-            print("fin food_class")
             for cat in food_category:
                 o.foodCategory.append(categories[cat])
             db.session.add(o)
-            print("add")
     db.session.commit()
-    print("debut class")
-
-
-    print("debut link class food")
 
     # create users
     users = {}
