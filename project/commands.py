@@ -89,7 +89,8 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             id_user = user["entryId"]
             fName = user["firstName"]
             lName = user["lastName"]
-            img = user["photo"]
+            id_user = user["entryId"]
+            email = user["email"]
             desc = user["desc"]
             foodLevel = user["foodLevel"]
             town_id = user["town"]
@@ -97,7 +98,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             cook_list = user["cook"]
             like_list = user["like"]
 
-            o = User(id=id_user, firstName=fName, lastName=lName, img=img,
+            o = User(id=id_user, firstName=fName, lastName=lName, email=email, img=img,
                 desc=desc, foodLevel=foodLevel, town_id=town_id)
             db.session.add(o)
             users[user] = o
