@@ -98,7 +98,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             like_list = user["like"]
 
             o = User(id=id_user, firstName=fName, lastName=lName, img=img,
-                desc=desc, foodLevel=, town_id=town_id)
+                desc=desc, foodLevel=foodLevel, town_id=town_id)
             db.session.add(o)
             users[user] = o
             db.session.commit()
