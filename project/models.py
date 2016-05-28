@@ -62,7 +62,7 @@ class User(db.Model):
                            secondaryjoin=(love.c.lover_id == id),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')
-    liked = db.relationship("Food",secondary=like, backref = db.backref("users_liked", lazy="dynamic"))
+    liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
     def get_id(self):
@@ -105,6 +105,8 @@ class Food(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     name        = db.Column(db.String(100))
     img         = db.Column(db.String(100))
+    foodCategory = db.relationship("Food",secondary=belong_Category, backref = db.backref("food_category", lazy="dynamic"))
+    foodClass = db.relationship("Food",secondary=belong_Class, backref = db.backref("food_classes", lazy="dynamic"))
 
     def __repr__(self):
         return "<Food (%d) %s>" % (self.id, self.name)

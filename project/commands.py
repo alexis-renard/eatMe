@@ -35,58 +35,56 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
     # create food
     foods = {}
     for food in foods_table:
-        if food not in foods:
+        if food["name"] not in foods:
             name = food["name"]
             img = food["img"]
             o = Food(name=name, img=img)
             db.session.add(o)
-            foods[food] = o
+            foods[food["name"]] = o
     db.session.commit()
     print("debut class")
 
     # create class
     classes = {}
     for _class in classes_table:
-        if _class not in classes:
-            name = class_db["name"]
+        if _class["name"] not in classes:
+            name = _class["name"]
+            print(name)
             o = Class(name=name)
             db.session.add(o)
-            classes[_class] = o
+            classes[_class["name"]] = o
+            print("ajoute : "+_class["name"])
     db.session.commit()
     print("debut cat")
 
     # create category
     categories = {}
     for category in categories_table:
-        if category not in categories:
+        if category["name"] not in categories:
             name = category["name"]
             o = Category(name=name)
             db.session.add(o)
-            categories[category] = o
+            categories[category["name"]] = o
     db.session.commit()
     print("debut link class food")
 
     # link food-class
     food_class = {}
     for f_c in link_class_table:
-        if f_c not in food_class:
             id_food = f_c["id_food"]
             class_food = f_c["class"]
             o = belong_Class(food_id=id_food, class_name=class_food)
             db.session.add(o)
-            food_class[f_c] = o
     db.session.commit()
     print("debut link food cat")
 
     # link food-category
     food_category = {}
     for f_cat in link_category_table:
-        if f_cat not in food_category:
             id_food = f_cat["id_food"]
             category_food = f_cat["category"]
             o = belong_Category(food_id=id_food, category_name=category_food)
             db.session.add(o)
-            food_class[f_cat] = o
     db.session.commit()
     print("debut user")
 
@@ -99,6 +97,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             lName = user["lastName"]
             id_user = user["entryId"]
             email = user["email"]
+            pwd = user["password"]
             desc = user["desc"]
             foodLevel = user["foodLevel"]
             town_id = user["town"]
@@ -106,8 +105,8 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             cook_list = user["cook"]
             like_list = user["like"]
 
-            o = User(id=id_user, firstName=fName, lastName=lName, email=email, img=img,
-                desc=desc, foodLevel=foodLevel, town_id=town_id)
+            o = User(id=id_user, firstName=fName, lastName=lName, email=email, password=pwd,
+             img=img, desc=desc, foodLevel=foodLevel, town_id=town_id)
             db.session.add(o)
             users[user] = o
             db.session.commit()
