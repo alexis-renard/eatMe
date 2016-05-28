@@ -16,70 +16,56 @@ def before_request():
         g.user.last_seen = datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
-        g.search_form = SearchForm()
 
-@app.route('/search', methods=['POST'])
-@login_required
-def search():
-    if not g.search_form.validate_on_submit():
-        return redirect(url_for('home'))
-    return redirect(url_for('search_results', query=g.search_form.search.data))
-
-@app.route('/search/<query>')
-@login_required
-def search_results(query):
-    album_results_title = get_album_search_title(query)
-    album_results_releaseYear = get_album_search_releaseYear(query)
-    artist_results = get_artist_search(query)
-    genre_results = get_genre_search(query)
-    album_result = [album_results_title, album_results_releaseYear]
-    compositor_results = get_compositor_search(query)
-    playlist_results = get_album_search_playlist_username(query, current_user.username)
-    playlist_publique = []
-    playlist_privee = []
-    for key, value in playlist_results.items():
-        if key=='publique':
-            for playlist in value:
-                playlist_publique.append(playlist)
-        if key=='privee':
-            for playlist in value:
-                playlist_privee.append(playlist)
-
-    return render_template(
-			'search.html',
-	    	query		                = query,
-            artist_results              = artist_results,
-            genre_results               = genre_results,
-            album_result                = album_result,
-            compositor_results          = compositor_results,
-            playlist_publique           = playlist_publique,
-            playlist_privee             = playlist_privee
-	)
 
 @app.route("/")
 def home():
-    if g.user.is_authenticated:
-        albums_user = get_all_album_playlist_user(g.user.username)
-        playlist_publique = get_public_playlists()
-        return render_template(
-        "home.html",
-        title="Votre Musique",
-        titlePlaylist="Certaines de vos Playlists",
-        titleAlbums="Vos Albums",
-        titreGenre="Les genres que vous ecoutez",
-        albums_user = albums_user,
-        playlists = get_sample_playlist_user(g.user.username),
-        genre = get_genre_playlist_user(g.user.username),
-        playlist_publique = playlist_publique
-        )
-    else:
-        playlist_publique = get_public_playlists()
-        return render_template(
-        "home.html",
-        title="Flask Music",
-        albums=get_sample_albums(),
-        playlist_publique = playlist_publique
-        )
+    return render_template(
+    "index.html",
+    )
+
+
+@app.route("/login/", methods=("GET","POST",))
+def login():
+    error = None
+    f = LoginForm()
+    if not f.is_submitted():
+        f.next.data = request.args.get("next")
+    elif f.validate_on_submit():
+        user = f.get_authenticated_user()
+        if user:
+            login_user(user)
+            next = f.next.data or url_for("home")
+            return redirect(next)
+        else:
+            error = "Login ou mot de passe incorrect"
+    return render_template("login.html",form = f, error=error)
+
+@app.route("/register/", methods=("GET","POST",))
+def register():
+    error = None
+    f = RegisterForm()
+    if not f.is_submitted():
+        f.next.data = request.args.get("next")
+    elif f.validate_on_submit():
+        users = get_user(f.username.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
+        if users == None:
+            m = sha256()
+            m.update(f.password.data.encode())
+            u = User(username=f.username.data, password=m.hexdigest(), admin=0)
+            db.session.add(u)
+            db.session.commit()
+            login_user(u)
+            next = f.next.data or url_for("home")
+            return redirect(next)
+        else:
+            error = "Un user existe déjà avec ce username"
+    return render_template("register.html",form = f, error = error)
+
+@app.route("/logout/")
+def logout():
+	logout_user()
+	return redirect(url_for('home'))
 
 @app.route("/album/")
 @app.route("/album/<int:id>")
@@ -386,60 +372,3 @@ def delete_playlist(id):
     return redirect(url_for('one_playlist'))
 
 #### FIN PLAYLISTS
-
-@app.route("/login/", methods=("GET","POST",))
-def login():
-    error = None
-    f = LoginForm()
-    if not f.is_submitted():
-        f.next.data = request.args.get("next")
-    elif f.validate_on_submit():
-        user = f.get_authenticated_user()
-        if user:
-            login_user(user)
-            next = f.next.data or url_for("home")
-            return redirect(next)
-        else:
-            error = "Login ou mot de passe incorrect"
-    return render_template("login.html",form = f, error=error)
-
-@app.route("/register/", methods=("GET","POST",))
-def register():
-    error = None
-    f = RegisterForm()
-    if not f.is_submitted():
-        f.next.data = request.args.get("next")
-    elif f.validate_on_submit():
-        users = get_user(f.username.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-        if users == None:
-            m = sha256()
-            m.update(f.password.data.encode())
-            u = User(username=f.username.data, password=m.hexdigest(), admin=0)
-            db.session.add(u)
-            db.session.commit()
-            login_user(u)
-            next = f.next.data or url_for("home")
-            return redirect(next)
-        else:
-            error = "Un user existe déjà avec ce username"
-    return render_template("register.html",form = f, error = error)
-
-# @app.route("/user/")
-# @app.route("/user/<string:username>")
-# @login_required
-#     if user is not None:
-#         user = get_user(username)
-#
-#     else:
-#         return render_template(
-#     	"home.html",
-#     	title="Musique / Playlist",
-#     	albums=get_sample_albums()
-#     	)
-
-
-
-@app.route("/logout/")
-def logout():
-	logout_user()
-	return redirect(url_for('home'))

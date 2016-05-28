@@ -1,6 +1,8 @@
 - entryId: 1
   firstName : Gerard
   lastName: Durand
+  password : Gerard
+  email : Gerard@gmail.com
   photo:  gege.png
   desc:  Coucouu c'est gégé!
   foodLevel:  2
@@ -11,6 +13,8 @@
 - entryId: 2
   firstName : Suala
   lastName: Karine
+  password : Suala
+  email : Suala@gmail.com
   photo: sualaKarine.png
   desc: Oh my god!
   foodLevel: 1
@@ -21,6 +25,8 @@
 - entryId: 3
   firstName : Alexis
   lastName:  Renard
+  password : Alexis
+  email : Alexis@gmail.com
   photo: zorro.png
   desc: Eh c'est zorro !
   foodLevel:  5
@@ -31,6 +37,8 @@
 - entryId: 4
   firstName : Clement
   lastName: Gaal
+  password : Clement
+  email : Clement@gmail.com
   photo: gaal.png
   desc: Coucou c'est moi !
   foodLevel: 3
@@ -41,6 +49,8 @@
 - entryId: 5
   firstName : Gregoire
   lastName: Molveau
+  password : Gregoire
+  email : Gregoire@gmail.com
   photo: momo.png
   desc: Uesh t'as vu !
   foodLevel: 1
@@ -51,6 +61,8 @@
 - entryId: 6
   firstName : Bibiche
   lastName: Pitch
+  password : Bibiche
+  email : Bibiche@gmail.com
   photo: pitch.png
   desc: Hum que c'est savoureux !
   foodLevel: 0
