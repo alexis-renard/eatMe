@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block main %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Les plats que je cuisine</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for e in data %}
+    <tr>
+        <td>{{ e.nom }}</td>
+        <td><a href="deleteplates"><span class="glyphicon glyphicon-remove" title="Supprimer"></span></a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a id="add" href="addcook"><span class="glyphicons glyphicons-plus-sign"></span></a>
+
+
+{% endblock %}
