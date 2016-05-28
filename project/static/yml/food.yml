@@ -1,15 +1,25 @@
 - entryId: 1
   name: Tartiflette
   img: tartiflette.png
+  class: [Gras]
+  category: [Plat]
 - entryId: 2
   name: Couscous
   img: couscous.png
+  class: [Gras]
+  category: [Plat]
 - entryId: 3
   name: Boulgour
   img: boulgour.png
+  class: [Bio,Vegetarien]
+  category: [Entree]
 - entryId: 4
   name: Lasagnes
   img: lasagnes.png
+  class: [Gras]
+  category: [Plat]
 - entryId: 5
   name: Salade Composée
   img: salade.png
+  class: [Vegetarien]
+  category: [Entree]

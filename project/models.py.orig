@@ -9,7 +9,7 @@ from flask.ext.login import login_user, current_user, logout_user, login_require
 #Création de la table love entre deux user
 love = db.Table('love',
     db.Column('lover_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
-    db.Column('loved_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('lover_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
 )
 
 
@@ -58,7 +58,7 @@ class User(db.Model):
     town        = db.relationship("Town", backref="user")
     loved = db.relationship('User',
                            secondary=love,
-                           primaryjoin=(love.c.loved_id == id),
+                           primaryjoin=(love.c.lover_id == id),
                            secondaryjoin=(love.c.lover_id == id),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')
@@ -87,14 +87,26 @@ class LoginForm(Form):
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
+<<<<<<< HEAD
     firstName = StringField('First Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     lastName = StringField('Last Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     email = StringField('Email',[validators.Length(min=4),validators.Required()])
     password = PasswordField('Password', [
+		validators.Required(),
+		validators.EqualTo('confirm', message='Passwords must match'),
+        validators.Length(min=4),
+        validators.Email()])
+=======
+    firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    email = StringField('Email', [validators.Length(min=4), validators.Required()])
+    password = PasswordField('Password', [
     	validators.Required(),
     	validators.EqualTo('confirm', message='Passwords must match'),
         validators.Length(min=4),
-        validators.Email()])
+        validators.Email()
+    ])
+>>>>>>> 879148d11d5d51d01ef3a0d4cfbd2be8e6c5b570
     confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
     desc = StringField('Description', [validators.Length(min=4), validators.Required()])
     next = HiddenField()

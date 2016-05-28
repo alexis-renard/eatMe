@@ -4,8 +4,7 @@ from project.models import *
 
 
 @manager.command
-def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,belong_category_file,belong_class_file):
-    print("debut load")
+def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
     db.create_all()
 
     import yaml
@@ -15,9 +14,6 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
     foods_table = yaml.load(open(food_file))
     categories_table = yaml.load(open(category_file))
     classes_table = yaml.load(open(class_file))
-    link_category_table = yaml.load(open(belong_category_file))
-    link_class_table = yaml.load(open(belong_class_file))
-    print("debut town")
 
     # create towns
     towns = {}
@@ -30,32 +26,16 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             db.session.add(o)
             towns[town["name"]] = o
     db.session.commit()
-    print("debut food")
-
-    # create food
-    foods = {}
-    for food in foods_table:
-        if food["name"] not in foods:
-            name = food["name"]
-            img = food["img"]
-            o = Food(name=name, img=img)
-            db.session.add(o)
-            foods[food["name"]] = o
-    db.session.commit()
-    print("debut class")
 
     # create class
     classes = {}
     for _class in classes_table:
         if _class["name"] not in classes:
             name = _class["name"]
-            print(name)
             o = Class(name=name)
             db.session.add(o)
             classes[_class["name"]] = o
-            print("ajoute : "+_class["name"])
-    db.session.commit()
-    print("debut cat")
+            db.session.commit()
 
     # create category
     categories = {}
@@ -65,33 +45,29 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             o = Category(name=name)
             db.session.add(o)
             categories[category["name"]] = o
-    db.session.commit()
-    print("debut link class food")
+            db.session.commit()
 
-    # link food-class
-    food_class = {}
-    for f_c in link_class_table:
-            id_food = f_c["id_food"]
-            class_food = f_c["class"]
-            o = belong_Class(food_id=id_food, class_name=class_food)
+    # create food
+    foods = {}
+    for food in foods_table:
+        if food["entryId"] not in foods:
+            name = food["name"]
+            img = food["img"]
+            food_class = food["class"]
+            food_category= food["category"]
+            o = Food(name=name, img=img)
+            foods[food["entryId"]] = o
+            for cla in food_class:
+                o.foodClass.append(classes[cla])
+            for cat in food_category:
+                o.foodCategory.append(categories[cat])
             db.session.add(o)
     db.session.commit()
-    print("debut link food cat")
-
-    # link food-category
-    food_category = {}
-    for f_cat in link_category_table:
-            id_food = f_cat["id_food"]
-            category_food = f_cat["category"]
-            o = belong_Category(food_id=id_food, category_name=category_food)
-            db.session.add(o)
-    db.session.commit()
-    print("debut user")
 
     # create users
     users = {}
     for user in users_table:
-        if user not in users:
+        if user["entryId"] not in users:
             id_user = user["entryId"]
             fName = user["firstName"]
             lName = user["lastName"]
@@ -101,43 +77,33 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             desc = user["desc"]
             foodLevel = user["foodLevel"]
             town_id = user["town"]
-            love_list = user["love"]
             cook_list = user["cook"]
             like_list = user["like"]
 
             o = User(id=id_user, firstName=fName, lastName=lName, email=email, password=pwd,
              img=img, desc=desc, foodLevel=foodLevel, town_id=town_id)
             db.session.add(o)
-            users[user] = o
-            db.session.commit()
-
-            # Gestion love_list
-
-            love_dic = {}
-            for love_id in love_list:
-                if love_id not in love_dic:
-                    o = love(id_user, love_id)
-                    db.session.add(o)
-                    love_dic[love_id] = o
+            users[id_user] = o
             db.session.commit()
 
             # Gestion cook_list
-            cook_dic = {}
             for cook_id in cook_list:
-                if cook_id not in cook_dic:
-                    o = cook(id_user, cook_id)
+                    o.cooked.append(foods[cook_id])
                     db.session.add(o)
-                    cook_dic[cook_id] = o
             db.session.commit()
 
         # Gestion like_list
-            like_dic = {}
             for like_id in like_list:
-                if like_id not in like_dic:
-                    o = like(id_user, like_id)
+                    o.liked.append(foods[like_id])
                     db.session.add(o)
-                    like_dic[like_id] = o
             db.session.commit()
+
+    # Gestion love_list
+    for user in users_table:
+        love_list = user["love"]
+        for love_id in love_list:
+            users[user["entryId"]].loved.append(users[love_id])
+        db.session.commit()
 
     db.session.commit()
 
