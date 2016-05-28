@@ -87,9 +87,15 @@ class LoginForm(Form):
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
+<<<<<<< HEAD
     firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     email = StringField('Email', [validators.Length(min=4), validators.Required(), validators.Email()])
+=======
+    firstName = StringField('First Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    lastName = StringField('Last Name',[validators.Length(min=4),validators.Required()]) #ce qui est entre simple quote correspond au label du champs
+    email = StringField('Email',[validators.Length(min=4),validators.Required()])
+>>>>>>> 3c2718e8b96bec47cb7ad8090bda69b37d1dd8dc
     password = PasswordField('Password', [
     	validators.Required(),
     	validators.EqualTo('confirm', message='Passwords must match'),
