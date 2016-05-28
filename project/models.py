@@ -1,7 +1,7 @@
 from .app import db, login_manager, app
 from flask.ext.login import UserMixin
 from wtforms import StringField, HiddenField, PasswordField, SelectField, RadioField, validators
-from wtforms.validators import DataRequired, Required, EqualTo, Length
+from wtforms.validators import DataRequired, Required, EqualTo, Length, Email
 from flask.ext.wtf import Form
 from hashlib import sha256
 from flask.ext.login import login_user, current_user, logout_user, login_required
@@ -89,16 +89,16 @@ class LoginForm(Form):
 class RegisterForm(Form):
     firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-	email = StringField('Email', [validators.Length(min=4), validators.Required()])
-	password = PasswordField('Password', [
-		validators.Required(),
-		validators.EqualTo('confirm', message='Passwords must match'),
+    email = StringField('Email', [validators.Length(min=4), validators.Required()])
+    password = PasswordField('Password', [
+    	validators.Required(),
+    	validators.EqualTo('confirm', message='Passwords must match'),
         validators.Length(min=4),
         validators.Email()
-	])
-	confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
+    ])
+    confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
     desc = StringField('Description', [validators.Length(min=4), validators.Required()])
-	next = HiddenField()
+    next = HiddenField()
 
 
 class Food(db.Model):
