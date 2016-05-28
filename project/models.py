@@ -28,7 +28,6 @@ like = db.Table('like',
 )
 
 
-
 #Création de la table belong_Class enre food et class
 belong_Class = db.Table('belong_Class',
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
