@@ -83,7 +83,7 @@ class User(db.Model):
         return get_user(id).liked.all()
 
 class LoginForm(Form):
-    email = db.Column(db.String(100))
+    email = StringField('Email', [validators.Required(), validators.Email()])
     password = PasswordField('Password', [validators.Length(min=4), validators.Required()])
     next = HiddenField()
 

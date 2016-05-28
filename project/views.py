@@ -17,8 +17,6 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
 
-
-
 @app.route("/")
 def home():
     return render_template(
