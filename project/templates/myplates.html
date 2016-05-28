@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>{{ title }}</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Les plats que j'aime</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for e in donnees %}
+    <tr>
+        <td>{{ e.nom }}</td>
+        <td><a href="deleteplates"><span class="glyphicon glyphicon-remove" title="Supprimer"></span></a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a id="add" href="addplates"><span class="glyphicons glyphicons-plus-sign"></span></a>
+
+
+{% endblock %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block main %}
+{% if not current_user.is_authenticated %}
  <!-- Slider start -->
     <section id="slider_part">
          <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
@@ -64,7 +65,7 @@
     <!--/ Slider end -->
 
     <!-- Service Area start -->
-    {% if not current_user.is_authenticated %}
+{% if not current_user.is_authenticated %}
         <section id="service">
             <div class="container">
                     <div class="row">
@@ -144,39 +145,19 @@
                                             <i class="fa fa-send"></i>
                                         </div>
                                     </div>
-                                    <h4>Email Marketing</h4>
-                                </a>
-                              </li>
-                              <li role="presentation" >
-                                <a href="#messages" role="tab" data-toggle="tab">
-                                    <div class="single-tab">
-                                        <div class="f-icon">
-                                            <i class="fa fa-heart"></i>
-                                        </div>
+                                <h4>Plats cuisinés</h4>
+                            </a>
+                          </li>
+                          <li role="presentation" >
+                            <a href="#messages" role="tab" data-toggle="tab">
+                                <div class="single-tab">
+                                    <div class="f-icon">
+                                        <i class="fa fa-heart"></i>
                                     </div>
-                                    <h4>Graphics</h4>
-                                </a>
-                              </li>
-                              <li role="presentation" >
-                                <a href="#photo" role="tab" data-toggle="tab">
-                                    <div class="single-tab">
-                                        <div class="f-icon">
-                                            <i class="fa fa-camera"></i>
-                                        </div>
-                                    </div>
-                                    <h4>Photography</h4>
-                                </a>
-                              </li>
-                                <li role="presentation" >
-                                <a href="#ios" role="tab" data-toggle="tab">
-                                  <div class="single-tab">
-                                        <div class="f-icon">
-                                            <i class="fa fa-send"></i>
-                                        </div>
-                                    </div>
-                                   <h4>ios application</h4>
-                                </a>
-                              </li>
+                                </div>
+                                <h4>Mes matchs</h4>
+                            </a>
+                          </li>
                         </ul>
                     </div>  <!-- col-md-12 end -->
                   </div>
