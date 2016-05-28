@@ -1,10 +1,11 @@
 from .app import manager, db
 from hashlib import sha256
+from project.models import *
 
 
 @manager.command
 def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,belong_category_file,belong_class_file):
-
+    print("debut load")
     db.create_all()
 
     import yaml
@@ -16,18 +17,20 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
     classes_table = yaml.load(open(class_file))
     link_category_table = yaml.load(open(belong_category_file))
     link_class_table = yaml.load(open(belong_class_file))
+    print("debut town")
 
     # create towns
     towns = {}
     for town in towns_table:
-        if town not in towns:
+        if town["name"] not in towns:
             name = town["name"]
             pc = town["postalCode"]
             country = town["country"]
             o = Town(name=name, pc=pc, country=country)
             db.session.add(o)
-            towns[town] = o
+            towns[town["name"]] = o
     db.session.commit()
+    print("debut food")
 
     # create food
     foods = {}
@@ -39,6 +42,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             db.session.add(o)
             foods[food] = o
     db.session.commit()
+    print("debut class")
 
     # create class
     classes = {}
@@ -49,6 +53,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             db.session.add(o)
             classes[_class] = o
     db.session.commit()
+    print("debut cat")
 
     # create category
     categories = {}
@@ -59,6 +64,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             db.session.add(o)
             categories[category] = o
     db.session.commit()
+    print("debut link class food")
 
     # link food-class
     food_class = {}
@@ -70,6 +76,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             db.session.add(o)
             food_class[f_c] = o
     db.session.commit()
+    print("debut link food cat")
 
     # link food-category
     food_category = {}
@@ -81,6 +88,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
             db.session.add(o)
             food_class[f_cat] = o
     db.session.commit()
+    print("debut user")
 
     # create users
     users = {}
