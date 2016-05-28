@@ -32,14 +32,14 @@ like = db.Table('like',
 #Création de la table belong_Class enre food et class
 belong_Class = db.Table('belong_Class',
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
-    db.Column('class_name', db.String(100), db.ForeignKey('class_name'), nullable=False),
+    db.Column('class_name', db.String(100), db.ForeignKey('class.name'), nullable=False),
     db.PrimaryKeyConstraint('food_id', 'class_name')
 )
 
 #Création de la table belong_Class enre food et catégory
 belong_Category = db.Table('belong_Category',
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
-    db.Column('category_name', db.String(100), db.ForeignKey('category_name'), nullable=False),
+    db.Column('category_name', db.String(100), db.ForeignKey('category.name'), nullable=False),
     db.PrimaryKeyConstraint('food_id', 'category_name')
 )
 
@@ -62,8 +62,8 @@ class User(db.Model):
                            secondaryjoin=(love.c.lover_id == id),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')
-    liked = db.relationship("Food", backref = db.backref("users_liked", lazy="dynamic"))
-    cooked = db.relationship("Food", backref = db.backref("user_cooked", lazy="dynamic"))
+    liked = db.relationship("Food",secondary=like, backref = db.backref("users_liked", lazy="dynamic"))
+    cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
     def get_id(self):
         return self.id
