@@ -89,7 +89,7 @@ class LoginForm(Form):
 class RegisterForm(Form):
     firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-    email = StringField('Email', [validators.Length(min=4), validators.Required()])
+    email = StringField('Email', [validators.Length(min=4), validators.Required(), validators.Email()])
     password = PasswordField('Password', [
     	validators.Required(),
     	validators.EqualTo('confirm', message='Passwords must match'),
