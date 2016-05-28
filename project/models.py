@@ -49,7 +49,7 @@ class User(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     firstName   = db.Column(db.String(100))
     lastName    = db.Column(db.String(100))
-    email       = db.Column(db.String(100))
+    email       = db.Column(db.String(100), unique=True)
     password    = db.Column(db.String(100))
     img         = db.Column(db.String())
     desc        = db.Column(db.String(1000))
@@ -84,8 +84,6 @@ class LoginForm(Form):
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        print (passwd)
-        print (user.password)
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
