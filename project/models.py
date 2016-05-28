@@ -1,7 +1,7 @@
 from .app import db, login_manager, app
 from flask.ext.login import UserMixin
 from wtforms import StringField, HiddenField, PasswordField, SelectField, RadioField, validators
-from wtforms.validators import DataRequired, Required, EqualTo, Length
+from wtforms.validators import DataRequired, Required, EqualTo, Length, Email
 from flask.ext.wtf import Form
 from hashlib import sha256
 from flask.ext.login import login_user, current_user, logout_user, login_required
@@ -49,7 +49,7 @@ class User(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     firstName   = db.Column(db.String(100))
     lastName    = db.Column(db.String(100))
-    email       = db.Column(db.String(100))
+    email       = db.Column(db.String(100), unique=True)
     password    = db.Column(db.String(100))
     img         = db.Column(db.String())
     desc        = db.Column(db.String(1000))
@@ -84,23 +84,21 @@ class LoginForm(Form):
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        print (passwd)
-        print (user.password)
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
     firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-	email = StringField('Email', [validators.Length(min=4), validators.Required()])
-	password = PasswordField('Password', [
-		validators.Required(),
-		validators.EqualTo('confirm', message='Passwords must match'),
+    email = StringField('Email', [validators.Length(min=4), validators.Required()])
+    password = PasswordField('Password', [
+    	validators.Required(),
+    	validators.EqualTo('confirm', message='Passwords must match'),
         validators.Length(min=4),
         validators.Email()
-	])
-	confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
+    ])
+    confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
     desc = StringField('Description', [validators.Length(min=4), validators.Required()])
-	next = HiddenField()
+    next = HiddenField()
 
 
 class Food(db.Model):
