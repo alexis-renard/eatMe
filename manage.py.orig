@@ -1,5 +1,17 @@
-from .app import manager, db
+<<<<<<< HEAD
+#! /usr/bin/env python3
+from projet import manager
+=======
+# manage.py
+
+from project import app, db, manager
+from project.album.models import Album
+from project.artist.models import Artist
+from project.genre.models import Genre
+from project.playlist.models import Playlist
+from project.user.models import User, load_user
 from hashlib import sha256
+import os
 
 
 @manager.command
@@ -133,29 +145,39 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file,b
 
     db.session.commit()
 
-
 @manager.command
-def syncdb():
-    ''' Creates all missing tables. '''
+def createdb():
+    '''Creates db tables.'''
     db.create_all()
+
 
 @manager.command
 def newuser(username, password):
-    '''Adds a new user.'''
-    from .models import User
-    from hashlib import sha256
+    '''Adds a new user'''
     m = sha256()
     m.update(password.encode())
-    u = User(username=username, password=m.hexdigest())
+    u = User(username=username, password=m.hexdigest(), admin=0)
     db.session.add(u)
     db.session.commit()
 
+
 @manager.command
-def passwd(username,password):
-    from .models import load_user
-    from hashlib import sha256
+def passwd(username, password):
+    ''' Change user's password '''
     m = sha256()
     m.update(password.encode())
     u = load_user(username)
     u.password = m.hexdigest()
     db.session.commit()
+
+
+@manager.command
+def beAdmin(username):
+    '''Adds Admin status to a user'''
+    user = load_user(username)
+    user.admin = 1
+    db.session.commit()
+>>>>>>> bbaca8d5ef3682a3644ae3c64c4cef6076badc89
+
+if __name__ == '__main__':
+    manager.run()

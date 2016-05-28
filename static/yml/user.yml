@@ -1,0 +1,60 @@
+- entryId: 1
+  firstName : Gerard
+  lastName: Durand
+  photo:  gege.png
+  desc:  Coucouu c'est gégé!
+  foodLevel:  2
+  town : 1
+  love: [2,3]
+  cook: [1,2,3]
+  like: [1,2,3,5]
+- entryId: 2
+  firstName : Suala
+  lastName: Karine
+  photo: sualaKarine.png
+  desc: Oh my god!
+  foodLevel: 1
+  town : 2
+  love: [4]
+  cook: [4]
+  like: [1,2]
+- entryId: 3
+  firstName : Alexis
+  lastName:  Renard
+  photo: zorro.png
+  desc: Eh c'est zorro !
+  foodLevel:  5
+  town : 2
+  love: [1,2,4,5]
+  cook: []
+  like: [1,2,3,4,5]
+- entryId: 4
+  firstName : Clement
+  lastName: Gaal
+  photo: gaal.png
+  desc: Coucou c'est moi !
+  foodLevel: 3
+  town : 3
+  love: [2]
+  cook: [1,2,3,4,5]
+  like: [1,2,4]
+- entryId: 5
+  firstName : Gregoire
+  lastName: Molveau
+  photo: momo.png
+  desc: Uesh t'as vu !
+  foodLevel: 1
+  town : 4
+  love: [3]
+  cook: []
+  like: [3,5]
+- entryId: 6
+  firstName : Bibiche
+  lastName: Pitch
+  photo: pitch.png
+  desc: Hum que c'est savoureux !
+  foodLevel: 0
+  town : 1
+  love: [3,5]
+  cook: [2,4]
+  like: [2,4]
