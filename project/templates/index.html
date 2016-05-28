@@ -69,6 +69,7 @@
                      </nav>
                 </div><!-- /.container-fluid -->
 </header>
+{% if not current_user.is_authenticated %}
  <!-- Slider start -->
     <section id="slider_part">
          <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
@@ -133,7 +134,7 @@
     <!--/ Slider end -->
 
 <!-- Service Area start -->
-{% if not current_user.is_authenticated %}
+
     <section id="service">
         <div class="container">
                 <div class="row">
@@ -213,7 +214,7 @@
                                         <i class="fa fa-send"></i>
                                     </div>
                                 </div>
-                                <h4>Email Marketing</h4>
+                                <h4>Plats cuisinés</h4>
                             </a>
                           </li>
                           <li role="presentation" >
@@ -223,27 +224,7 @@
                                         <i class="fa fa-heart"></i>
                                     </div>
                                 </div>
-                                <h4>Graphics</h4>
-                            </a>
-                          </li>
-                          <li role="presentation" >
-                            <a href="#photo" role="tab" data-toggle="tab">
-                                <div class="single-tab">
-                                    <div class="f-icon">
-                                        <i class="fa fa-camera"></i>
-                                    </div>
-                                </div>
-                                <h4>Photography</h4>
-                            </a>
-                          </li>
-                            <li role="presentation" >
-                            <a href="#ios" role="tab" data-toggle="tab">
-                              <div class="single-tab">
-                                    <div class="f-icon">
-                                        <i class="fa fa-send"></i>
-                                    </div>
-                                </div>
-                               <h4>ios application</h4>
+                                <h4>Mes matchs</h4>
                             </a>
                           </li>
                     </ul>
@@ -256,14 +237,9 @@
                                 </div>
                                 <div class="col-md-12 col-sm-9">
                                     <div class="c-tab">
-                                         <h4>Web Design and Development</h4>
-                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <h4>Regardez/Ajoutez vos plats que vous aimez.</h4>
                                          <br>
-                                         <p>
-                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
-                                         </p>
-                                         <br>
-                                         <a href="#"> Learn More</a>
+                                         <a href="#"> Regarder </a>
                                     </div>
                                 </div>
 
@@ -274,14 +250,9 @@
                                 </div>
                                 <div class="col-md-12 col-sm-9">
                                     <div class="c-tab">
-                                         <h4>Email and Socail Marketing</h4>
-                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <h4>Regardez/Ajoutez vos plats que vous savez cuisiner.</h4>
                                          <br>
-                                         <p>
-                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
-                                         </p>
-                                         <br>
-                                         <a href="#"> Learn More</a>
+                                         <a href="#"> Regarder </a>
                                     </div>
                                 </div>
                           </div>
@@ -291,51 +262,12 @@
                                 </div>
                                <div class="col-md-12 col-sm-9">
                                     <div class="c-tab">
-                                         <h4>Graphics Brand Identity</h4>
-                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
+                                         <h4>Vérifiez vos matchs de la journée</h4>
                                          <br>
-                                         <p>
-                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
-                                         </p>
-                                         <br>
-                                        <a href="#"> Learn More</a>
+                                        <a href="#"> Regarder</a>
                                     </div>
                                 </div>
                           </div>
-                          <div role="tabpanel" class="tab-pane" id="photo">
-                               <div class="col-md-12 col-sm-9">
-                                     <img src="images/about/graphics.png" alt="" class="img-responsive">
-                                </div>
-                               <div class="col-md-12 col-sm-9">
-                                    <div class="c-tab">
-                                        <h4>Photography Design</h4>
-                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
-                                         <br>
-                                         <p>
-                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
-                                         </p>
-                                         <br>
-                                        <a href="#"> Learn More</a>
-                                    </div>
-                                </div>
-                          </div>
-                            <div role="tabpanel" class="tab-pane" id="ios">
-                                <div class="col-md-12 col-sm-9">
-                                     <img src="images/about/web1.png" alt="" class="img-responsive">
-                                </div>
-                               <div class="col-md-12 col-sm-9">
-                                    <div class="c-tab">
-                                         <h4>ios application</h4>
-                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus praesentium dolore sequi excepturi recusandae reprehenderit, distinctio.</p>
-                                         <br>
-                                         <p>
-                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae dolorum, quisquam eum eaque. Excepturi nisi necessitatibus, inventore explicabo corporis expedita fugit aspernatur harum reprehenderit temporibus, pariatur esse laborum qui quisquam.
-                                         </p>
-                                         <br>
-                                         <a href="#"> Learn More</a>
-                                    </div>
-                                </div>
-                             </div>
                     </div>
                 </div>
 
