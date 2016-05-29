@@ -116,11 +116,6 @@ def home():
 
 @app.route("/home_user")
 def home_user():
-    # dico = get_propositions_user(current_user.username)
-    # ICook   = dico["ICook"]
-    # HeCooks = dico["HeCooks"]
-    # WeLike  = dico["WeLike"]
-    # WeCook  = dico["WeCook"]
     return jsonify(propositions=get_propositions_user(current_user.username))
 
 @login_required
@@ -224,12 +219,12 @@ def modif_profil():
             user.lastName=lastName
         else:
             return  jsonify(state=False, error="firstname empty")
-    if email!=user.email: 
+    if email!=user.email:
         if email!="":
             user.email=email
         else:
             return  jsonify(state=False, error="email empty")
-    if desc!=user.desc: 
+    if desc!=user.desc:
         if desc!="":
             user.desc=desc
         else:
@@ -239,13 +234,10 @@ def modif_profil():
             user.img=img
         else:
             return  jsonify(state=False, error="img empty")
-
     db.session.add(g.user)
     db.session.commit()
-
-
     return  jsonify(state=True)
-    
+
 
 @login_required
 @app.route("/cook_by_class", methods=('GET',))
@@ -304,8 +296,6 @@ def classes_route(name=None):
         plates = get_food_by_class(name)
         return jsonify(plates=plates)
 
-
-
 @login_required
 @app.route("/category/", methods=('GET',))
 @app.route("/category/<string:name>", methods=('GET',))
@@ -319,7 +309,6 @@ def category_route(name=None):
     else:
         plates = get_food_by_category(name)
         return jsonify(plates=plates)
-
 
         ##############
         ## category ##
@@ -372,7 +361,6 @@ def searchcook(query):
             results=b,
             form=r,
             )
-
 
 @app.route("/addplates/search/<string:query>",methods=("GET",))
 def searchplates(query):
