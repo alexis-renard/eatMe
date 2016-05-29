@@ -89,30 +89,11 @@ def matches_route():
             ## myplates ##
             ##############
 
-# @app.route("/")
-# def home():
-#     if current_user.is_authenticated:
-#         #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
-#         print('----propositions---wpouhahahahahahahao-')
-#         print(get_propositions_user(current_user.username))
-#         return render_template(
-#             "index.html",
-#             propositions=get_propositions_user(current_user.username)
-#         )
-#     else:
-#         return render_template(
-#             "index.html",
-#         )
-
-
-
 @app.route("/")
 def home():
     return render_template(
         "index.html",
     )
-
-
 
 @app.route("/home_user")
 def home_user():
@@ -125,9 +106,9 @@ def home_user():
 
 
 @login_required
-@app.route("/plates_by_class/<string:name>", methods=('GET',))
-def plate_by_class_route(name):
-    class_used = name #Mettre le bouton correspondant
+@app.route("/plates_by_class/<string:className>", methods=('GET',))
+def plate_by_class_route(className):
+    class_used = className #Mettre le bouton correspondant
     plate_by_class_dict = {}
     if  get_food_by_class(class_used) != []:
         food_list=[]
@@ -137,9 +118,9 @@ def plate_by_class_route(name):
     return  jsonify(plates_by_class=plate_by_class_dict)
 
 @login_required
-@app.route("/plates_by_category", methods=('GET',))
-def plate_by_category_route():
-    category_used = "Entree" #Mettre le bouton correspondant
+@app.route("/plates_by_category/<string:category>", methods=('GET',))
+def plate_by_category_route(category):
+    category_used = category #Mettre le bouton correspondant
     plate_by_category_dict = {}
     if  get_food_by_category(category_used) != []:
         food_list=[]
@@ -149,9 +130,9 @@ def plate_by_category_route():
     return  jsonify(plates_by_category=plate_by_category_dict)
 
 @login_required
-@app.route("/plates_by_name", methods=('GET',))
-def plate_by_name_route():
-    name_used = request.form["name"] #Mettre le bouton correspondant
+@app.route("/plates_by_name/<string:name>", methods=('GET',))
+def plate_by_name_route(name):
+    name_used = name #Mettre le bouton correspondant
     plate_by_name_dict = {}
     if  get_food_by_name(name_used) != []:
         food_list=[]
@@ -161,7 +142,7 @@ def plate_by_name_route():
     return  jsonify(plates_by_name=plate_by_name_dict)
 
             ##############
-            ## mycook ##
+            ### mycook ###
             ##############
 
 @login_required
@@ -170,9 +151,9 @@ def my_cook_route():
     return jsonify(mycook=current_user.serialize()["cooked"])
 
 @login_required
-@app.route("/cook_by_class", methods=('GET',))
-def cook_by_class_route():
-    class_used = "Gras" #Mettre le bouton correspondant
+@app.route("/cook_by_class/<string:className>", methods=('GET',))
+def cook_by_class_route(className):
+    class_used = className #Mettre le bouton correspondant
     cook_by_class_dict = {}
     if  get_food_by_class(class_used) != []:
         food_list=[]
@@ -183,9 +164,9 @@ def cook_by_class_route():
     return  jsonify(cooks_by_class=cook_by_class_dict)
 
 @login_required
-@app.route("/cook_by_category", methods=('GET',))
-def cook_by_category_route():
-    category_used = "Plat" #Mettre le bouton correspondant
+@app.route("/cook_by_category/<string:category>", methods=('GET',))
+def cook_by_category_route(category):
+    category_used = category #Mettre le bouton correspondant
     cook_by_category_dict = {}
     if  get_food_by_category(category_used) != []:
         food_list=[]
@@ -196,9 +177,9 @@ def cook_by_category_route():
     return  jsonify(cook_by_category=cook_by_category_dict)
 
 @login_required
-@app.route("/cook_by_name", methods=('GET',))
-def cook_by_name_route():
-    name_used = "ar" #Mettre le bouton correspondant
+@app.route("/cook_by_name/<string:name>", methods=('GET',))
+def cook_by_name_route(name):
+    name_used = name #Mettre le bouton correspondant
     cook_by_name_dict = {}
     if  get_food_by_name(name_used) != []:
         food_list=[]
