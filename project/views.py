@@ -33,9 +33,6 @@ def login():
         f.next.data = request.args.get("next")
     elif f.validate_on_submit():
         user = f.get_authenticated_user()
-        print ("validate_on_submit")
-        print (f.password.data)
-        print (user)
         if user:
             login_user(user)
             next = f.next.data or url_for("home")

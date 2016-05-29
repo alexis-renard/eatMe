@@ -64,23 +64,6 @@ class User(db.Model, UserMixin):
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
-    def serialize(self):
-        return {
-            'username': self.username,
-            'firstName': self.firstName,
-            'lastName': self.lastName,
-            'email': self.email,
-            'password': self.password,
-            'img': self.img,
-            'desc': self.desc,
-            'foodLevel': self.foodLevel,
-            'town_id': self.town_id,
-            'town': self.town,
-            'loved': self.loved,
-            'liked': self.liked,
-            'cooked': self.cooked
-        }
-
     def get_id(self):
         return self.username
 
@@ -108,19 +91,12 @@ class LoginForm(Form):
     next = HiddenField()
 
     def get_authenticated_user(self):
-        print('get authenticated')
-        print (self.password)
         user = get_user(self.username.data)
-        print(user)
         if user is None:
             return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        print('passwd')
-        print (passwd)
-        print('passwd user')
-        print (user.password)
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
@@ -144,15 +120,6 @@ class Food(db.Model):
     img         = db.Column(db.String(100))
     foodCategory = db.relationship("Category",secondary=belong_Category, backref = db.backref("food_category", lazy="dynamic"))
     foodClass = db.relationship("Class",secondary=belong_Class, backref = db.backref("food_classes", lazy="dynamic"))
-
-    def serialize(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'img': self.img,
-            'foodCategory': self.foodCategory,
-            'foodClass': self.foodClass
-        }
 
     def __repr__(self):
         return "<Food (%d) %s>" % (self.id, self.name)
@@ -213,14 +180,6 @@ class Town(db.Model):
     pc          = db.Column(db.Integer)
     country     = db.Column(db.String(100))
 
-    def serialize(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'pc': self.pc,
-            'country': self.country,
-        }
-
     def __repr__(self):
         return "<Town (%d) %s>" % (self.id, self.name)
 
@@ -254,11 +213,6 @@ class Town(db.Model):
 class Class(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
-    def serialize(self):
-        return {
-            'name': self.name,
-        }
-
     def __repr__(self):
         return "<Class (%d)>" % (self.name)
 
@@ -274,11 +228,6 @@ class Class(db.Model):
 class Category(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
-    def serialize(self):
-        return {
-            'name': self.name,
-        }
-        
     def __repr__(self):
         return "<Category (%d)>" % (self.name)
 
@@ -296,6 +245,4 @@ class SearchForm(Form):
 
 @login_manager.user_loader
 def load_user(username):
-    print("coucouuuuuuuuuuuuuu loaduser")
-    print(username)
     return User.query.get(username)
