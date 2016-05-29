@@ -69,11 +69,19 @@ def logout():
 	logout_user()
 	return redirect(url_for('home'))
 
+            ###############
+            ## myMatches ##
+            ###############
+
+@login_required
+@app.route("/matches", methods=("GET",))
+def matches_route():
+    return jsonify(matches=current_user.serialize()["matched"])
+
+
             ##############
             ## myplates ##
             ##############
-
-
 
 @app.route("/", methods=("GET",))
 def home():
@@ -95,29 +103,19 @@ def user():
         user=get_user("Gerard")
     )
 
-
 @login_required
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
     return jsonify(myplates=current_user.serialize()["liked"])
 
 @login_required
-@app.route("/classes", methods=('GET',))
-def classes_route():
-    list_class = Class.get_classes()
-    class_dict = {}
-    for elem in list_class:
-        class_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(classes=class_dict)
-
-@login_required
 @app.route("/plates_by_class", methods=('GET',))
 def plate_by_class_route():
     class_used = request.form["class"] #Mettre le bouton correspondant
     plate_by_class_dict = {}
-    if  Food.get_food_by_class(class_used) != []:
+    if  get_food_by_class(class_used) != []:
         food_list=[]
-        for food in Food.get_food_by_class(class_used):
+        for food in get_food_by_class(class_used):
             food_list.append(food)
             plate_by_class_dict[class_used]=food_list
     return  jsonify(plates_by_class=plate_by_class_dict)
@@ -127,7 +125,7 @@ def plate_by_class_route():
 def plate_by_category_route():
     category_used = "Entree" #Mettre le bouton correspondant
     plate_by_category_dict = {}
-    if  Food.get_food_by_category(category_used) != []:
+    if  get_food_by_category(category_used) != []:
         food_list=[]
         for food in get_food_by_category(category_used):
             food_list.append(food)
@@ -145,6 +143,72 @@ def plate_by_name_route():
             food_list.append(food)
             plate_by_name_dict[name_used] = food_list
     return  jsonify(plates_by_name=plate_by_name_dict)
+
+            ##############
+            ## mycook ##
+            ##############
+
+@login_required
+@app.route("/mycook", methods=("GET",))
+def my_cook_route():
+    return jsonify(mycook=current_user.serialize()["cooked"])
+
+@login_required
+@app.route("/cook_by_class", methods=('GET',))
+def cook_by_class_route():
+    class_used = "Gras" #Mettre le bouton correspondant
+    cook_by_class_dict = {}
+    if  get_food_by_class(class_used) != []:
+        food_list=[]
+        for food in get_food_by_class(class_used):
+            if food["name"] in  current_user.serialize()["cooked"].values():
+                food_list.append(food)
+                cook_by_class_dict[class_used]=food_list
+    return  jsonify(cooks_by_class=cook_by_class_dict)
+
+@login_required
+@app.route("/cook_by_category", methods=('GET',))
+def cook_by_category_route():
+    category_used = "Plat" #Mettre le bouton correspondant
+    cook_by_category_dict = {}
+    if  get_food_by_category(category_used) != []:
+        food_list=[]
+        for food in get_food_by_category(category_used):
+            if food["name"] in  current_user.serialize()["cooked"].values():
+                food_list.append(food)
+                cook_by_category_dict[category_used]=food_list
+    return  jsonify(cook_by_category=cook_by_category_dict)
+
+@login_required
+@app.route("/cook_by_name", methods=('GET',))
+def cook_by_name_route():
+    name_used = "ar" #Mettre le bouton correspondant
+    cook_by_name_dict = {}
+    if  get_food_by_name(name_used) != []:
+        food_list=[]
+        for food in get_food_by_name(name_used).values():
+            if food["name"] in  current_user.serialize()["cooked"].values():
+                food_list.append(food)
+                cook_by_name_dict[name_used]=food_list
+    return  jsonify(cook_by_name=cook_by_name_dict)
+
+        #############
+        ## classes ##
+        #############
+
+@login_required
+@app.route("/classes", methods=('GET',))
+def classes_route():
+    list_class = Class.get_classes()
+    class_dict = {}
+    for elem in list_class:
+        class_dict[elem.name]=elem.serialize()["name"]
+    return  jsonify(classes=class_dict)
+
+
+        ##############
+        ## category ##
+        ##############
 
 @login_required
 @app.route("/categories", methods=('GET',))
