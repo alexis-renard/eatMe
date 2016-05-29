@@ -90,7 +90,7 @@ class User(db.Model, UserMixin):
         matches = {}
         for match in self.matched:
             if match.username not in matches:
-                matches[match.username] = match.username
+                matches[match.username] = match
         return {
             'username': self.username,
             'firstName': self.firstName,
@@ -105,7 +105,7 @@ class User(db.Model, UserMixin):
             'loved': loved,
             'liked': liked,
             'cooked': cooked,
-            'matched': matches
+            'matches': matches
         }
 
     def get_id(self):
@@ -126,35 +126,37 @@ def get_user(username):
 def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
 
+<<<<<<< HEAD
+=======
 def get_propositions_user(username):
     currentuser = get_user(username)
     propositions = {}
     for user in get_users():
         if user.username!=currentuser.username:
-            if (user.username not in currentuser.loved):
+            if (user not in currentuser.loved):
                 commun_plates={}
-                commun_plates["User"]=[user.serialize()]
-                commun_plates["ICook"]=[]
+                commun_plates["ICook"]=['salut','alley la']
                 commun_plates["HeCooks"]=[]
                 commun_plates["WeLike"]=[]
                 commun_plates["WeCook"]=[]
                 for plat in user.liked:
                     if plat in currentuser.cooked:
-                        commun_plates["ICook"].append(plat.serialize())
+                        commun_plates["ICook"].append(plat)
                 for plat in user.cooked:
                     if plat in currentuser.liked:
-                        commun_plates["HeCooks"].append(plat.serialize())
+                        commun_plates["HeCooks"].append(plat)
                 for plat in user.liked:
                     if plat in currentuser.liked:
-                        commun_plates["WeLike"].append(plat.serialize())
+                        commun_plates["WeLike"].append(plat)
                 for plat in user.cooked:
                     if plat in currentuser.cooked:
-                        commun_plates["WeCook"].append(plat.serialize())
-
+                        commun_plates["WeCook"].append(plat)
                 somme = sum([len(x) for x in commun_plates.values()])
-                if somme>5:
-                    propositions[user.username]=commun_plates
+                if somme>3:
+                    propositions[user]=commun_plates
     return propositions
+
+>>>>>>> 360a5288d1c29c8d7aed0f3f094a65a0aa674d48
 
 class LoginForm(Form):
     username = StringField('Username', [validators.Required()])
@@ -221,17 +223,17 @@ class Food(db.Model):
     def get_img(self):
         return self.img
 
-def get_food(id):
-    return Food.query.get(id)
+    def get_food(id):
+        return Food.query.get(id)
 
-def get_all_food():
-    return Food.query.all()
+    def get_all_food():
+        return Food.query.all()
 
-def l_contient(l, m):
-    for ll in l:
-        if m in ll.name.lower():
-            return True
-    return False
+    def l_contient(l, m):
+        for ll in l:
+            if m in ll.name.lower():
+                return True
+        return False
 
 def get_food_by_name(name):
         foods = Food.query.filter(Food.name.like("%" + name + "%")).all()

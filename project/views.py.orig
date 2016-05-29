@@ -18,63 +18,91 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
 
-@app.route("/login/", methods=("GET","POST",))
+@app.route("/user", methods=("POST",))
 def login():
-    error = None
-    f = LoginForm()
-    if not f.is_submitted():
-        f.next.data = request.args.get("next")
-    elif f.validate_on_submit():
-        user = f.get_authenticated_user()
-        if user:
+    username = request.form["username"]
+    password = request.form["password"].encode('utf-8')
+    user = get_user(username)
+    if (user is not None):
+        m = sha256()
+        m.update(password)
+        password = m.hexdigest()
+        if (user.password == password):
             login_user(user)
-            next = f.next.data or url_for("home")
-            return redirect(next)
-        else:
-            error = "Incorrect Login or password "
-    return render_template("login.html",form = f, error=error)
+            return jsonify(login="success"),200
+        return jsonify(login="password or username incorrect"),401
+    return jsonify(login="password or username incorrect"),401
 
-@app.route("/register/", methods=("GET","POST",))
+@app.route("/user", methods=("PUT",))
 def register():
-    error = None
-    f = RegisterForm()
-    if not f.is_submitted():
-        f.next.data = request.args.get("next")
-    elif f.validate_on_submit():
-        users = get_user(f.username.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-        users_email = get_user_by_email(f.email.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-        if (users_email == None and users == None):
-                m = sha256()
-                m.update(f.password.data.encode())
-                u = User(username=f.username.data,firstName=f.firstName.data ,lastName=f.lastName.data ,password=m.hexdigest(),email=f.email.data ,img="" ,desc=f.desc.data ,foodLevel=0 )
-                db.session.add(u)
-                db.session.commit()
-                login_user(u)
-                next = f.next.data or url_for("home")
-                return redirect(next)
-        else:
-            error=""
-            if (users_email != None):
-                error+="This email has already been taken"
-                if (users != None):
-                    error+=", and this username too. Please focus."
-            elif (users != None):
-                error+="This user already exists"
-            else:
-                error+="An error has occured"
-    return render_template("register.html",form = f, error = error)
+    username = request.form["username"]
+    password = request.form["password"].encode('utf-8')
+    firstName = request.form["firstName"]
+    lastName = request.form["lastName"]
+    email = request.form["email"]
+    desc = request.form["desc"]
+    user = get_user(username)
+    if user is None:
+        m = sha256()
+        m.update(password)
+        password = m.hexdigest()
+        u = User(username=username,
+            firstName=firstName,
+            lastName=lastName,
+            password=m.hexdigest(),
+            email=email,
+            img="" ,
+            desc=desc,
+            foodLevel=0)
+        db.session.add(u)
+        db.session.commit()
+        login_user(u)
+        return jsonify(register="success"),200
+    return jsonify(register="username already taken"),401
 
+
+    #flash('A confirmation email has been sent via email.', 'success')
 @app.route("/logout/")
 def logout():
 	logout_user()
 	return redirect(url_for('home'))
 
+            ###############
+            ## myMatches ##
+            ###############
+
+@login_required
+@app.route("/matches", methods=("GET",))
+def matches_route():
+    matches = current_user.serialize()["matched"]
+    user_dict = {}
+    for user in matches.values():
+        user_dict[user]=get_user(user).serialize()
+    return jsonify(matches=user_dict)
+
+
             ##############
             ## myplates ##
             ##############
 
+<<<<<<< HEAD
 
 
+# @app.route("/")
+# def home():
+#     if current_user.is_authenticated:
+#         #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
+#         print('----propositions---wpouhahahahahahahao-')
+#         print(get_propositions_user(current_user.username))
+#         return render_template(
+#             "index.html",
+#             propositions=get_propositions_user(current_user.username)
+#         )
+#     else:
+#         return render_template(
+#             "index.html",
+#         )
+=======
 @app.route("/", methods=("GET",))
 def home():
     if current_user.is_authenticated:
@@ -87,16 +115,110 @@ def home():
         return render_template(
             "index.html",
         )
+>>>>>>> aef092202a4d7ab3dac666fb112e12b76ee0409c
 
+@app.route("/user/")
+def user():
+    return render_template(
+        "user.html",
+        user=get_user("Gerard")
+    )
+
+
+<<<<<<< HEAD
+@app.route("/")
+def home():
+    return render_template(
+        "index.html",
+    )
+
+
+@app.route("/home_user")
+def home_user():
+    # dico = get_propositions_user(current_user.username)
+    # ICook   = dico["ICook"]
+    # HeCooks = dico["HeCooks"]
+    # WeLike  = dico["WeLike"]
+    # WeCook  = dico["WeCook"]
+    return jsonify(propositions=get_propositions_user(current_user.username))
+=======
+@login_required
+@app.route("/plates_by_class", methods=('GET',))
+def plate_by_class_route():
+    class_used = request.form["class"] #Mettre le bouton correspondant
+    plate_by_class_dict = {}
+    if  get_food_by_class(class_used) != []:
+        food_list=[]
+        for food in get_food_by_class(class_used):
+            food_list.append(food)
+            plate_by_class_dict[class_used]=food_list
+    return  jsonify(plates_by_class=plate_by_class_dict)
 
 @login_required
-@app.route("/myplates", methods=("GET",))
-def my_plate_route():
-<<<<<<< HEAD
-    return jsonify(user=current_user.serialize())
-=======
-    return jsonify(myplates=current_user.serialize()["liked"])
->>>>>>> 6b27ef5afc7267890d92798aee2d6f0d6ba1f726
+@app.route("/plates_by_category", methods=('GET',))
+def plate_by_category_route():
+    category_used = "Entree" #Mettre le bouton correspondant
+    plate_by_category_dict = {}
+    if  get_food_by_category(category_used) != []:
+        food_list=[]
+        for food in get_food_by_category(category_used):
+            food_list.append(food)
+            plate_by_category_dict[category_used]=food_list
+    return  jsonify(plates_by_category=plate_by_category_dict)
+>>>>>>> aef092202a4d7ab3dac666fb112e12b76ee0409c
+
+
+            ##############
+            ## mycook ##
+            ##############
+
+@login_required
+@app.route("/mycook", methods=("GET",))
+def my_cook_route():
+    return jsonify(mycook=current_user.serialize()["cooked"])
+
+@login_required
+@app.route("/cook_by_class", methods=('GET',))
+def cook_by_class_route():
+    class_used = "Gras" #Mettre le bouton correspondant
+    cook_by_class_dict = {}
+    if  get_food_by_class(class_used) != []:
+        food_list=[]
+        for food in get_food_by_class(class_used):
+            if food["name"] in  current_user.serialize()["cooked"].values():
+                food_list.append(food)
+                cook_by_class_dict[class_used]=food_list
+    return  jsonify(cooks_by_class=cook_by_class_dict)
+
+@login_required
+@app.route("/cook_by_category", methods=('GET',))
+def cook_by_category_route():
+    category_used = "Plat" #Mettre le bouton correspondant
+    cook_by_category_dict = {}
+    if  get_food_by_category(category_used) != []:
+        food_list=[]
+        for food in get_food_by_category(category_used):
+            if food["name"] in  current_user.serialize()["cooked"].values():
+                food_list.append(food)
+                cook_by_category_dict[category_used]=food_list
+    return  jsonify(cook_by_category=cook_by_category_dict)
+
+@login_required
+@app.route("/cook_by_name", methods=('GET',))
+def cook_by_name_route():
+    name_used = "ar" #Mettre le bouton correspondant
+    cook_by_name_dict = {}
+    if  get_food_by_name(name_used) != []:
+        food_list=[]
+        for food in get_food_by_name(name_used).values():
+            if food["name"] in  current_user.serialize()["cooked"].values():
+                food_list.append(food)
+                cook_by_name_dict[name_used]=food_list
+    return  jsonify(cook_by_name=cook_by_name_dict)
+
+        #############
+        ## classes ##
+        #############
 
 @login_required
 @app.route("/classes", methods=('GET',))
@@ -107,78 +229,18 @@ def classes_route():
         class_dict[elem.name]=elem.serialize()["name"]
     return  jsonify(classes=class_dict)
 
-@login_required
-@app.route("/plates_by_class", methods=('GET',))
-def plate_by_class_route():
-    class_used = request.form["class"] #Mettre le bouton correspondant
-    plate_by_class_dict = {}
-    if  Food.get_food_by_class(class_used) != []:
-        food_list=[]
-        for food in Food.get_food_by_class(class_used):
-            food_list.append(food)
-            plate_by_class_dict[class_used]=food_list
-    return  jsonify(plates_by_class=plate_by_class_dict)
+
+        ##############
+        ## category ##
+        ##############
 
 @login_required
-@app.route("/plates_by_category", methods=('GET',))
-def plate_by_category_route():
-    category_used = "Entree" #Mettre le bouton correspondant
-    plate_by_category_dict = {}
-    if  Food.get_food_by_category(category_used) != []:
-        food_list=[]
-        for food in get_food_by_category(category_used):
-            food_list.append(food)
-            plate_by_category_dict[category_used]=food_list
-    return  jsonify(plates_by_category=plate_by_category_dict)
+@app.route("/myplates", methods=("GET",))
+def my_plate_route():
+    return jsonify(user=current_user.serialize())
 
-@login_required
-@app.route("/plates_by_name", methods=('GET',))
-def plate_by_name_route():
-    name_used = "sa" #Mettre le bouton correspondant
-    plate_by_name_dict = {}
-    if  get_food_by_name(name_used) != []:
-        food_list=[]
-        for food in get_food_by_name(name_used):
-            food_list.append(food)
-            plate_by_name_dict[name_used] = food_list
-    return  jsonify(plates_by_name=plate_by_name_dict)
 
-@login_required
-@app.route("/categories", methods=('GET',))
-def categories_route():
-    list_category = Category.get_categories()
-    category_dict = {}
-    for elem in list_category:
-        category_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(categories=category_dict)
-
-# @login_required
-# @app.route("/myplates/delete/<int:id>", methods=('DELETE',))
-# def delete_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if delete_plate_from_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
-#
-# @login_required
-# @app.route("/myplates/add/<int:id>", methods=('PUT',))
-# def add_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if add_plate_to_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
-
-@app.route("/addcook/search/<string:query>", methods=("GET",))
+@app.route("/addcook/search/<string:query>",methods=("GET",))
 def searchcook(query):
     r=SearchForm()
     if r.validate_on_submit():
