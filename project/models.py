@@ -57,14 +57,26 @@ class User(db.Model, UserMixin):
     town        = db.relationship("Town", backref="user")
     loved = db.relationship('User',
                            secondary=love,
-                           primaryjoin=(love.c.loved_username == username),
-                           secondaryjoin=(love.c.lover_username == username),
+                           primaryjoin=(love.c.lover_username == username),
+                           secondaryjoin=(love.c.loved_username == username),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
     def serialize(self):
+        loved = {}
+        for user in self.loved:
+            if user.username not in loved:
+                loved[user.username] = user.username
+        liked = {}
+        for food in self.liked:
+            if food.name not in liked:
+                liked[food.name] = food.name
+        cooked = {}
+        for food in self.cooked:
+            if food.name not in cooked:
+                cooked[food.name] = food.name
         return {
             'username': self.username,
             'firstName': self.firstName,
@@ -75,10 +87,10 @@ class User(db.Model, UserMixin):
             'desc': self.desc,
             'foodLevel': self.foodLevel,
             'town_id': self.town_id,
-            'town': self.town,
-            'loved': self.loved,
-            'liked': self.liked,
-            'cooked': self.cooked
+            'town': self.town.serialize(),
+            'loved': loved,
+            'liked': liked,
+            'cooked': cooked
         }
 
     def get_id(self):
@@ -96,11 +108,9 @@ def get_users():
 def get_user(username):
     return User.query.get(username)
 
-def get_food_liked_by_user(username):
-    return get_user(username).liked
-
 def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
+
 
 class LoginForm(Form):
     username = StringField('Username', [validators.Required()])
@@ -150,8 +160,8 @@ class Food(db.Model):
             'id': self.id,
             'name': self.name,
             'img': self.img,
-            'foodCategory': self.foodCategory,
-            'foodClass': self.foodClass
+            'foodCategory': self.foodCategory.serialize(),
+            'foodClass': self.foodClass.serialize()
         }
 
     def __repr__(self):
@@ -218,7 +228,7 @@ class Town(db.Model):
             'id': self.id,
             'name': self.name,
             'pc': self.pc,
-            'country': self.country,
+            'country': self.country
         }
 
     def __repr__(self):
@@ -256,7 +266,7 @@ class Class(db.Model):
 
     def serialize(self):
         return {
-            'name': self.name,
+            'name': self.name
         }
 
     def __repr__(self):
@@ -276,9 +286,9 @@ class Category(db.Model):
 
     def serialize(self):
         return {
-            'name': self.name,
+            'name': self.name
         }
-        
+
     def __repr__(self):
         return "<Category (%d)>" % (self.name)
 
