@@ -78,6 +78,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             town_id = user["town"]
             cook_list = user["cook"]
             like_list = user["like"]
+            matches_list = user["matches"]
 
             o = User(username=username, firstName=fName, lastName=lName, email=email, password=pwd,
              img=img, desc=desc, foodLevel=foodLevel, town_id=town_id)
@@ -97,12 +98,24 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
                     db.session.add(o)
             db.session.commit()
 
+
+
     # Gestion love_list
     for user in users_table:
         love_list = user["love"]
         for love_id in love_list:
             users[user["username"]].loved.append(users[love_id])
         db.session.commit()
+
+
+    for user in users_table:
+        matches_list = user["matches"]
+        for username in matches_list:
+            users[user["username"]].matched.append(users[username])
+        db.session.commit()
+
+    db.session.commit()
+
 
     db.session.commit()
 

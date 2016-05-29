@@ -12,6 +12,10 @@ love = db.Table('love',
     db.Column('loved_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
 )
 
+matches = db.Table('matches',
+    db.Column('matched_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('matcher_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+)
 
 #Création de la table cook entre User et food
 cook = db.Table('cook',
@@ -61,6 +65,12 @@ class User(db.Model, UserMixin):
                            secondaryjoin=(love.c.lover_username == username),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')
+    matched = db.relationship('User',
+                           secondary=matches,
+                           primaryjoin=(matches.c.matched_username == username),
+                           secondaryjoin=(matches.c.matcher_username == username),
+                           backref=db.backref('matchers', lazy='dynamic'),
+                           lazy='dynamic')
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
@@ -84,6 +94,11 @@ def get_food_liked_by_user(username):
 
 def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
+
+def get_matches_user(username):
+    user = get_user(username)
+    matches = {}
+    user_plates
 
 class LoginForm(Form):
     username = StringField('Username', [validators.Required()])
