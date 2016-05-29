@@ -76,6 +76,16 @@ def logout():
 	logout_user()
 	return redirect(url_for('home'))
 
+            ###############
+            ## myMatches ##
+            ###############
+
+@login_required
+@app.route("/matches", methods=("GET",))
+def matches_route():
+    return jsonify(matches=current_user.serialize()["matches"])
+
+
             ##############
             ## myplates ##
             ##############
@@ -84,15 +94,6 @@ def logout():
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
     return jsonify(myplates=current_user.serialize()["liked"])
-
-@login_required
-@app.route("/classes", methods=('GET',))
-def classes_route():
-    list_class = Class.get_classes()
-    class_dict = {}
-    for elem in list_class:
-        class_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(classes=class_dict)
 
 @login_required
 @app.route("/plates_by_class", methods=('GET',))
@@ -129,6 +130,25 @@ def plate_by_name_route():
             food_list.append(food)
             plate_by_name_dict[name_used] = food_list
     return  jsonify(plates_by_name=plate_by_name_dict)
+
+
+        #############
+        ## classes ##
+        #############
+
+@login_required
+@app.route("/classes", methods=('GET',))
+def classes_route():
+    list_class = Class.get_classes()
+    class_dict = {}
+    for elem in list_class:
+        class_dict[elem.name]=elem.serialize()["name"]
+    return  jsonify(classes=class_dict)
+
+
+        ##############
+        ## category ##
+        ##############
 
 @login_required
 @app.route("/categories", methods=('GET',))

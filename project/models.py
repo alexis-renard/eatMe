@@ -87,6 +87,10 @@ class User(db.Model, UserMixin):
         for food in self.cooked:
             if food.name not in cooked:
                 cooked[food.name] = food.name
+        matches = {}
+        for match in self.matched:
+            if match.username not in matches:
+                matches[match.username] = match
         return {
             'username': self.username,
             'firstName': self.firstName,
@@ -100,7 +104,8 @@ class User(db.Model, UserMixin):
             'town': self.town.serialize(),
             'loved': loved,
             'liked': liked,
-            'cooked': cooked
+            'cooked': cooked,
+            'matches': matches
         }
 
     def get_id(self):
@@ -120,10 +125,6 @@ def get_user(username):
 
 def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
-
-def get_matches_user(username):
-    user = get_user(username)
-    matches = {}
 
 
 class LoginForm(Form):
