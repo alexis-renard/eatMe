@@ -61,8 +61,8 @@ class User(db.Model, UserMixin):
     town        = db.relationship("Town", backref="user")
     loved = db.relationship('User',
                            secondary=love,
-                           primaryjoin=(love.c.loved_username == username),
-                           secondaryjoin=(love.c.lover_username == username),
+                           primaryjoin=(love.c.lover_username == username),
+                           secondaryjoin=(love.c.loved_username == username),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')
     matched = db.relationship('User',
@@ -73,6 +73,35 @@ class User(db.Model, UserMixin):
                            lazy='dynamic')
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
+
+    def serialize(self):
+        loved = {}
+        for user in self.loved:
+            if user.username not in loved:
+                loved[user.username] = user.username
+        liked = {}
+        for food in self.liked:
+            if food.name not in liked:
+                liked[food.name] = food.name
+        cooked = {}
+        for food in self.cooked:
+            if food.name not in cooked:
+                cooked[food.name] = food.name
+        return {
+            'username': self.username,
+            'firstName': self.firstName,
+            'lastName': self.lastName,
+            'email': self.email,
+            'password': self.password,
+            'img': self.img,
+            'desc': self.desc,
+            'foodLevel': self.foodLevel,
+            'town_id': self.town_id,
+            'town': self.town.serialize(),
+            'loved': loved,
+            'liked': liked,
+            'cooked': cooked
+        }
 
     def get_id(self):
         return self.username
@@ -89,16 +118,13 @@ def get_users():
 def get_user(username):
     return User.query.get(username)
 
-def get_food_liked_by_user(username):
-    return get_user(username).liked
-
 def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
 
 def get_matches_user(username):
     user = get_user(username)
     matches = {}
-    user_plates
+
 
 class LoginForm(Form):
     username = StringField('Username', [validators.Required()])
@@ -135,6 +161,15 @@ class Food(db.Model):
     img         = db.Column(db.String(100))
     foodCategory = db.relationship("Category",secondary=belong_Category, backref = db.backref("food_category", lazy="dynamic"))
     foodClass = db.relationship("Class",secondary=belong_Class, backref = db.backref("food_classes", lazy="dynamic"))
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'img': self.img,
+            'foodCategory': self.foodCategory.serialize(),
+            'foodClass': self.foodClass.serialize()
+        }
 
     def __repr__(self):
         return "<Food (%d) %s>" % (self.id, self.name)
@@ -195,6 +230,14 @@ class Town(db.Model):
     pc          = db.Column(db.Integer)
     country     = db.Column(db.String(100))
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'pc': self.pc,
+            'country': self.country
+        }
+
     def __repr__(self):
         return "<Town (%d) %s>" % (self.id, self.name)
 
@@ -228,6 +271,11 @@ class Town(db.Model):
 class Class(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
+    def serialize(self):
+        return {
+            'name': self.name
+        }
+
     def __repr__(self):
         return "<Class (%d)>" % (self.name)
 
@@ -243,6 +291,10 @@ class Class(db.Model):
 class Category(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
+    def serialize(self):
+        return {
+            'name': self.name
+        }
     def __repr__(self):
         return "<Category (%d)>" % (self.name)
 
