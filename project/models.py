@@ -240,16 +240,16 @@ def get_food_by_name(name):
 
 
 def get_food_by_category(name):
-        foods = Food.get_all_food()
-        return [food.serialize() for food in foods if Food.l_contient(food.foodCategory, name.lower())]
+        foods = get_all_food()
+        return [food.serialize() for food in foods if l_contient(food.foodCategory, name.lower())]
 
 def get_food_by_class(name):
-        foods = Food.get_all_food()
-        return [food.serialize() for food in foods if Food.l_contient(food.foodClass, name.lower())]
+        foods = get_all_food()
+        return [food.serialize() for food in foods if l_contient(food.foodClass, name.lower())]
 
 def get_food_by_class_and_category(cat_name,class_name):
-        foods = Food.get_all_food()
-        return [food.serialize() for food in foods if (Food.l_contient(food.foodClass, class_name.lower()) and Food.l_contient(food.foodCategory, cat_name.lower()))]
+        foods = get_all_food()
+        return [food.serialize() for food in foods if (l_contient(food.foodClass, class_name.lower()) and l_contient(food.foodCategory, cat_name.lower()))]
 
 def delete_plate_from_user_plates(plate_name):
     try:

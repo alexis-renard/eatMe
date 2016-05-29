@@ -18,6 +18,11 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
 
+
+        ############
+        ### user ###
+        ############
+
 @app.route("/user", methods=("POST",))
 def login():
     username = request.form["username"]
@@ -61,14 +66,13 @@ def register():
     return jsonify(register="username already taken"),401
 
 
-    #flash('A confirmation email has been sent via email.', 'success')
 @app.route("/logout/")
 def logout():
 	logout_user()
 	return redirect(url_for('home'))
 
             ###############
-            ## myMatches ##
+            ### Matches ###
             ###############
 
 @login_required
@@ -98,12 +102,7 @@ def home():
             "index.html",
         )
 
-@app.route("/user/")
-def user():
-    return render_template(
-        "user.html",
-        user=get_user("Gerard")
-    )
+
 
 @login_required
 @app.route("/myplates", methods=("GET",))
@@ -111,9 +110,9 @@ def my_plate_route():
     return jsonify(myplates=current_user.serialize()["liked"])
 
 @login_required
-@app.route("/plates_by_class", methods=('GET',))
-def plate_by_class_route():
-    class_used = request.form["class"] #Mettre le bouton correspondant
+@app.route("/plates_by_class/<string:name>", methods=('GET',))
+def plate_by_class_route(name):
+    class_used = name #Mettre le bouton correspondant
     plate_by_class_dict = {}
     if  get_food_by_class(class_used) != []:
         food_list=[]
@@ -137,7 +136,7 @@ def plate_by_category_route():
 @login_required
 @app.route("/plates_by_name", methods=('GET',))
 def plate_by_name_route():
-    name_used = "sa" #Mettre le bouton correspondant
+    name_used = request.form["name"] #Mettre le bouton correspondant
     plate_by_name_dict = {}
     if  get_food_by_name(name_used) != []:
         food_list=[]
