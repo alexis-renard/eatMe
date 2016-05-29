@@ -98,6 +98,13 @@ def home():
             "index.html",
         )
 
+@app.route("/user/")
+def user():
+    return render_template(
+        "user.html",
+        user=get_user("Gerard")
+    )
+
 @login_required
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
