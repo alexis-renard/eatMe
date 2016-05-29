@@ -64,7 +64,7 @@ class User(db.Model, UserMixin):
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
-    def get_username(self):
+    def get_id(self):
         return self.username
 
     def get_firstName(self):
@@ -252,4 +252,6 @@ class SearchForm(Form):
 
 @login_manager.user_loader
 def load_user(username):
+    print("coucouuuuuuuuuuuuuu loaduser")
+    print(username)
     return User.query.get(username)
