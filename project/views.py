@@ -76,6 +76,44 @@ def logout():
 def get_user_route(username):
     return jsonify(user=get_user(username).serialize())
 
+@login_required
+@app.route("/user/liked", methods=("PUT",))
+def add_user_liked():
+    user = current_user
+    liked_food = get_food(request.get_json().get('id'))
+    if liked_food not in user.liked:
+        user.liked.append(liked_food)
+        db.session.commit()
+        return jsonify(state=True)
+    else:
+        return jsonify(state=False, error="food already liked")
+
+@login_required
+@app.route("/user/cooked", methods=("PUT",))
+def add_user_cooked():
+    user = current_user
+    cooked_food = get_food(request.get_json().get('id'))
+    if cooked_food not in user.cooked:
+        user.cooked.append(cooked_food)
+        db.session.commit()
+        return jsonify(state=True)
+    else:
+        return jsonify(state=False, error="food already cooked")
+
+@login_required
+@app.route("/user/loved", methods=("PUT",))
+def add_user_loved():
+    user = current_user
+    datas = request.get_json()
+    print(datas.get('username',''))
+    loved_user = get_user(datas.get('username',''))
+    if loved_user not in user.loved:
+        user.loved.append(loved_user)
+        db.session.commit()
+        return jsonify(state=True)
+    else:
+        return jsonify(state=False, error="user already loved")
+
             ############
             ### food ###
             ############
@@ -184,59 +222,59 @@ def delete_plate(id):
 def my_cook_route():
     return jsonify(mycook=current_user.serialize()["cooked"])
 
-@login_required
-@app.route("/user/profil", methods=("PUT",))
-def modif_profil():
-    user=current_user
-    username = request.form["username"]
-    password = request.form["password"]
-    firstName = request.form["firstName"]
-    lastName = request.form["lastName"]
-    email = request.form["email"]
-    desc = request.form["desc"]
-    img = request.form["img"]
-    m = sha256()
-        m.update(password)
-        password = m.hexdigest()
-
-    if username!=user.username and username!="":
-        if get_user(username) is None:
-            user.username=username
-        else:
-            return  jsonify(state=False, error="username already taken")
-    if password!=user.password:
-        if password!="":
-            user.password=password
-        else:
-            return  jsonify(state=False, error="password empty")
-    if firstname!=user.firstname:
-        if firstname!="":
-            user.firstName=firstName
-        else:
-            return  jsonify(state=False, error="firstname empty")
-    if lastname!=user.lastname:
-        if lastname!="":
-            user.lastName=lastName
-        else:
-            return  jsonify(state=False, error="firstname empty")
-    if email!=user.email:
-        if email!="":
-            user.email=email
-        else:
-            return  jsonify(state=False, error="email empty")
-    if desc!=user.desc:
-        if desc!="":
-            user.desc=desc
-        else:
-            return  jsonify(state=False, error="desc empty")
-    if img!=user.img:
-        if img!="":
-            user.img=img
-        else:
-            return  jsonify(state=False, error="img empty")
-    db.session.add(g.user)
-    db.session.commit()
-    return  jsonify(state=True)
+# @login_required
+# @app.route("/user/profil", methods=("PUT",))
+# def modif_profil():
+#     user=current_user
+#     username = request.form["username"]
+#     password = request.form["password"]
+#     firstName = request.form["firstName"]
+#     lastName = request.form["lastName"]
+#     email = request.form["email"]
+#     desc = request.form["desc"]
+#     img = request.form["img"]
+#     m = sha256()
+#         m.update(password)
+#         password = m.hexdigest()
+#
+#     if username!=user.username and username!="":
+#         if get_user(username) is None:
+#             user.username=username
+#         else:
+#             return  jsonify(state=False, error="username already taken")
+#     if password!=user.password:
+#         if password!="":
+#             user.password=password
+#         else:
+#             return  jsonify(state=False, error="password empty")
+#     if firstname!=user.firstname:
+#         if firstname!="":
+#             user.firstName=firstName
+#         else:
+#             return  jsonify(state=False, error="firstname empty")
+#     if lastname!=user.lastname:
+#         if lastname!="":
+#             user.lastName=lastName
+#         else:
+#             return  jsonify(state=False, error="firstname empty")
+#     if email!=user.email:
+#         if email!="":
+#             user.email=email
+#         else:
+#             return  jsonify(state=False, error="email empty")
+#     if desc!=user.desc:
+#         if desc!="":
+#             user.desc=desc
+#         else:
+#             return  jsonify(state=False, error="desc empty")
+#     if img!=user.img:
+#         if img!="":
+#             user.img=img
+#         else:
+#             return  jsonify(state=False, error="img empty")
+#     db.session.add(g.user)
+#     db.session.commit()
+#     return  jsonify(state=True)
 
 
 @login_required
