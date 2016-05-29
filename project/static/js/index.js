@@ -24,20 +24,32 @@ $(document).ready(function() {
 
  function display_index() {
    $.ajax({
-     url: "/",
+     url: "/home_user",
      type: "GET",
-     data {
+     data: {
        propositions:propositions
      },
      success : function(json){
-       html = "<ul>";
-       $.each(json.user, function(index,element)){
-         html += "<li>" + element.name +"</li>"
+       $.each(json.propositions){
+
        }
-       hml +="</ul>"
      }
      error{
 
      }
    })
  }
+
+ // {% for user in propositions %}
+ //   <div class="item">
+ //     <div class="testimonial-thumb">
+ //       <img class="img-circle" src="../static/images/gerard.jpg" alt="testimonial" >
+ //     </div>
+ //     <div class="testimonial-content">
+ //       <h3 class="name">{{ user.username }}<span>Description</span></h3>
+ //       <p class="testimonial-text">
+ //         What loved
+ //       </p>
+ //     </div>
+ //   </div>
+ //   {% endfor %}

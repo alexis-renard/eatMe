@@ -131,27 +131,29 @@ def get_propositions_user(username):
     propositions = {}
     for user in get_users():
         if user.username!=currentuser.username:
-            if (user not in currentuser.loved):
+            if (user.username not in currentuser.loved):
                 commun_plates={}
-                commun_plates["ICook"]=['salut','alley la']
+                commun_plates["User"]=[user.serialize()]
+                commun_plates["ICook"]=[]
                 commun_plates["HeCooks"]=[]
                 commun_plates["WeLike"]=[]
                 commun_plates["WeCook"]=[]
                 for plat in user.liked:
                     if plat in currentuser.cooked:
-                        commun_plates["ICook"].append(plat)
+                        commun_plates["ICook"].append(plat.serialize())
                 for plat in user.cooked:
                     if plat in currentuser.liked:
-                        commun_plates["HeCooks"].append(plat)
+                        commun_plates["HeCooks"].append(plat.serialize())
                 for plat in user.liked:
                     if plat in currentuser.liked:
-                        commun_plates["WeLike"].append(plat)
+                        commun_plates["WeLike"].append(plat.serialize())
                 for plat in user.cooked:
                     if plat in currentuser.cooked:
-                        commun_plates["WeCook"].append(plat)
+                        commun_plates["WeCook"].append(plat.serialize())
+
                 somme = sum([len(x) for x in commun_plates.values()])
-                if somme>3:
-                    propositions[user]=commun_plates
+                if somme>5:
+                    propositions[user.username]=commun_plates
     return propositions
 
 class LoginForm(Form):
