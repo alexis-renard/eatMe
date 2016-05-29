@@ -75,106 +75,47 @@ def logout():
 
 
 
-@app.route("/", methods=("GET",))
+# @app.route("/")
+# def home():
+#     if current_user.is_authenticated:
+#         #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
+#         print('----propositions---wpouhahahahahahahao-')
+#         print(get_propositions_user(current_user.username))
+#         return render_template(
+#             "index.html",
+#             propositions=get_propositions_user(current_user.username)
+#         )
+#     else:
+#         return render_template(
+#             "index.html",
+#         )
+
+
+
+@app.route("/")
 def home():
-    if current_user.is_authenticated:
-        #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
-        return render_template(
-            "index.html",
-            propositions=get_propositions_user(current_user.username)
-        )
-    else:
-        return render_template(
-            "index.html",
-        )
+    return render_template(
+        "index.html",
+    )
+
+
+@app.route("/home_user")
+def home_user():
+    # dico = get_propositions_user(current_user.username)
+    # ICook   = dico["ICook"]
+    # HeCooks = dico["HeCooks"]
+    # WeLike  = dico["WeLike"]
+    # WeCook  = dico["WeCook"]
+    return jsonify(propositions=get_propositions_user(current_user.username))
 
 
 @login_required
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
-    return jsonify(myplates=current_user.serialize()["liked"])
+    return jsonify(user=current_user.serialize())
 
-@login_required
-@app.route("/classes", methods=('GET',))
-def classes_route():
-    list_class = Class.get_classes()
-    class_dict = {}
-    for elem in list_class:
-        class_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(classes=class_dict)
 
-@login_required
-@app.route("/plates_by_class", methods=('GET',))
-def plate_by_class_route():
-    class_used = request.form["class"] #Mettre le bouton correspondant
-    plate_by_class_dict = {}
-    if  Food.get_food_by_class(class_used) != []:
-        food_list=[]
-        for food in Food.get_food_by_class(class_used):
-            food_list.append(food)
-            plate_by_class_dict[class_used]=food_list
-    return  jsonify(plates_by_class=plate_by_class_dict)
-
-@login_required
-@app.route("/plates_by_category", methods=('GET',))
-def plate_by_category_route():
-    category_used = "Entree" #Mettre le bouton correspondant
-    plate_by_category_dict = {}
-    if  Food.get_food_by_category(category_used) != []:
-        food_list=[]
-        for food in get_food_by_category(category_used):
-            food_list.append(food)
-            plate_by_category_dict[category_used]=food_list
-    return  jsonify(plates_by_category=plate_by_category_dict)
-
-@login_required
-@app.route("/plates_by_name", methods=('GET',))
-def plate_by_name_route():
-    name_used = "sa" #Mettre le bouton correspondant
-    plate_by_name_dict = {}
-    if  get_food_by_name(name_used) != []:
-        food_list=[]
-        for food in get_food_by_name(name_used):
-            food_list.append(food)
-            plate_by_name_dict[name_used] = food_list
-    return  jsonify(plates_by_name=plate_by_name_dict)
-
-@login_required
-@app.route("/categories", methods=('GET',))
-def categories_route():
-    list_category = Category.get_categories()
-    category_dict = {}
-    for elem in list_category:
-        category_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(categories=category_dict)
-
-# @login_required
-# @app.route("/myplates/delete/<int:id>", methods=('DELETE',))
-# def delete_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if delete_plate_from_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
-#
-# @login_required
-# @app.route("/myplates/add/<int:id>", methods=('PUT',))
-# def add_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if add_plate_to_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
-
-@app.route("/addcook/search/<string:query>", methods=("GET",))
+@app.route("/addcook/search/<string:query>",methods=("GET",))
 def searchcook(query):
     r=SearchForm()
     if r.validate_on_submit():
