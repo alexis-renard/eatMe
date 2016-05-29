@@ -149,12 +149,20 @@ class Food(db.Model):
     foodClass = db.relationship("Class",secondary=belong_Class, backref = db.backref("food_classes", lazy="dynamic"))
 
     def serialize(self):
+        categories = {}
+        for category in self.foodCategory:
+            if category.name not in categories:
+                categories[category.name] = category.name
+        classes = {}
+        for _class in self.foodClass:
+            if _class.name not in classes:
+                classes[_class.name] = _class.name
         return {
             'id': self.id,
             'name': self.name,
             'img': self.img,
-            'foodCategory': self.foodCategory.serialize(),
-            'foodClass': self.foodClass.serialize()
+            'foodCategory': categories,
+            'foodClass': classes
         }
 
     def __repr__(self):
@@ -181,34 +189,45 @@ class Food(db.Model):
                 return True
         return False
 
-    def get_food_by_name(name):
-        try:
-            foods = get_all_food()
-            return [food for food in foods if food.name.like("%" + name.lower() + "%")]
-        except NoResultFound:
-            return []
+def get_food_by_name(name):
+        foods = Food.query.filter(Food.name.like("%" + name + "%")).all()
+        food_dict = {}
+        for food in foods:
+            food_dict[food.name]=food.serialize()
+        return  food_dict
 
-    def get_food_by_category(name):
-        try:
-            foods = get_all_food()
-            return [food for food in foods if l_contient(food.foodCategory, name.lower())]
-        except NoResultFound:
-            return []
 
-    def get_food_by_class(name):
-        try:
-            foods = get_all_food()
-            return [food for food in foods if l_contient(food.foodClass, name.lower())]
-        except NoResultFound:
-            return []
+def get_food_by_category(name):
+        foods = Food.get_all_food()
+        return [food.serialize() for food in foods if Food.l_contient(food.foodCategory, name.lower())]
 
-    def get_food_by_class_and_category(cat_name,class_name):
-        try:
-            foods = get_all_food()
-            return [food for food in foods if (l_contient(food.foodClass, class_name.lower()) and l_contient(food.foodCategory, cat_name.lower()))]
-        except NoResultFound:
-            return []
+def get_food_by_class(name):
+        foods = Food.get_all_food()
+        return [food.serialize() for food in foods if Food.l_contient(food.foodClass, name.lower())]
 
+def get_food_by_class_and_category(cat_name,class_name):
+        foods = Food.get_all_food()
+        return [food.serialize() for food in foods if (Food.l_contient(food.foodClass, class_name.lower()) and Food.l_contient(food.foodCategory, cat_name.lower()))]
+
+def delete_plate_from_user_plates(plate_name):
+    try:
+        p = get_food_by_name(plate_name)
+        u = current_user
+        u.liked.remove(p)
+        db.session.add(u)
+        db.session.commit()
+    except:
+        return None
+
+def add_plate_to_user_plates(plate_id):
+    try:
+        p = get_food(plate_id)
+        u = current_user
+        u.liked.add(p)
+        db.session.add(u)
+        db.session.commit()
+    except:
+        return None
 
 class Town(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
@@ -287,7 +306,7 @@ class Category(db.Model):
     def get_name(self):
         return self.name
 
-    def get_caegories():
+    def get_categories():
         return Category.query.all()
 
     def get_category(name):
