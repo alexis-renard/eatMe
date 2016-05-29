@@ -81,6 +81,47 @@ def route_for_add_match():
     return jsonify(register="usernames are not lovers"),401
 
 
+@login_required
+@app.route("/user/liked", methods=("PUT",))
+def add_user_liked():
+    user = current_user
+    liked_food = get_food(request.get_json().get('id'))
+    if liked_food not in user.liked:
+        user.liked.append(liked_food)
+        db.session.commit()
+        return jsonify(state=True)
+    else:
+        return jsonify(state=False, error="food already liked")
+
+@login_required
+@app.route("/user/cooked", methods=("PUT",))
+def add_user_cooked():
+    user = current_user
+    cooked_food = get_food(request.get_json().get('id'))
+    if cooked_food not in user.cooked:
+        user.cooked.append(cooked_food)
+        db.session.commit()
+        return jsonify(state=True)
+    else:
+        return jsonify(state=False, error="food already cooked")
+
+@login_required
+@app.route("/user/loved", methods=("PUT",))
+def add_user_loved():
+    user = current_user
+    datas = request.get_json()
+    print(datas.get('username',''))
+    loved_user = get_user(datas.get('username',''))
+    if loved_user not in user.loved:
+        user.loved.append(loved_user)
+        db.session.commit()
+        return jsonify(state=True)
+    else:
+        return jsonify(state=False, error="user already loved")
+
+            ############
+            ### food ###
+            ############
 
 @app.route("/logout/")
 def logout():
