@@ -213,13 +213,34 @@ def cook_by_name_route():
         #############
 
 @login_required
-@app.route("/classes", methods=('GET',))
-def classes_route():
-    list_class = Class.get_classes()
-    class_dict = {}
-    for elem in list_class:
-        class_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(classes=class_dict)
+@app.route("/classes/", methods=('GET',))
+@app.route("/classes/<string:name>", methods=('GET',))
+def classes_route(name=None):
+    if name==None:
+        list_class = Class.get_classes()
+        class_dict = {}
+        for elem in list_class:
+            class_dict[elem.name]=elem.serialize()["name"]
+        return  jsonify(classes=class_dict)
+    else:
+        plates = get_food_by_class(name)
+        return jsonify(plates=plates)
+
+
+
+@login_required
+@app.route("/category/", methods=('GET',))
+@app.route("/category/<string:name>", methods=('GET',))
+def category_route(name=None):
+    if name==None:
+        list_category = Category.get_categories()
+        category_dict = {}
+        for elem in list_category:
+            category_dict[elem.name]=elem.serialize()["name"]
+        return  jsonify(category=category_dict)
+    else:
+        plates = get_food_by_category(name)
+        return jsonify(plates=plates)
 
 
         ##############

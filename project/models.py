@@ -335,7 +335,10 @@ class Class(db.Model):
         return Class.query.all()
 
     def get_class(name):
-        return Genre.query.filter(Class.name.lower().like("%" + name.lower() + "%")).first()
+        print('debut')
+        print ((Class.query.filter(Class.name.like("%" + name+ "%")).first()).food_classes)
+        print('fin')
+        return Class.query.filter(Class.name.like("%" + name+ "%")).first()
 
 class Category(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
