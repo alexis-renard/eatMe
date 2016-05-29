@@ -122,13 +122,7 @@ def home_user():
     # WeLike  = dico["WeLike"]
     # WeCook  = dico["WeCook"]
     return jsonify(propositions=get_propositions_user(current_user.username))
-@app.route("/classes", methods=('GET',))
-def classes_route():
-    list_class = Class.get_classes()
-    class_dict = {}
-    for elem in list_class:
-        class_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(classes=class_dict)
+
 
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
@@ -237,7 +231,7 @@ def classes_route():
 def my_plate_route():
     return jsonify(user=current_user.serialize())
 
-@login_required    
+@login_required
 @app.route("/categories", methods=('GET',))
 def categories_route():
     list_category = Category.get_categories()
