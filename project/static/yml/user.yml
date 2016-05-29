@@ -10,7 +10,7 @@
   foodLevel:  2
   town : 1
   love: [Suala,Alexis]
-  matches: [Alexis]
+  matches: []
   cook: [1,2,3]
   like: [1,2,3,5]
 - username: Suala

@@ -30,8 +30,22 @@ $(document).ready(function() {
        propositions:propositions
      },
      success : function(json){
-       $.each(json.propositions){
+       $("#main_container").empty();
+       var html = "";
+       $.each(json.propositions, function (cle,valeur)){
 
+        html+=" <div class=\"item\">"
+        html+="   <div class=\"testimonial-thumb\">"
+        html+="     <img class=\"img-circle\" src=\"images/team/pic1.jpg\" alt=\"testimonial\" >"
+        html+="   </div>"
+        html+="   <div class=\"testimonial-content\">"
+        html+="     <h3 class=\"name\">Katee Nureen <span>Exectuive Director</span></h3>"
+        html+="     <p class=\"testimonial-text\">"
+        html+="       iLorem Ipsum as their default model text, and a search for ‘lorem ipsum’ will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose. Lorem Ipsum is that it as opposed to using."
+        html+="     </p>"
+        html+="   </div>"
+        html+=" </div>"
+        $("#main_container").html(html);
        }
      }
      error{
@@ -39,6 +53,8 @@ $(document).ready(function() {
      }
    })
  }
+
+
 
  // {% for user in propositions %}
  //   <div class="item">
