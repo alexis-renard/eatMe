@@ -121,9 +121,29 @@ def get_user(username):
 def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
 
-def get_matches_user(username):
-    user = get_user(username)
-    matches = {}
+def get_propositions_user(username):
+    currentuser = get_user(username)
+    propositions = {}
+    for user in get_users():
+        if user.username!=currentuser.username:
+            if (user not in currentuser.loved):
+                commun_plates={"ICook"=[],"HeCooks"=[], "WeLike"=[], "WeCook"=[]}
+                for plat in user.liked:
+                    if plat in currentuser.cooked:
+                        commun_plates["ICook"].append(plat)
+                for plat in user.cooked:
+                    if plat in currentuser.liked:
+                        commun_plates["HeCooks"].append(plat)
+                for plat in user.liked:
+                    if plat in currentuser.liked:
+                        commun_plates["WeLike"].append(plat)
+                for plat in user.cooked:
+                    if plat in currentuser.cooked:
+                        commun_plates["WeCook"].append(plat)
+            print(sum([len(x) for x in propositions.values()]))
+            if sum([len(x) for x in propositions.values()])>1:
+                propositions[user]=commun_plates
+    return propositions
 
 
 class LoginForm(Form):

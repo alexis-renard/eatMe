@@ -18,13 +18,6 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
 
-@app.route("/")
-def home():
-    return render_template(
-    "index.html",
-    )
-
-
 @app.route("/login/", methods=("GET","POST",))
 def login():
     error = None
@@ -80,10 +73,25 @@ def logout():
             ## myplates ##
             ##############
 
+
+
+@app.route("/")
+def home():
+    if current_user.is_authenticated():
+        #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
+        return render_template(
+            "index.html",
+            propositions=get_propositions_user(current_user.username)
+        )
+    else:
+        return render_template(
+            "index.html",
+        )
+
+
 @login_required
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
-    
     return jsonify(user=current_user.serialize())
 
 

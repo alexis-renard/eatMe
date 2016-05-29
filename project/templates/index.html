@@ -165,3 +165,6 @@
       </section>
   {% endif %}
 {% endblock %}
+{% block js %}
+<script src="{{ url_for('project/static', filename='js/index.js') }}"></script>
+{% endblock %}
