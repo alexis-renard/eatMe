@@ -75,9 +75,9 @@ def logout():
 
 
 
-@app.route("/")
+@app.route("/", methods=("GET",))
 def home():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
         return render_template(
             "index.html",

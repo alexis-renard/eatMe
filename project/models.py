@@ -127,7 +127,11 @@ def get_propositions_user(username):
     for user in get_users():
         if user.username!=currentuser.username:
             if (user not in currentuser.loved):
-                commun_plates={"ICook"=[],"HeCooks"=[], "WeLike"=[], "WeCook"=[]}
+                commun_plates={}
+                commun_plates["ICook"]=['salut','alley la']
+                commun_plates["HeCooks"]=[]
+                commun_plates["WeLike"]=[]
+                commun_plates["WeCook"]=[]
                 for plat in user.liked:
                     if plat in currentuser.cooked:
                         commun_plates["ICook"].append(plat)
@@ -140,9 +144,9 @@ def get_propositions_user(username):
                 for plat in user.cooked:
                     if plat in currentuser.cooked:
                         commun_plates["WeCook"].append(plat)
-            print(sum([len(x) for x in propositions.values()]))
-            if sum([len(x) for x in propositions.values()])>1:
-                propositions[user]=commun_plates
+                somme = sum([len(x) for x in commun_plates.values()])
+                if somme>3:
+                    propositions[user]=commun_plates
     return propositions
 
 
