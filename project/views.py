@@ -65,11 +65,30 @@ def register():
         return jsonify(register="success"),200
     return jsonify(register="username already taken"),401
 
-
+@login_required
 @app.route("/logout/")
 def logout():
 	logout_user()
 	return redirect(url_for('home'))
+
+@login_required
+@app.route("/user/<string:username>", methods=("GET",))
+def get_user_route(username):
+    return jsonify(user=get_user(username).serialize())
+
+            ############
+            ### food ###
+            ############
+
+@login_required
+@app.route("/food", methods=("GET",))
+def get_foods_route():
+    foods = get_all_food()
+    food_dict={}
+    for food in foods:
+        food_dict[food.name]=food.serialize()
+    return jsonify(food=food_dict)
+
 
             ###############
             ### Matches ###
@@ -89,30 +108,11 @@ def matches_route():
             ## myplates ##
             ##############
 
-# @app.route("/")
-# def home():
-#     if current_user.is_authenticated:
-#         #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
-#         print('----propositions---wpouhahahahahahahao-')
-#         print(get_propositions_user(current_user.username))
-#         return render_template(
-#             "index.html",
-#             propositions=get_propositions_user(current_user.username)
-#         )
-#     else:
-#         return render_template(
-#             "index.html",
-#         )
-
-
-
 @app.route("/")
 def home():
     return render_template(
         "index.html",
     )
-
-
 
 @app.route("/home_user")
 def home_user():
@@ -123,11 +123,16 @@ def home_user():
     # WeCook  = dico["WeCook"]
     return jsonify(propositions=get_propositions_user(current_user.username))
 
+@login_required
+@app.route("/myplates", methods=("GET",))
+def my_plate_route():
+    liked_plate = current_user.serialize()["liked"]
+    return jsonify(liked_plate=liked_plate)
 
 @login_required
-@app.route("/plates_by_class/<string:name>", methods=('GET',))
-def plate_by_class_route(name):
-    class_used = name #Mettre le bouton correspondant
+@app.route("/plates_by_class/<string:className>", methods=('GET',))
+def plate_by_class_route(className):
+    class_used = className #Mettre le bouton correspondant
     plate_by_class_dict = {}
     if  get_food_by_class(class_used) != []:
         food_list=[]
@@ -137,9 +142,9 @@ def plate_by_class_route(name):
     return  jsonify(plates_by_class=plate_by_class_dict)
 
 @login_required
-@app.route("/plates_by_category", methods=('GET',))
-def plate_by_category_route():
-    category_used = "Entree" #Mettre le bouton correspondant
+@app.route("/plates_by_category/<string:category>", methods=('GET',))
+def plate_by_category_route(category):
+    category_used = category #Mettre le bouton correspondant
     plate_by_category_dict = {}
     if  get_food_by_category(category_used) != []:
         food_list=[]
@@ -149,9 +154,9 @@ def plate_by_category_route():
     return  jsonify(plates_by_category=plate_by_category_dict)
 
 @login_required
-@app.route("/plates_by_name", methods=('GET',))
-def plate_by_name_route():
-    name_used = request.form["name"] #Mettre le bouton correspondant
+@app.route("/plates_by_name/<string:name>", methods=('GET',))
+def plate_by_name_route(name):
+    name_used = name #Mettre le bouton correspondant
     plate_by_name_dict = {}
     if  get_food_by_name(name_used) != []:
         food_list=[]
@@ -160,8 +165,23 @@ def plate_by_name_route():
             plate_by_name_dict[name_used] = food_list
     return  jsonify(plates_by_name=plate_by_name_dict)
 
+
+@login_required
+@app.route("/myplates/delete/<int:id>", methods=('DELETE',))
+def delete_plate(id):
+    plate_id = id
+    p = get_food_by_id(plate_id)
+    if p is not None :
+            if delete_plate_from_user_plates(plate_id) != None:
+                return jsonify(state=True)
+            else:
+                return jsonify(state=False)
+    else:
+        return jsonify(state=False)
+
+
             ##############
-            ## mycook ##
+            ### mycook ###
             ##############
 
 @login_required
@@ -170,9 +190,9 @@ def my_cook_route():
     return jsonify(mycook=current_user.serialize()["cooked"])
 
 @login_required
-@app.route("/cook_by_class", methods=('GET',))
-def cook_by_class_route():
-    class_used = "Gras" #Mettre le bouton correspondant
+@app.route("/cook_by_class/<string:className>", methods=('GET',))
+def cook_by_class_route(className):
+    class_used = className #Mettre le bouton correspondant
     cook_by_class_dict = {}
     if  get_food_by_class(class_used) != []:
         food_list=[]
@@ -183,9 +203,9 @@ def cook_by_class_route():
     return  jsonify(cooks_by_class=cook_by_class_dict)
 
 @login_required
-@app.route("/cook_by_category", methods=('GET',))
-def cook_by_category_route():
-    category_used = "Plat" #Mettre le bouton correspondant
+@app.route("/cook_by_category/<string:category>", methods=('GET',))
+def cook_by_category_route(category):
+    category_used = category #Mettre le bouton correspondant
     cook_by_category_dict = {}
     if  get_food_by_category(category_used) != []:
         food_list=[]
@@ -196,9 +216,9 @@ def cook_by_category_route():
     return  jsonify(cook_by_category=cook_by_category_dict)
 
 @login_required
-@app.route("/cook_by_name", methods=('GET',))
-def cook_by_name_route():
-    name_used = "ar" #Mettre le bouton correspondant
+@app.route("/cook_by_name/<string:name>", methods=('GET',))
+def cook_by_name_route(name):
+    name_used = name #Mettre le bouton correspondant
     cook_by_name_dict = {}
     if  get_food_by_name(name_used) != []:
         food_list=[]
@@ -248,11 +268,6 @@ def category_route(name=None):
         ##############
 
 @login_required
-@app.route("/myplates", methods=("GET",))
-def my_plate_route():
-    return jsonify(user=current_user.serialize())
-
-@login_required
 @app.route("/categories", methods=('GET',))
 def categories_route():
     list_category = Category.get_categories()
@@ -261,19 +276,7 @@ def categories_route():
         category_dict[elem.name]=elem.serialize()["name"]
     return  jsonify(categories=category_dict)
 
-# @login_required
-# @app.route("/myplates/delete/<int:id>", methods=('DELETE',))
-# def delete_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if delete_plate_from_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
-#
+
 # @login_required
 # @app.route("/myplates/add/<int:id>", methods=('PUT',))
 # def add_plate(id):

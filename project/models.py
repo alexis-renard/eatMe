@@ -82,7 +82,7 @@ class User(db.Model, UserMixin):
         liked = {}
         for food in self.liked:
             if food.name not in liked:
-                liked[food.name] = food.name
+                liked[food.name] = get_food(food.id).serialize()
         cooked = {}
         for food in self.cooked:
             if food.name not in cooked:
