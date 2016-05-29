@@ -92,7 +92,11 @@ def home():
 @login_required
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
+<<<<<<< HEAD
+    return jsonify(user=current_user.serialize())
+=======
     return jsonify(myplates=current_user.serialize()["liked"])
+>>>>>>> 6b27ef5afc7267890d92798aee2d6f0d6ba1f726
 
 @login_required
 @app.route("/classes", methods=('GET',))
