@@ -64,6 +64,7 @@ class User(db.Model, UserMixin):
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
+    def serialize(self):
         loved = {}
         for user in self.loved:
             if user.username not in loved:
