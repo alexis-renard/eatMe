@@ -90,7 +90,7 @@ class User(db.Model, UserMixin):
         matches = {}
         for match in self.matched:
             if match.username not in matches:
-                matches[match.username] = match.username
+                matches[match.username] = match
         return {
             'username': self.username,
             'firstName': self.firstName,
@@ -105,7 +105,7 @@ class User(db.Model, UserMixin):
             'loved': loved,
             'liked': liked,
             'cooked': cooked,
-            'matched': matches
+            'matches': matches
         }
 
     def get_id(self):
@@ -126,6 +126,8 @@ def get_user(username):
 def get_user_by_email(email):
     return User.query.filter(User.email==email).first()
 
+<<<<<<< HEAD
+=======
 def get_propositions_user(username):
     currentuser = get_user(username)
     propositions = {}
@@ -153,6 +155,8 @@ def get_propositions_user(username):
                 if somme>3:
                     propositions[user]=commun_plates
     return propositions
+
+>>>>>>> 360a5288d1c29c8d7aed0f3f094a65a0aa674d48
 
 class LoginForm(Form):
     username = StringField('Username', [validators.Required()])
@@ -219,17 +223,17 @@ class Food(db.Model):
     def get_img(self):
         return self.img
 
-def get_food(id):
-    return Food.query.get(id)
+    def get_food(id):
+        return Food.query.get(id)
 
-def get_all_food():
-    return Food.query.all()
+    def get_all_food():
+        return Food.query.all()
 
-def l_contient(l, m):
-    for ll in l:
-        if m in ll.name.lower():
-            return True
-    return False
+    def l_contient(l, m):
+        for ll in l:
+            if m in ll.name.lower():
+                return True
+        return False
 
 def get_food_by_name(name):
         foods = Food.query.filter(Food.name.like("%" + name + "%")).all()

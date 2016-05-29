@@ -12,11 +12,11 @@ $(document).ready(function() {
        user:user
      },
      success : function(json){
-       html = "<ul>";
+       var html = "<ul>";
        $.each(json.user, function(index,element)){
          html += "<li>" + element.name +"</li>"
        }
-       hml +="</ul>"
+       html +="</ul>"
      }
    })
  }
