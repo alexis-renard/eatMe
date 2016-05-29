@@ -10,6 +10,7 @@
   foodLevel:  2
   town : 1
   love: [Suala,Alexis]
+  matches: [Alexis]
   cook: [1,2,3]
   like: [1,2,3,5]
 - username: Suala
@@ -22,6 +23,7 @@
   foodLevel: 1
   town : 2
   love: [Clement]
+  matches: [Clement]
   cook: [4]
   like: [1,2]
 - username: Alexis
@@ -33,7 +35,8 @@
   desc: Eh c'est zorro !
   foodLevel:  5
   town : 2
-  love: [Gerard,Suala,Clement,Bibiche]
+  love: [Gerard,Gregoire,Clement,Bibiche]
+  matches: [Gerard,Gregoire]
   cook: []
   like: [1,2,3,4,5]
 - username: Clement
@@ -46,6 +49,7 @@
   foodLevel: 3
   town : 3
   love: [Suala]
+  matches: [Suala]
   cook: [1,2,3,4,5]
   like: [1,2,4]
 - username: Gregoire
@@ -58,6 +62,7 @@
   foodLevel: 1
   town : 4
   love: [Alexis]
+  matches: [Alexis]
   cook: []
   like: [3,5]
 - username: Bibiche
@@ -69,6 +74,7 @@
   desc: Hum que c'est savoureux !
   foodLevel: 0
   town : 1
-  love: [Alexis,Clement]
+  matches: []
+  love: [Clement]
   cook: [2,4]
   like: [2,4]
