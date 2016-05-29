@@ -18,52 +18,50 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
 
-@app.route("/login/", methods=("GET","POST",))
+@app.route("/user", methods=("POST",))
 def login():
-    error = None
-    f = LoginForm()
-    if not f.is_submitted():
-        f.next.data = request.args.get("next")
-    elif f.validate_on_submit():
-        user = f.get_authenticated_user()
-        if user:
+    username = request.form["username"]
+    password = request.form["password"].encode('utf-8')
+    user = get_user(username)
+    if (user is not None):
+        m = sha256()
+        m.update(password)
+        password = m.hexdigest()
+        if (user.password == password):
             login_user(user)
-            next = f.next.data or url_for("home")
-            return redirect(next)
-        else:
-            error = "Incorrect Login or password "
-    return render_template("login.html",form = f, error=error)
+            return jsonify(login="success"),200
+        return jsonify(login="password or username incorrect"),401
+    return jsonify(login="password or username incorrect"),401
 
-@app.route("/register/", methods=("GET","POST",))
+@app.route("/user", methods=("PUT",))
 def register():
-    error = None
-    f = RegisterForm()
-    if not f.is_submitted():
-        f.next.data = request.args.get("next")
-    elif f.validate_on_submit():
-        users = get_user(f.username.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-        users_email = get_user_by_email(f.email.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-        if (users_email == None and users == None):
-                m = sha256()
-                m.update(f.password.data.encode())
-                u = User(username=f.username.data,firstName=f.firstName.data ,lastName=f.lastName.data ,password=m.hexdigest(),email=f.email.data ,img="" ,desc=f.desc.data ,foodLevel=0 )
-                db.session.add(u)
-                db.session.commit()
-                login_user(u)
-                next = f.next.data or url_for("home")
-                return redirect(next)
-        else:
-            error=""
-            if (users_email != None):
-                error+="This email has already been taken"
-                if (users != None):
-                    error+=", and this username too. Please focus."
-            elif (users != None):
-                error+="This user already exists"
-            else:
-                error+="An error has occured"
-    return render_template("register.html",form = f, error = error)
+    username = request.form["username"]
+    password = request.form["password"].encode('utf-8')
+    firstName = request.form["firstName"]
+    lastName = request.form["lastName"]
+    email = request.form["email"]
+    desc = request.form["desc"]
+    user = get_user(username)
+    if user is None:
+        m = sha256()
+        m.update(password)
+        password = m.hexdigest()
+        u = User(username=username,
+            firstName=firstName,
+            lastName=lastName,
+            password=m.hexdigest(),
+            email=email,
+            img="" ,
+            desc=desc,
+            foodLevel=0)
+        db.session.add(u)
+        db.session.commit()
+        login_user(u)
+        return jsonify(register="success"),200
+    return jsonify(register="username already taken"),401
 
+
+    #flash('A confirmation email has been sent via email.', 'success')
 @app.route("/logout/")
 def logout():
 	logout_user()
@@ -76,7 +74,11 @@ def logout():
 @login_required
 @app.route("/matches", methods=("GET",))
 def matches_route():
-    return jsonify(matches=current_user.serialize()["matched"])
+    matches = current_user.serialize()["matched"]
+    user_dict = {}
+    for user in matches.values():
+        user_dict[user]=get_user(user).serialize()
+    return jsonify(matches=user_dict)
 
 
             ##############
