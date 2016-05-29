@@ -64,7 +64,6 @@ class User(db.Model, UserMixin):
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
 
-    def serialize(self):
         loved = {}
         for user in self.loved:
             if user.username not in loved:
@@ -118,19 +117,12 @@ class LoginForm(Form):
     next = HiddenField()
 
     def get_authenticated_user(self):
-        print('get authenticated')
-        print (self.password)
         user = get_user(self.username.data)
-        print(user)
         if user is None:
             return None
         m = sha256()
         m.update(self.password.data.encode())
         passwd = m.hexdigest()
-        print('passwd')
-        print (passwd)
-        print('passwd user')
-        print (user.password)
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
@@ -288,7 +280,6 @@ class Category(db.Model):
         return {
             'name': self.name
         }
-
     def __repr__(self):
         return "<Category (%d)>" % (self.name)
 
@@ -306,6 +297,4 @@ class SearchForm(Form):
 
 @login_manager.user_loader
 def load_user(username):
-    print("coucouuuuuuuuuuuuuu loaduser")
-    print(username)
     return User.query.get(username)
