@@ -1,5 +1,5 @@
 from .app import app, db
-from flask import Flask, render_template, url_for, redirect, request, g, flash
+from flask import Flask, render_template, url_for, redirect, request, g, flash, jsonify
 from datetime import datetime
 from .models import *
 from flask.ext.wtf import Form
@@ -84,7 +84,7 @@ def logout():
 @login_required
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
-    plate_list = get_food_liked_by_user(current_user.id)
+    plate_list = get_food_liked_by_user(current_user.username)
     return jsonify(plate_list=plate_list)
 
 

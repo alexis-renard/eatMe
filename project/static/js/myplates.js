@@ -11,8 +11,8 @@ $(document).ready(function() {
        },
        success : function(json){
          html = "<ul>";
-         $.each(plate=json.plate_list){
-           html += "<li>" + plate.name +"</li>"
+         $.each(json.plate_list, function(index,element)){
+           html += "<li>" + element.name +"</li>"
          }
          hml +="</ul>"
        }
