@@ -84,8 +84,8 @@ def logout():
 @login_required
 @app.route("/myplates", methods=("GET",))
 def my_plate_route():
-    data = get_food_liked_by_user(current_user.id)
-    return render_template("myplates.html", data=data)
+    plate_list = get_food_liked_by_user(current_user.id)
+    return jsonify(plate_list=plate_list)
 
 
 @app.route("/addcook/search/<string:query>",methods=("GET",))
