@@ -131,8 +131,8 @@ class RegisterForm(Form):
     password = PasswordField('Password', [
     	validators.Required(),
     	validators.EqualTo('confirm', message='Passwords must match'),
-        validators.Length(min=4),
-        validators.Email()])
+        validators.Length(min=4)
+        ])
     confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
     desc = StringField('Description', [validators.Length(min=4), validators.Required()])
     next = HiddenField()

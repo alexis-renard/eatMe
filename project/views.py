@@ -53,10 +53,10 @@ def register():
     elif f.validate_on_submit():
         users = get_user(f.username.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
         users_email = get_user_by_email(f.email.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-        if (users_email == None or users_username == None):
+        if (users_email == None and users == None):
                 m = sha256()
                 m.update(f.password.data.encode())
-                u = User(username=f.username.data, password=m.hexdigest(), admin=0)
+                u = User(username=f.username.data,firstName=f.firstName.data ,lastName=f.lastName.data ,password=m.hexdigest(),email=f.email.data ,img="" ,desc=f.desc.data ,foodLevel=0 )
                 db.session.add(u)
                 db.session.commit()
                 login_user(u)
@@ -64,12 +64,14 @@ def register():
                 return redirect(next)
         else:
             error=""
-            if (users_email == None):
+            if (users_email != None):
                 error+="This email has already been taken"
-                if (users_username == None):
+                if (users != None):
                     error+=", and this username too. Please focus."
-            if (users_username == None):
+            elif (users != None):
                 error+="This user already exists"
+            else:
+                error+="An error has occured"
     return render_template("register.html",form = f, error = error)
 
 @app.route("/logout/")
