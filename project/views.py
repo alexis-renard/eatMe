@@ -53,15 +53,15 @@ def register():
     elif f.validate_on_submit():
         users = get_user(f.username.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
         users_email = get_user_by_email(f.email.data) #récupération des users dans la base de donné pour les tester par rapport au user entré
-    if (users_email == None or users_username == None):
-            m = sha256()
-            m.update(f.password.data.encode())
-            u = User(username=f.username.data, password=m.hexdigest(), admin=0)
-            db.session.add(u)
-            db.session.commit()
-            login_user(u)
-            next = f.next.data or url_for("home")
-            return redirect(next)
+        if (users_email == None or users_username == None):
+                m = sha256()
+                m.update(f.password.data.encode())
+                u = User(username=f.username.data, password=m.hexdigest(), admin=0)
+                db.session.add(u)
+                db.session.commit()
+                login_user(u)
+                next = f.next.data or url_for("home")
+                return redirect(next)
         else:
             error=""
             if (users_email == None):

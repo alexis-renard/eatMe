@@ -67,11 +67,10 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
     # create users
     users = {}
     for user in users_table:
-        if user["entryId"] not in users:
-            id_user = user["entryId"]
+        if user["username"] not in users:
+            username = user["username"]
             fName = user["firstName"]
             lName = user["lastName"]
-            id_user = user["entryId"]
             email = user["email"]
             pwd = user["password"]
             desc = user["desc"]
@@ -80,10 +79,10 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             cook_list = user["cook"]
             like_list = user["like"]
 
-            o = User(id=id_user, firstName=fName, lastName=lName, email=email, password=pwd,
+            o = User(username=username, firstName=fName, lastName=lName, email=email, password=pwd,
              img=img, desc=desc, foodLevel=foodLevel, town_id=town_id)
-            db.session.add(o)
-            users[id_user] = o
+            db.session.add(o) 
+            users[username] = o
             db.session.commit()
 
             # Gestion cook_list
@@ -102,7 +101,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
     for user in users_table:
         love_list = user["love"]
         for love_id in love_list:
-            users[user["entryId"]].loved.append(users[love_id])
+            users[user["username"]].loved.append(users[love_id])
         db.session.commit()
 
     db.session.commit()

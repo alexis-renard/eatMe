@@ -8,23 +8,23 @@ from flask.ext.login import login_user, current_user, logout_user, login_require
 
 #Création de la table love entre deux user
 love = db.Table('love',
-    db.Column('lover_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
-    db.Column('loved_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('lover_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('loved_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
 )
 
 
 #Création de la table cook entre User et food
 cook = db.Table('cook',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
-    db.PrimaryKeyConstraint('food_id', 'user_id')
+    db.PrimaryKeyConstraint('food_id', 'user_username')
 )
 
 #Création de la table like entre User et food
 like = db.Table('like',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
-    db.PrimaryKeyConstraint('food_id', 'user_id')
+    db.PrimaryKeyConstraint('food_id', 'user_username')
 )
 
 
@@ -57,8 +57,8 @@ class User(db.Model, UserMixin):
     town        = db.relationship("Town", backref="user")
     loved = db.relationship('User',
                            secondary=love,
-                           primaryjoin=(love.c.loved_id == id),
-                           secondaryjoin=(love.c.lover_id == id),
+                           primaryjoin=(love.c.loved_username == username),
+                           secondaryjoin=(love.c.lover_username == username),
                            backref=db.backref('lovers', lazy='dynamic'),
                            lazy='dynamic')
     liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
@@ -110,6 +110,7 @@ class LoginForm(Form):
         return user if passwd == user.password else None
 
 class RegisterForm(Form):
+    username = StringField('Username', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
     email = StringField('Email', [validators.Length(min=4), validators.Required(), validators.Email()])
