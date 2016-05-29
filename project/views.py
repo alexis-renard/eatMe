@@ -170,6 +170,64 @@ def my_cook_route():
     return jsonify(mycook=current_user.serialize()["cooked"])
 
 @login_required
+@app.route("/user/profil", methods=("PUT",))
+def modif_profil():
+    user=current_user
+    username = request.form["username"]
+    password = request.form["password"]
+    firstName = request.form["firstName"]
+    lastName = request.form["lastName"]
+    email = request.form["email"]
+    desc = request.form["desc"]
+    img = request.form["img"]
+    m = sha256()
+        m.update(password)
+        password = m.hexdigest()
+
+    if username!=user.username and username!="":
+        if get_user(username) is None:
+            user.username=username
+        else:
+            return  jsonify(state=False, error="username already taken")
+    if password!=user.password:
+        if password!="":
+            user.password=password
+        else:
+            return  jsonify(state=False, error="password empty")
+    if firstname!=user.firstname:
+        if firstname!="":
+            user.firstName=firstName
+        else:
+            return  jsonify(state=False, error="firstname empty")
+    if lastname!=user.lastname:
+        if lastname!="":
+            user.lastName=lastName
+        else:
+            return  jsonify(state=False, error="firstname empty")
+    if email!=user.email: 
+        if email!="":
+            user.email=email
+        else:
+            return  jsonify(state=False, error="email empty")
+    if desc!=user.desc: 
+        if desc!="":
+            user.desc=desc
+        else:
+            return  jsonify(state=False, error="desc empty")
+    if img!=user.img:
+        if img!="":
+            user.img=img
+        else:
+            return  jsonify(state=False, error="img empty")
+
+    db.session.add(g.user)
+    db.session.commit()
+
+
+    return  jsonify(state=True)
+    
+
+@login_required
 @app.route("/cook_by_class", methods=('GET',))
 def cook_by_class_route():
     class_used = "Gras" #Mettre le bouton correspondant
@@ -266,27 +324,4 @@ def categories_route():
 #     else:
 #         return jsonify(state=False)
 
-@app.route("/addcook/search/<string:query>",methods=("GET",))
-def searchcook(query):
-    r=SearchForm()
-    if r.validate_on_submit():
-        a=r.element.data
-        b=get_food_by_name(a)
-        return render_template(
-            "addcook.html",
-            results=b,
-            form=r,
-            )
 
-
-@app.route("/addplates/search/<string:query>",methods=("GET",))
-def searchplates(query):
-    r=SearchForm()
-    if r.validate_on_submit():
-        a=r.element.data
-        b=get_food_by_name(a)
-        return render_template(
-            "addplates.html",
-            results=b,
-            form=r,
-            )
