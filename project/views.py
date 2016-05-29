@@ -65,11 +65,30 @@ def register():
         return jsonify(register="success"),200
     return jsonify(register="username already taken"),401
 
-
+@login_required
 @app.route("/logout/")
 def logout():
 	logout_user()
 	return redirect(url_for('home'))
+
+@login_required
+@app.route("/user/<string:username>", methods=("GET",))
+def get_user_route(username):
+    return jsonify(user=get_user(username).serialize())
+
+            ############
+            ### food ###
+            ############
+
+@login_required
+@app.route("/food", methods=("GET",))
+def get_foods_route():
+    foods = get_all_food()
+    food_dict={}
+    for food in foods:
+        food_dict[food.name]=food.serialize()
+    return jsonify(food=food_dict)
+
 
             ###############
             ### Matches ###
@@ -104,6 +123,11 @@ def home_user():
     # WeCook  = dico["WeCook"]
     return jsonify(propositions=get_propositions_user(current_user.username))
 
+@login_required
+@app.route("/myplates", methods=("GET",))
+def my_plate_route():
+    liked_plate = current_user.serialize()["liked"]
+    return jsonify(liked_plate=liked_plate)
 
 @login_required
 @app.route("/plates_by_class/<string:className>", methods=('GET',))
@@ -140,6 +164,21 @@ def plate_by_name_route(name):
             food_list.append(food)
             plate_by_name_dict[name_used] = food_list
     return  jsonify(plates_by_name=plate_by_name_dict)
+
+
+@login_required
+@app.route("/myplates/delete/<int:id>", methods=('DELETE',))
+def delete_plate(id):
+    plate_id = id
+    p = get_food_by_id(plate_id)
+    if p is not None :
+            if delete_plate_from_user_plates(plate_id) != None:
+                return jsonify(state=True)
+            else:
+                return jsonify(state=False)
+    else:
+        return jsonify(state=False)
+
 
             ##############
             ### mycook ###
@@ -208,11 +247,6 @@ def classes_route():
         ##############
 
 @login_required
-@app.route("/myplates", methods=("GET",))
-def my_plate_route():
-    return jsonify(user=current_user.serialize())
-
-@login_required
 @app.route("/categories", methods=('GET',))
 def categories_route():
     list_category = Category.get_categories()
@@ -221,19 +255,7 @@ def categories_route():
         category_dict[elem.name]=elem.serialize()["name"]
     return  jsonify(categories=category_dict)
 
-# @login_required
-# @app.route("/myplates/delete/<int:id>", methods=('DELETE',))
-# def delete_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if delete_plate_from_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
-#
+
 # @login_required
 # @app.route("/myplates/add/<int:id>", methods=('PUT',))
 # def add_plate(id):
