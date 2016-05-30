@@ -136,8 +136,8 @@ def logout():
 @app.route("/matches", methods=("GET",))
 def matches_route():
     matches = current_user.sm = sha256()
-        m.update(password)
-        password = m.hexdigest()erialize()["matched"]
+    m.update(password)
+    password = m.hexdigest().serialize()["matched"]
     user_dict = {}
     for user in matches.values():
         user_dict[user]=get_user(user).serialize()
@@ -149,6 +149,7 @@ def matches_route():
 
 @login_required
 @app.route("/user", methods=("PUT",))
+def user_modif():
     user=current_user
     datas = request.get_json()
     username = datas.get("username")

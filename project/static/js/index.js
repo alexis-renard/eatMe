@@ -3,6 +3,7 @@ $(document).ready(function() {
         display_login();
     });
 });
+
 /*
  * All plates
  */
@@ -54,25 +55,82 @@ $(document).ready(function() {
  // }
 
 function display_login(){
-  $("#main_container").empty();
-  var html = "";
-  html +="<section id=\"contact\">";
-  html +="    <div class=\"container\">";
-  html +="        <div class=\"row\">";
-  html +="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
-  html +="                  <div class=\"feature_header text-center\">";
-  html +="                      <h3 class=\"feature_title\">Sign <b>in</b></h3>";
-  html +="                      <h4 class=\"feature_sub\">Take your seats! There's enough cake for everybody!  </h4>";
-  html +="                      <div class=\"divider\"></div>";
-  html +="                  </div>";
-  html +="          </div>";
-  html +="        </div>";
-  html +="        <div class=\"row\">";
-  html +="          <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"{{ url_for('login') }}\">";
+    $("#main_container").empty();
+    var html = "";
+    html +="<section id=\"contact\">";
+    html +="    <div class=\"container\">";
+    html +="        <div class=\"row\">";
+    html +="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+    html +="                  <div class=\"feature_header text-center\">";
+    html +="                      <h3 class=\"feature_title\">Sign <b>in</b></h3>";
+    html +="                      <h4 class=\"feature_sub\">Take your seats! There's enough cake for everybody!  </h4>";
+    html +="                      <div class=\"divider\"></div>";
+    html +="                  </div>";
+    html +="          </div>";
+    html +="        </div>";
+    html +="        <div class=\"row\">";
+    html +="    <div class=\"row\">"
+    html +="         <div class=\"contact_full\">"
+    html +="            <div class=\"col-md-12 text-center\">"
+    html +="                <div class=\"center_contact\">"
+    html +="                    <form action=\"role\">"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
+    html +="                            <span class=\"form-icon fa fa-user\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
+    html +="                            <span class=\"form-icon fa fa-key \"></span>"
+    html +="                    </form>"
+    html +="                </div>"
+    html +="            </div>"
+    html +=""
+    html +="            <div class=\"col-md-12 text-center\">"
+    html +="                <button class=\"btn btn-main featured\">Let's eat</button>"
+    html +="            </div>"
+    html +="        </div>"
+    html +="    </div>"
   $("#main_container").append(html);
 }
 
 
+
+function display_register(){
+    $("#main_container").empty();
+    html +="    <div class=\"row\">"
+    html +="         <div class=\"contact_full\">"
+    html +="            <div class=\"col-md-6 left\">"
+    html +="                <div class=\"left_contact\">"
+    html +="                    <form action=\"role\">"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"name\" placeholder=\"Name\" id=\"name\"  value=\"\" type=\"text\" class=\"input-block\">"
+    html +="                            <span class=\"form-icon fa fa-user\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
+    html +="                            <span class=\"form-icon fa fa-envelope-o\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"name\" placeholder=\"Phone\" id=\"phone\" class=\"input-block\" value=\"\" type=\"text\">"
+    html +="                            <span class=\"form-icon fa fa-phone\"></span>"
+    html +="                        </div>"
+    html +="                    </form>"
+    html +="                </div>"
+    html +="            </div>"
+    html +=""
+    html +="            <div class=\"col-md-6 right\">"
+    html +="                <div class=\"form-level\">"
+    html +="                    <textarea name=\"\" id=\"messege\"  rows=\"5\" class=\"textarea-block\" placeholder=\"message\"></textarea>"
+    html +="                    <span class=\"form-icon fa fa-pencil\"></span>"
+    html +="                </div>"
+    html +="            </div>"
+    html +="            <div class=\"col-md-12 text-center\">"
+    html +="                <button class=\"btn btn-main featured\">Submit Now</button>"
+    html +="            </div>"
+    html +="        </div>"
+    html +="    </div>"
+$("#main_container").append(html);
+}
  // {% for user in propositions %}
  //   <div class="item">
  //     <div class="testimonial-thumb">
