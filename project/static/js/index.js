@@ -2,6 +2,9 @@ $(document).ready(function() {
   $("#login").click(function() {
         display_login();
     });
+    $("#register").click(function() {
+          display_register();
+      });
 });
 
 /*
@@ -90,6 +93,7 @@ function display_login(){
     html +="            </div>"
     html +="        </div>"
     html +="    </div>"
+    html +="</section>";
   $("#main_container").append(html);
 }
 
@@ -97,7 +101,19 @@ function display_login(){
 
 function display_register(){
     $("#main_container").empty();
-    html +="    <div class=\"row\">"
+    var html = "";
+    html +="<section id=\"contact\">";
+    html +="    <div class=\"container\">";
+    html +="        <div class=\"row\">";
+    html +="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+    html +="                  <div class=\"feature_header text-center\">";
+    html +="                      <h3 class=\"feature_title\">Sign <b>in</b></h3>";
+    html +="                      <h4 class=\"feature_sub\">Take your seats! There's enough cake for everybody!  </h4>";
+    html +="                      <div class=\"divider\"></div>";
+    html +="                  </div>";
+    html +="          </div>";
+    html +="        </div>";
+    html +="        <div class=\"row\">";
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-6 left\">"
     html +="                <div class=\"left_contact\">"
@@ -120,7 +136,7 @@ function display_register(){
     html +=""
     html +="            <div class=\"col-md-6 right\">"
     html +="                <div class=\"form-level\">"
-    html +="                    <textarea name=\"\" id=\"messege\"  rows=\"5\" class=\"textarea-block\" placeholder=\"message\"></textarea>"
+    html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"5\" class=\"textarea-block\" placeholder=\"Description\"></textarea>"
     html +="                    <span class=\"form-icon fa fa-pencil\"></span>"
     html +="                </div>"
     html +="            </div>"
@@ -129,7 +145,8 @@ function display_register(){
     html +="            </div>"
     html +="        </div>"
     html +="    </div>"
-$("#main_container").append(html);
+    html +="</section>";
+    $("#main_container").append(html);
 }
  // {% for user in propositions %}
  //   <div class="item">
