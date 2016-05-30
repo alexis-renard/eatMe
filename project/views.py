@@ -54,12 +54,13 @@ def login():
 
 @app.route("/user", methods=("PUT",))
 def register():
-    username = request.form["username"]
-    password = request.form["password"].encode('utf-8')
-    firstName = request.form["firstName"]
-    lastName = request.form["lastName"]
-    email = request.form["email"]
-    desc = request.form["desc"]
+    datas = request.get_json()
+    username = datas.get("username")
+    password = datas.get("password").encode('utf-8')
+    firstName = datas.get("firstName")
+    lastName = datas.get("lastName")
+    email = datas.get("email")
+    desc = datas.get("desc")
     user = get_user(username)
     if user is None:
         m = sha256()
@@ -255,9 +256,9 @@ def plate_by_category_route(name):
     return  jsonify(plates_by_category=plate_by_category_dict)
 
 @login_required
-@app.route("/plates_by_name", methods=('GET',))
-def plate_by_name_route():
-    name_used = request.form["name"]
+@app.route("/plates_by_name/<string:name>", methods=('GET',))
+def plate_by_name_route(name):
+    name_used = name
     plate_by_name_dict = {}
     if  get_food_by_name(name_used) != []:
         food_list=[]

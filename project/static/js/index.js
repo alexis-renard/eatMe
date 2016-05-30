@@ -8,21 +8,9 @@ $(document).ready(function() {
     $("#home").click(function() {
         display_home();
     });
-    $("#form_login").submit(function(e) {
-        e.preventDefault();
-        var datas = JSON.stringify($("#form_login").serializeArray());
-        $.ajax({
-          type: "POST",
-          url: "/user",
-          data: datas,
-          success: function(){
-              window.location.href = "/";
-          },
-          dataType: "json",
-          contentType : "application/json"
-        });
+    $("#my_profil").click(function() {
+        my_profil();
     });
-
 });
 
 /*
@@ -93,8 +81,8 @@ function display_login(){
     html +="    <div class=\"row\">"
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-12 text-center\">"
-    html +="                <div class=\"\">"
-    html +="                    <form id=\"form_login\"action=\"role\" action=\"/user\" method=\"POST\">"
+    html +="                <div class=\"center_contact\">"
+    html +="                    <form action=\"role\">"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
     html +="                            <span class=\"form-icon fa fa-user\"></span>"
@@ -102,18 +90,247 @@ function display_login(){
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
     html +="                            <span class=\"form-icon fa fa-key \"></span>"
-    html +="                        </div>"
-    html +="                        <input type=\"submit\" class=\"btn btn-main featured\" value=\"Let's do eat\">"
     html +="                    </form>"
     html +="                </div>"
     html +="            </div>"
     html +=""
+    html +="            <div class=\"col-md-12 text-center\">"
+    html +="                <button class=\"btn btn-main featured\">Let's eat</button>"
+    html +="            </div>"
     html +="        </div>"
     html +="    </div>"
     html +="</section>";
   $("#main_container").append(html);
 }
 
+function my_profil(){
+    $("#main_container").empty();
+    var html = "";
+    html+="{% block profil %}";
+    html+="<section id=\"profil\" display=None>";
+    html+="    <div class=\"container\">";
+    html+="        <div class=\"row\">";
+    html+="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+    html+="                  <div class=\"feature_header text-center\">";
+    html+="                      <h3 class=\"feature_title\">My Profil <b>Up</b></h3>";
+    html+="                      <div class=\"divider\"></div>";
+    html+="                  </div>";
+    html+="          </div>";
+    html+="        </div>";
+    html+="        <div class=\"row\">";
+    html+="          <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"{{ url_for('register') }}\">";
+    html+="              {{ form.hidden_tag() }}";
+
+
+    html+="              {% if form.username.errors %}";
+    html+="                  <div>";
+    html+="                      <ul class=\"list-group\">";
+    html+="                          {% for e in form.username.errors %}";
+    html+="                          <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                          {% endfor %}";
+    html+="                      </ul>";
+    html+="                  </div>";
+    html+="              {% endif %}";
+    html+="                  <div class={% if form.username.errors %}";
+    html+="                      \"form-group has-error\"";
+    html+="                      {% else %}";
+    html+="                      \"form-group\"";
+    html+="                      {% endif %}";
+    html+="                      >";
+    html+="                      <label for=\"username\" class=\"col-sm-2 control-label\">";
+    html+="                          {{ form.username.label }}";
+    html+="                      </label>";
+    html+="                      <div class=\"col-sm-10\">";
+    html+="                          {{ form.username(size=50, class_=\"form-control\", placeholder=\"Username\") }}";
+    html+="                      </div>";
+    html+="                  </div>";
+
+
+
+
+    html+="                {% if form.firstName.errors %}";
+    html+="                    <div>";
+    html+="                        <ul class=\"list-group\">";
+    html+="                            {% for e in form.firstName.errors %}";
+    html+="                            <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                            {% endfor %}";
+    html+="                        </ul>";
+    html+="                    </div>";
+    html+="                {% endif %}";
+    html+="                    <div class={% if form.firstName.errors %}";
+    html+="                        \"form-group has-error\"";
+    html+="                        {% else %}";
+    html+="                        \"form-group\"";
+    html+="                        {% endif %}";
+    html+="                        >";
+    html+="                        <label for=\"firstName\" class=\"col-sm-2 control-label\">";
+    html+="                            {{ form.firstName.label }}";
+    html+="                        </label>";
+    html+="                        <div class=\"col-sm-10\">";
+    html+="                            {{ form.firstName(size=50, class_=\"form-control\", placeholder=\"First Name\") }}";
+    html+="                        </div>";
+    html+="                    </div>";
+
+
+    html+="                  {% if form.lastName.errors %}";
+    html+="                      <div>";
+    html+="                          <ul class=\"list-group\">";
+    html+="                              {% for e in form.lastName.errors %}";
+    html+="                              <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                              {% endfor %}";
+    html+="                          </ul>";
+    html+="                      </div>";
+    html+="                  {% endif %}";
+    html+="                      <div class={% if form.lastName.errors %}";
+    html+="                          \"form-group has-error\"";
+    html+="                          {% else %}";
+    html+="                          \"form-group\"";
+    html+="                          {% endif %}";
+    html+="                          >";
+    html+="                          <label for=\"lastName\" class=\"col-sm-2 control-label\">";
+    html+="                              {{ form.lastName.label }}";
+    html+="                          </label>";
+    html+="                          <div class=\"col-sm-10\">";
+    html+="                              {{ form.lastName(size=50, class_=\"form-control\", placeholder=\"Last Name\") }}";
+    html+="                          </div>";
+    html+="                      </div>";
+
+
+    html+="                      {% if form.email.errors %}";
+    html+="                          <div>";
+    html+="                              <ul class=\"list-group\">";
+    html+="                                  {% for e in form.email.errors %}";
+    html+="                                  <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                                  {% endfor %}";
+    html+="                              </ul>";
+    html+="                          </div>";
+    html+="                      {% endif %}";
+    html+="                          <div class={% if form.email.errors %}";
+    html+="                              \"form-group has-error\"";
+    html+="                              {% else %}";
+    html+="                              \"form-group\"";
+    html+="                              {% endif %}";
+    html+="                              >";
+    html+="                              <label for=\"email\" class=\"col-sm-2 control-label\">";
+    html+="                                  {{ form.email.label }}";
+    html+="                              </label>";
+    html+="                              <div class=\"col-sm-10\">";
+    html+="                                  {{ form.email(size=50, class_=\"form-control\", placeholder=\"Email\") }}";
+    html+="                              </div>";
+    html+="                          </div>";
+
+
+    html+="                  {% if form.password.errors %}";
+    html+="                      <div>";
+    html+="                          <ul class=\"list-group\">";
+    html+="                              {% for e in form.password.errors %}";
+    html+="                              <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                              {% endfor %}";
+    html+="                          </ul>";
+    html+="                      </div>";
+    html+="                  {% endif %}";
+    html+="                  <div class={% if form.password.errors %}";
+    html+="                      \"form-group has-error\"";
+    html+="                      {% else %}";
+    html+="                      \"form-group\"";
+    html+="                      {% endif %}";
+    html+="                      >";
+    html+="                      <label for=\"password\" class=\"col-sm-2 control-label\">";
+    html+="                          {{ form.password.label }}";
+    html+="                      </label>";
+    html+="                      <div class=\"col-sm-10\">";
+    html+="                          {{ form.password(size=50, class_=\"form-control\", placeholder=\"Password\") }}";
+    html+="                      </div>";
+    html+="                  </div>";
+
+
+    html+="                  {% if form.confirm.errors %}";
+    html+="                      <div>";
+    html+="                          <ul class=\"list-group\">";
+    html+="                              {% for e in form.confirm.errors %}";
+    html+="                              <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                              {% endfor %}";
+    html+="                          </ul>";
+    html+="                      </div>";
+    html+="                  {% endif %}";
+    html+="                  <div class={% if form.confirm.errors %}";
+    html+="                      \"form-group has-error\"";
+    html+="                      {% else %}";
+    html+="                      \"form-group\"";
+    html+="                      {% endif %}";
+    html+="                      >";
+    html+="                      <label for=\"Repeat Password\" class=\"col-sm-2 control-label\">";
+    html+="                          {{ form.confirm.label }}";
+    html+="                      </label>";
+    html+="                      <div class=\"col-sm-10\">";
+    html+="                          {{ form.confirm(size=50, class_=\"form-control\", placeholder=\"Confirm Password\") }}";
+    html+="                      </div>";
+    html+="                  </div>";
+
+
+    html+="                  {% if form.desc.errors %}";
+    html+="                      <div>";
+    html+="                          <ul class=\"list-group\">";
+    html+="                              {% for e in form.desc.errors %}";
+    html+="                              <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                              {% endfor %}";
+    html+="                          </ul>";
+    html+="                      </div>";
+    html+="                  {% endif %}";
+    html+="                      <div class={% if form.desc.errors %}";
+    html+="                          \"form-group has-error\"";
+    html+="                          {% else %}";
+    html+="                          \"form-group\"";
+    html+="                          {% endif %}";
+    html+="                          >";
+    html+="                          <label for=\"desc\" class=\"col-sm-2 control-label\">";
+    html+="                              {{ form.desc.label }}";
+    html+="                          </label>";
+    html+="                          <div class=\"col-sm-10\">";
+    html+="                              {{ form.desc(size=50, class_=\"form-control\", placeholder=\"Description\") }}";
+    html+="                          </div>";
+    html+="                      </div>";
+
+    html+="                  {% if form.img.errors %}";
+    html+="                      <div>";
+    html+="                          <ul class=\"list-group\">";
+    html+="                              {% for e in form.img.errors %}";
+    html+="                              <li class=\"list-group-item list-group-item-danger\">{{ e }}</li>";
+    html+="                              {% endfor %}";
+    html+="                          </ul>";
+    html+="                      </div>";
+    html+="                  {% endif %}";
+    html+="                      <div class={% if form.img.errors %}";
+    html+="                          \"form-group has-error\"";
+    html+="                          {% else %}";
+    html+="                          \"form-group\"";
+    html+="                          {% endif %}";
+    html+="                          >";
+    html+="                          <label for=\"img\" class=\"col-sm-2 control-label\">";
+    html+="                              {{ form.img.label }}";
+    html+="                          </label>";
+    html+="                          <div class=\"col-sm-10\">";
+    html+="                              {{ form.img(size=50, class_=\"form-control\", placeholder=\"Picture\") }}";
+    html+="                          </div>";
+    html+="                      </div>";
+
+
+
+
+    html+="              {% if error %}";
+    html+="                  <div>";
+    html+="                      <ul class=\"list-group\">";
+    html+="                          <li class=\"list-group-item list-group-item-danger\">{{ error }}</li>";
+    html+="                      </ul>";
+    html+="                  </div>";
+    html+="              {% endif %}";
+    html+="          </form>";
+
+    html+="        </div>";
+    html+="</section>";
+    html+="{% endblock %}";
+    $("#main_container").append(html);
+}
 
 
 function display_register(){
@@ -133,7 +350,7 @@ function display_register(){
     html +="        <div class=\"row\">";
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-6 left\">"
-    html +="                <div class=\"\">"
+    html +="                <div class=\"left_contact\">"
     html +="                    <form action=\"role\">"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
@@ -145,19 +362,19 @@ function display_register(){
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"firstName\" placeholder=\"First Name\" id=\"firstName\" class=\"input-block\" value=\"\" type=\"firstName\">"
-    html +="                            <span class=\"form-icon fa fa-headphones \"></span>"
+    html +="                            <span class=\"form-icon fa fa-hand-spock-o\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"lastName\" placeholder=\"Last Name\" id=\"lastName\" class=\"input-block\" value=\"\" type=\"lastName\">"
-    html +="                            <span class=\"form-icon fa fa-headphones \"></span>"
+    html +="                            <span class=\"form-icon fa fa-hand-paper\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
     html +="                            <span class=\"form-icon fa fa-envelope\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"picture\" placeholder=\"Picture URL\" id=\"picture\" class=\"input-block\" value=\"\" type=\"picture\">"
-    html +="                            <span class=\"form-icon fa fa-picture-o \"></span>"
+    html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
+    html +="                            <span class=\"form-icon fa fa-envelope\"></span>"
     html +="                        </div>"
     html +="                    </form>"
     html +="                </div>"
@@ -165,12 +382,12 @@ function display_register(){
     html +=""
     html +="            <div class=\"col-md-6 right\">"
     html +="                <div class=\"form-level\">"
-    html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"15\" class=\"textarea-block\" placeholder=\"Description\"></textarea>"
+    html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"10\" class=\"textarea-block\" placeholder=\"Description\"></textarea>"
     html +="                    <span class=\"form-icon fa fa-pencil\"></span>"
     html +="                </div>"
     html +="            </div>"
     html +="            <div class=\"col-md-12 text-center\">"
-    html +="                <button class=\"btn btn-main featured\">Become an Eatman</button>"
+    html +="                <button class=\"btn btn-main featured\">Submit Now</button>"
     html +="            </div>"
     html +="        </div>"
     html +="    </div>"
