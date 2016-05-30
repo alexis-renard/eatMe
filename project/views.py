@@ -345,19 +345,11 @@ def category_route(name=None):
         ### SEARCH ###
         ##############
 
-
-@app.route("/addcook/search/<string:query>",methods=("GET",))
-def searchcook(query):
+@login_required
+@app.route("/addplates/search",methods=("POST",))
+@app.route("/addcook/search",methods=("POST",))
+def searchcook():
     datas = request.get_json()
-    a=datas.get("search")
-    b=get_food_by_name(a)
-    return  jsonify(state=True, results=b),200
-
-
-
-@app.route("/addplates/search/<string:query>",methods=("GET",))
-def searchplates(query):
-    datas = request.get_json()
-    a=datas.get("search")
-    b=get_food_by_name(a)
-    return  jsonify(state=True, results=b),200
+    query = datas.get('search')
+    dico_food=get_food_by_name(query)
+    return  jsonify(state=True, results=dico_food),200
