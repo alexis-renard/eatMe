@@ -182,6 +182,54 @@ def add_user_loved():
                 ## plates ##
                 ############
 
+@app.route("/user/profil", methods=("PUT",))
+def user_modif():
+    user=current_user
+    datas = request.get_json()
+    username = datas.get("username",'')
+    password = datas.get("password",'').encode('utf-8')
+    firstName = datas.get("firstName",'')
+    lastName = datas.get("lastName",'')
+    email = datas.get("email",'')
+    desc = datas.get("desc",'')
+    m = sha256()
+    m.update(password)
+    password = m.hexdigest()
+    if username!=user.username:
+        if username!='':
+            if get_user(username):
+                user.username=username
+            else:
+                return jsonify(state=False, error="username already taken"+username+user.username),401
+        else:
+            return jsonify(state=False, error="username can't be empty"),400
+    if password!=user.password:
+        if password!='':
+            user.password=password
+        else:
+            return jsonify(state=False, error="password can't be empty"),400
+    if firstName!=user.firstName:
+        if firstName!='':
+            user.firstName=firstName
+        else:
+            return jsonify(state=False, error="firstName can't be empty"),400
+    if lastName!=user.lastName:
+        if lastName!='':
+            user.lastName=lastName
+        else:
+            return jsonify(state=False, error="lastName can't be empty"),400
+    if email!=user.email:
+        if email!='':
+            user.email=email
+        else:
+            return jsonify(state=False, error="email can't be empty"),400
+    if desc!=user.desc:
+        if desc!='':
+            user.desc=desc
+        else:
+            return jsonify(state=False, error="Description can't be empty"),400
+    return jsonify(state=True), 200
+
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
@@ -349,6 +397,7 @@ def category_route(name=None):
 @app.route("/addplates/search",methods=("POST",))
 @app.route("/addcook/search",methods=("POST",))
 def searchcook():
+    b=get_food_by_name(query)
     datas = request.get_json()
     query = datas.get('search')
     dico_food=get_food_by_name(query)

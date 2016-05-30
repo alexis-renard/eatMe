@@ -178,127 +178,57 @@ def add_user_loved():
     else:
         return jsonify(state=False, error="user already loved")
 
-<<<<<<< HEAD
                 ############
                 ## plates ##
                 ############
-=======
-            ############
-            ### food ###
-            ############
 
-@app.route("/logout/")
-def logout():
-	logout_user()
-	return redirect(url_for('home'))
-
-            ###############
-            ### Matches ###
-            ###############
-
-@login_required
-@app.route("/matches", methods=("GET",))
-def matches_route():
-    matches = current_user.sm = sha256()
-        m.update(password)
-        password = m.hexdigest()erialize()["matched"]
-    user_dict = {}
-    for user in matches.values():
-        user_dict[user]=get_user(user).serialize()
-    return jsonify(matches=user_dict)
-
-            ###############
-            ####  USER ####
-            ###############
-
-@login_required
-@app.route("/user", methods=("PUT",))
+@app.route("/user/profil", methods=("PUT",))
+def user_modif():
     user=current_user
     datas = request.get_json()
-    username = datas.get("username")
-    password = datas.get("password").encode('utf-8')
-    firstName = datas.get("firstName")
-    lastName = datas.get("lastName")
-    email = datas.get("email")
-    desc = datas.get("desc")
+    username = datas.get("username",'')
+    password = datas.get("password",'').encode('utf-8')
+    firstName = datas.get("firstName",'')
+    lastName = datas.get("lastName",'')
+    email = datas.get("email",'')
+    desc = datas.get("desc",'')
     m = sha256()
     m.update(password)
     password = m.hexdigest()
     if username!=user.username:
-        if username!="":
+        if username!='':
             if get_user(username):
                 user.username=username
             else:
-                return jsonify(state=False, error="username already taken"),401
+                return jsonify(state=False, error="username already taken"+username+user.username),401
         else:
             return jsonify(state=False, error="username can't be empty"),400
     if password!=user.password:
-        if password!="":
+        if password!='':
             user.password=password
         else:
             return jsonify(state=False, error="password can't be empty"),400
     if firstName!=user.firstName:
-        if firstName!="":
+        if firstName!='':
             user.firstName=firstName
         else:
             return jsonify(state=False, error="firstName can't be empty"),400
     if lastName!=user.lastName:
-        if lastName!="":
+        if lastName!='':
             user.lastName=lastName
         else:
             return jsonify(state=False, error="lastName can't be empty"),400
     if email!=user.email:
-        if email!="":
+        if email!='':
             user.email=email
         else:
             return jsonify(state=False, error="email can't be empty"),400
     if desc!=user.desc:
-        if desc!="":
+        if desc!='':
             user.desc=desc
         else:
-            return jsonify(state=False, error="desc can't be empty"),400
+            return jsonify(state=False, error="Description can't be empty"),400
 
-    return jsonify(state=True),200
-
-            ##############
-            ## myplates ##
-            ##############
-
-# @app.route("/")
-# def home():
-#     if current_user.is_authenticated:
-#         #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
-#         print('----propositions---wpouhahahahahahahao-')
-#         print(get_propositions_user(current_user.username))
-#         return render_template(
-#             "index.html",
-#             propositions=get_propositions_user(current_user.username)
-#         )
-#     else:
-#         return render_template(
-#             "index.html",
-#         )
-
-
-
-@app.route("/")
-def home():
-    return render_template(
-        "index.html",
-    )
-
-
-
-@app.route("/home_user")
-def home_user():
-    # dico = get_propositions_user(current_user.username)
-    # ICook   = dico["ICook"]
-    # HeCooks = dico["HeCooks"]
-    # WeLike  = dico["WeLike"]
-    # WeCook  = dico["WeCook"]
-    return jsonify(propositions=get_propositions_user(current_user.username))
-
->>>>>>> b9e24972e01c9bbfd6fe6d5548cd85bd387b4ca5
 
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
@@ -463,19 +393,26 @@ def category_route(name=None):
         ### SEARCH ###
         ##############
 
+<<<<<<< HEAD
+@login_required
+@app.route("/addplates/search",methods=("POST",))
+@app.route("/addcook/search",methods=("POST",))
+def searchcook():
+    datas = request.get_json()
+    query = datas.get('search')
+    dico_food=get_food_by_name(query)
+    return  jsonify(state=True, results=dico_food),200
+=======
 
 @app.route("/addcook/search/<string:query>",methods=("GET",))
 def searchcook(query):
-    datas = request.get_json()
-    a=datas.get("search")
-    b=get_food_by_name(a)
+    b=get_food_by_name(query)
     return  jsonify(state=True, results=b),200
 
 
 
 @app.route("/addplates/search/<string:query>",methods=("GET",))
 def searchplates(query):
-    datas = request.get_json()
-    a=datas.get("search")
-    b=get_food_by_name(a)
+    b=get_food_by_name(query)
     return  jsonify(state=True, results=b),200
+>>>>>>> 16fe207d763f4037e5093b089bcb7d14a2854bb6
