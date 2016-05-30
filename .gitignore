@@ -4,3 +4,4 @@
 **/__pycache__/
 **/myapp/static/img/
 **/*.pyc
+**/*.orig*

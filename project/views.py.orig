@@ -178,44 +178,11 @@ def add_user_loved():
     else:
         return jsonify(state=False, error="user already loved")
 
-<<<<<<< HEAD
-            ############
-            ### food ###
-            ############
-
-@app.route("/logout/")
-def logout():
-	logout_user()
-	return redirect(url_for('home'))
-
-            ###############
-            ### Matches ###
-            ###############
-
-@login_required
-@app.route("/matches", methods=("GET",))
-def matches_route():
-    matches = current_user.sm = sha256()
-    m.update(password)
-    password = m.hexdigest().serialize()["matched"]
-    user_dict = {}
-    for user in matches.values():
-        user_dict[user]=get_user(user).serialize()
-    return jsonify(matches=user_dict)
-
-            ###############
-            ####  USER ####
-            ###############
-
-@login_required
-@app.route("/user", methods=("PUT",))
-=======
                 ############
                 ## plates ##
                 ############
 
 @app.route("/user/profil", methods=("PUT",))
->>>>>>> 2c4cc570787ce1b26abe1fe254c1d1425487fbd6
 def user_modif():
     user=current_user
     datas = request.get_json()
@@ -258,6 +225,16 @@ def user_modif():
             return jsonify(state=False, error="email can't be empty"),400
     if desc!=user.desc:
         if desc!='':
+            user.desc=desc
+        else:
+            return jsonify(state=False, error="Description can't be empty"),400
+<<<<<<< HEAD
+    return jsonify(state=True),200
+
+=======
+    return jsonify(state=True), 200
+>>>>>>> 9a166ba120b5636177ddc0a89d328322f45f2d48
+
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
@@ -421,15 +398,28 @@ def category_route(name=None):
         ### SEARCH ###
         ##############
 
+<<<<<<< HEAD
 
-@app.route("/addcook/search/<string:query>",methods=("GET",))
-def searchcook(query):
-    b=get_food_by_name(query)
-    return  jsonify(state=True, results=b),200
-
-
+@app.route("/addcook/search",methods=("GET",))
+def searchcook():
+    print('COUCOU')
+    datas = request.get_json()
+    query = datas.get("query",'')
+    print('SQDFUHQSDKFHQSDKFquery')
+    print(query)
+    dico_food=get_food_by_name(query)
+    return  jsonify(state=True, results=dico_food),200
 
 @app.route("/addplates/search/<string:query>",methods=("GET",))
 def searchplates(query):
+=======
+@login_required
+@app.route("/addplates/search",methods=("POST",))
+@app.route("/addcook/search",methods=("POST",))
+def searchcook():
     b=get_food_by_name(query)
-    return  jsonify(state=True, results=b),200
+    datas = request.get_json()
+    query = datas.get('search')
+>>>>>>> 9a166ba120b5636177ddc0a89d328322f45f2d48
+    dico_food=get_food_by_name(query)
+    return  jsonify(state=True, results=dico_food),200

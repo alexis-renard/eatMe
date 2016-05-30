@@ -230,7 +230,6 @@ def user_modif():
             return jsonify(state=False, error="Description can't be empty"),400
     return jsonify(state=True),200
 
-
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
@@ -394,18 +393,11 @@ def category_route(name=None):
         ### SEARCH ###
         ##############
 
-
-@app.route("/addcook/search",methods=("GET",))
+@login_required
+@app.route("/addplates/search",methods=("POST",))
+@app.route("/addcook/search",methods=("POST",))
 def searchcook():
-    print('COUCOU')
     datas = request.get_json()
-    query = datas.get("query",'')
-    print('SQDFUHQSDKFHQSDKFquery')
-    print(query)
-    dico_food=get_food_by_name(query)
-    return  jsonify(state=True, results=dico_food),200
-
-@app.route("/addplates/search/<string:query>",methods=("GET",))
-def searchplates(query):
+    query = datas.get('search')
     dico_food=get_food_by_name(query)
     return  jsonify(state=True, results=dico_food),200
