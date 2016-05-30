@@ -9,7 +9,6 @@ from hashlib import sha256
 from flask.ext.login import login_user, current_user, logout_user, login_required
 import copy #Importation de copy pour gérer les pointeurs lors de la suppression d'albums
 
-
 @app.before_request
 def before_request():
     g.user = current_user
@@ -40,8 +39,8 @@ def home_user():
 @app.route("/user", methods=("POST",))
 def login():
     datas = request.get_json()
-    username = datas.get('username');
-    password = datas.get('password');
+    username = datas.get('username')
+    password = datas.get('password').encode('utf-8')
     user = get_user(username)
     if (user is not None):
         m = sha256()
