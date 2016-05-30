@@ -5,21 +5,6 @@ $(document).ready(function() {
     $("#register").click(function() {
           display_register();
       });
-    $("#form_login").submit(function(e) {
-        e.preventDefault();
-        var datas = JSON.stringify($("#form_login").serializeArray());
-        $.ajax({
-          type: "POST",
-          url: "/user",
-          data: datas,
-          success: function(){
-              window.location.href = "/";
-          },
-          dataType: "json",
-          contentType : "application/json"
-        });
-    });
-
 });
 
 /*
@@ -90,8 +75,8 @@ function display_login(){
     html +="    <div class=\"row\">"
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-12 text-center\">"
-    html +="                <div class=\"\">"
-    html +="                    <form id=\"form_login\"action=\"role\" action=\"/user\" method=\"POST\">"
+    html +="                <div class=\"center_contact\">"
+    html +="                    <form action=\"role\">"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
     html +="                            <span class=\"form-icon fa fa-user\"></span>"
@@ -99,18 +84,22 @@ function display_login(){
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
     html +="                            <span class=\"form-icon fa fa-key \"></span>"
-    html +="                        </div>"
-    html +="                        <input type=\"submit\" class=\"btn btn-main featured\" value=\"Let's do eat\">"
     html +="                    </form>"
     html +="                </div>"
     html +="            </div>"
     html +=""
+    html +="            <div class=\"col-md-12 text-center\">"
+    html +="                <button class=\"btn btn-main featured\">Let's eat</button>"
+    html +="            </div>"
     html +="        </div>"
     html +="    </div>"
     html +="</section>";
   $("#main_container").append(html);
 }
 
+function my_profil(){
+  $("#profil").show;
+}
 
 
 function display_register(){
@@ -130,7 +119,7 @@ function display_register(){
     html +="        <div class=\"row\">";
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-6 left\">"
-    html +="                <div class=\"\">"
+    html +="                <div class=\"left_contact\">"
     html +="                    <form action=\"role\">"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
@@ -142,19 +131,19 @@ function display_register(){
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"firstName\" placeholder=\"First Name\" id=\"firstName\" class=\"input-block\" value=\"\" type=\"firstName\">"
-    html +="                            <span class=\"form-icon fa fa-headphones \"></span>"
+    html +="                            <span class=\"form-icon fa fa-hand-spock-o\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"lastName\" placeholder=\"Last Name\" id=\"lastName\" class=\"input-block\" value=\"\" type=\"lastName\">"
-    html +="                            <span class=\"form-icon fa fa-headphones \"></span>"
+    html +="                            <span class=\"form-icon fa fa-hand-paper\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
     html +="                            <span class=\"form-icon fa fa-envelope\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"picture\" placeholder=\"Picture URL\" id=\"picture\" class=\"input-block\" value=\"\" type=\"picture\">"
-    html +="                            <span class=\"form-icon fa fa-picture-o \"></span>"
+    html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
+    html +="                            <span class=\"form-icon fa fa-envelope\"></span>"
     html +="                        </div>"
     html +="                    </form>"
     html +="                </div>"
@@ -162,12 +151,12 @@ function display_register(){
     html +=""
     html +="            <div class=\"col-md-6 right\">"
     html +="                <div class=\"form-level\">"
-    html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"15\" class=\"textarea-block\" placeholder=\"Description\"></textarea>"
+    html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"10\" class=\"textarea-block\" placeholder=\"Description\"></textarea>"
     html +="                    <span class=\"form-icon fa fa-pencil\"></span>"
     html +="                </div>"
     html +="            </div>"
     html +="            <div class=\"col-md-12 text-center\">"
-    html +="                <button class=\"btn btn-main featured\">Become an Eatman</button>"
+    html +="                <button class=\"btn btn-main featured\">Submit Now</button>"
     html +="            </div>"
     html +="        </div>"
     html +="    </div>"
