@@ -135,12 +135,66 @@ def logout():
 @login_required
 @app.route("/matches", methods=("GET",))
 def matches_route():
-    matches = current_user.serialize()["matched"]
+    matches = current_user.sm = sha256()
+        m.update(password)
+        password = m.hexdigest()erialize()["matched"]
     user_dict = {}
     for user in matches.values():
         user_dict[user]=get_user(user).serialize()
     return jsonify(matches=user_dict)
 
+            ###############
+            ####  USER ####
+            ###############
+
+@login_required
+@app.route("/user", methods=("PUT",))
+    user=current_user
+    datas = request.get_json()
+    username = datas.get("username")
+    password = datas.get("password").encode('utf-8')
+    firstName = datas.get("firstName")
+    lastName = datas.get("lastName")
+    email = datas.get("email")
+    desc = datas.get("desc")
+    m = sha256()
+    m.update(password)
+    password = m.hexdigest()
+    if username!=user.username:
+        if username!="":
+            if get_user(username):
+                user.username=username
+            else:
+                return jsonify(state=False, error="username already taken")
+        else:
+            return jsonify(state=False, error="username can't be empty")
+    if password!=user.password:
+        if password!="":
+            user.password=password
+        else:
+            return jsonify(state=False, error="password can't be empty")
+    if firstName!=user.firstName:
+        if firstName!="":
+            user.firstName=firstName
+        else:
+            return jsonify(state=False, error="firstName can't be empty")
+    if lastName!=user.lastName:
+        if lastName!="":
+            user.lastName=lastName
+        else:
+            return jsonify(state=False, error="lastName can't be empty")
+    if email!=user.email:
+        if email!="":
+            user.email=email
+        else:
+            return jsonify(state=False, error="email can't be empty")
+    if desc!=user.desc:
+        if desc!="":
+            user.desc=desc
+        else:
+            return jsonify(state=False, error="desc can't be empty")
+
+    return jsonify(state=True)
 
             ##############
             ## myplates ##
@@ -344,27 +398,23 @@ def categories_route():
 #     else:
 #         return jsonify(state=False)
 
+        ##############
+        ### SEARCH ###
+        ##############
+
+
 @app.route("/addcook/search/<string:query>",methods=("GET",))
 def searchcook(query):
-    r=SearchForm()
-    if r.validate_on_submit():
-        a=r.element.data
-        b=get_food_by_name(a)
-        return render_template(
-            "addcook.html",
-            results=b,
-            form=r,
-            )
+    datas = request.get_json()
+    a=datas.get("search")
+    b=get_food_by_name(a)
+    return  jsonify(state=True, results=b)
+
 
 
 @app.route("/addplates/search/<string:query>",methods=("GET",))
 def searchplates(query):
-    r=SearchForm()
-    if r.validate_on_submit():
-        a=r.element.data
-        b=get_food_by_name(a)
-        return render_template(
-            "addplates.html",
-            results=b,
-            form=r,
-            )
+    datas = request.get_json()
+    a=datas.get("search")
+    b=get_food_by_name(a)
+    return  jsonify(state=True, results=b)
