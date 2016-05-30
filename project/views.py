@@ -165,36 +165,36 @@ def matches_route():
             if get_user(username):
                 user.username=username
             else:
-                return jsonify(state=False, error="username already taken")
+                return jsonify(state=False, error="username already taken"),401
         else:
-            return jsonify(state=False, error="username can't be empty")
+            return jsonify(state=False, error="username can't be empty"),400
     if password!=user.password:
         if password!="":
             user.password=password
         else:
-            return jsonify(state=False, error="password can't be empty")
+            return jsonify(state=False, error="password can't be empty"),400
     if firstName!=user.firstName:
         if firstName!="":
             user.firstName=firstName
         else:
-            return jsonify(state=False, error="firstName can't be empty")
+            return jsonify(state=False, error="firstName can't be empty"),400
     if lastName!=user.lastName:
         if lastName!="":
             user.lastName=lastName
         else:
-            return jsonify(state=False, error="lastName can't be empty")
+            return jsonify(state=False, error="lastName can't be empty"),400
     if email!=user.email:
         if email!="":
             user.email=email
         else:
-            return jsonify(state=False, error="email can't be empty")
+            return jsonify(state=False, error="email can't be empty"),400
     if desc!=user.desc:
         if desc!="":
             user.desc=desc
         else:
-            return jsonify(state=False, error="desc can't be empty")
+            return jsonify(state=False, error="desc can't be empty"),400
 
-    return jsonify(state=True)
+    return jsonify(state=True),200
 
             ##############
             ## myplates ##
@@ -408,7 +408,7 @@ def searchcook(query):
     datas = request.get_json()
     a=datas.get("search")
     b=get_food_by_name(a)
-    return  jsonify(state=True, results=b)
+    return  jsonify(state=True, results=b),200
 
 
 
@@ -417,4 +417,4 @@ def searchplates(query):
     datas = request.get_json()
     a=datas.get("search")
     b=get_food_by_name(a)
-    return  jsonify(state=True, results=b)
+    return  jsonify(state=True, results=b),200
