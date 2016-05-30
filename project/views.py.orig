@@ -178,10 +178,36 @@ def add_user_loved():
     else:
         return jsonify(state=False, error="user already loved")
 
-                ############
-                ## plates ##
-                ############
+<<<<<<< HEAD
+            ############
+            ### food ###
+            ############
 
+@app.route("/logout/")
+def logout():
+	logout_user()
+	return redirect(url_for('home'))
+
+            ###############
+            ### Matches ###
+            ###############
+
+@login_required
+@app.route("/matches", methods=("GET",))
+def matches_route():
+    matches = current_user.sm = sha256()
+    m.update(password)
+    password = m.hexdigest().serialize()["matched"]
+    user_dict = {}
+    for user in matches.values():
+        user_dict[user]=get_user(user).serialize()
+    return jsonify(matches=user_dict)
+
+            ###############
+            ####  USER ####
+            ###############
+
+@login_required
 @app.route("/user/profil", methods=("PUT",))
 def user_modif():
     user=current_user
@@ -225,6 +251,56 @@ def user_modif():
             return jsonify(state=False, error="email can't be empty"),400
     if desc!=user.desc:
         if desc!='':
+            user.desc=desc
+        else:
+            return jsonify(state=False, error="desc can't be empty"),400
+
+    return jsonify(state=True),200
+
+            ##############
+            ## myplates ##
+            ##############
+
+# @app.route("/")
+# def home():
+#     if current_user.is_authenticated:
+#         #return jsonify(propositions=get_propositions_user(current_user.username).serialize())
+#         print('----propositions---wpouhahahahahahahao-')
+#         print(get_propositions_user(current_user.username))
+#         return render_template(
+#             "index.html",
+#             propositions=get_propositions_user(current_user.username)
+#         )
+#     else:
+#         return render_template(
+#             "index.html",
+#         )
+
+
+
+@app.route("/")
+def home():
+    return render_template(
+        "index.html",
+    )
+
+
+
+@app.route("/home_user")
+def home_user():
+    # dico = get_propositions_user(current_user.username)
+    # ICook   = dico["ICook"]
+    # HeCooks = dico["HeCooks"]
+    # WeLike  = dico["WeLike"]
+    # WeCook  = dico["WeCook"]
+    return jsonify(propositions=get_propositions_user(current_user.username))
+
+=======
+                ############
+                ## plates ##
+                ############
+>>>>>>> 736c249c07243963270cffe8a7a6fe194a2bef00
+
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
