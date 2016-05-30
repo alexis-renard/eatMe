@@ -12,7 +12,9 @@ $(document).ready(function() {
           type: "POST",
           url: "/user",
           data: datas,
-          success: function(){},
+          success: function(){
+              window.location.href = "/";
+          },
           dataType: "json",
           contentType : "application/json"
         });
