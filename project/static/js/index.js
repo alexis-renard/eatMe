@@ -5,6 +5,19 @@ $(document).ready(function() {
     $("#register").click(function() {
           display_register();
       });
+    $("#form_login").submit(function(e) {
+        e.preventDefault();
+        var datas = JSON.stringify($("#form_login").serializeArray());
+        $.ajax({
+          type: "POST",
+          url: "/user",
+          data: datas,
+          success: function(){},
+          dataType: "json",
+          contentType : "application/json"
+        });
+    });
+
 });
 
 /*
@@ -76,7 +89,7 @@ function display_login(){
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-12 text-center\">"
     html +="                <div class=\"\">"
-    html +="                    <form action=\"role\">"
+    html +="                    <form id=\"form_login\"action=\"role\" action=\"/user\" method=\"POST\">"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
     html +="                            <span class=\"form-icon fa fa-user\"></span>"
@@ -84,13 +97,12 @@ function display_login(){
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
     html +="                            <span class=\"form-icon fa fa-key \"></span>"
+    html +="                        </div>"
+    html +="                        <input type=\"submit\" class=\"btn btn-main featured\" value=\"Let's do eat\">"
     html +="                    </form>"
     html +="                </div>"
     html +="            </div>"
     html +=""
-    html +="            <div class=\"col-md-12 text-center\">"
-    html +="                <button class=\"btn btn-main featured\">Let's eat</button>"
-    html +="            </div>"
     html +="        </div>"
     html +="    </div>"
     html +="</section>";

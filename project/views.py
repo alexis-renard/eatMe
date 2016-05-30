@@ -39,8 +39,9 @@ def home_user():
 
 @app.route("/user", methods=("POST",))
 def login():
-    username = request.form["username"]
-    password = request.form["password"].encode('utf-8')
+    datas = request.get_json()
+    username = datas.get('username');
+    password = datas.get('password');
     user = get_user(username)
     if (user is not None):
         m = sha256()
