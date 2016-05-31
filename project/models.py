@@ -128,7 +128,7 @@ def get_propositions_user(username):
     propositions = {}
     for user in get_users():
         if user.username!=currentuser.username:
-            if (user.username not in currentuser.loved):
+            if (user not in currentuser.loved):
                 commun_plates={}
                 commun_plates["User"]=[user.serialize()]
                 commun_plates["ICook"]=[]
