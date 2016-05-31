@@ -27,8 +27,9 @@ def home():
     return render_template(
         "index.html",
     )
-
-@app.route("/home_user")
+    
+@login_required
+@app.route("/home_user", methods=('GET',))
 def home_user():
     return jsonify(propositions=get_propositions_user(current_user.username))
 
@@ -183,6 +184,11 @@ def add_user_loved():
                 ## plates ##
                 ############
 
+@app.route("/user/profil", methods=("GET",))
+def get_myprofil():
+    user = current_user.serialize()
+    return jsonify(state=True, user=user)
+
 @app.route("/user/profil", methods=("PUT",))
 def user_modif():
     user=current_user
@@ -207,8 +213,6 @@ def user_modif():
     if password!=user.password:
         if password!='':
             user.password=password
-        else:
-            return jsonify(state=False, error="password can't be empty"),400
     if firstName!=user.firstName:
         if firstName!='':
             user.firstName=firstName
