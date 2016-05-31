@@ -61,6 +61,8 @@ $(document).ready(function() {
 
  function bindings(){
    $("#login_form").bind("submit", post_login);
+   $("#register_form").bind("submit", post_register);
+
    $("#login").click(function() {
        display_login();
    });
@@ -80,8 +82,8 @@ $(document).ready(function() {
          e.preventDefault();
          var dict={
               username: $('input[id="username"]').val(),
-              password: $('input[id="password"]').val()
-         };
+              password: $('input[id="password"]').val(),
+          };
          var datas=JSON.stringify(dict);
          console.log("test");
          // test form
@@ -90,12 +92,12 @@ $(document).ready(function() {
                 type: "POST",
                 contentType:"application/json",
                 data: datas,
-                success: function (json) {
+                success: function(json){
                     display_home();
-                },
+                }
             });
-            bindings();
-            return false;
+        bindings();
+        return false;
      });
  }
 
@@ -118,9 +120,6 @@ function display_login(){
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-12 text-center\">"
     html +="                <div class=\"center_contact\">"
-    html +="                    <form id=\"login_form\">"
-    html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
     html +="                            <span class=\"form-icon fa fa-user\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
@@ -134,9 +133,104 @@ function display_login(){
     html +="        </div>"
     html +="    </div>"
     html +="</section>";
-  $("#main_container").append(html);
-  post_login();
+    $("#main_container").empty();
 }
+
+
+
+function post_register(){
+    $("#register_form").submit(function(e){
+        e.preventDefault();
+        var dict={
+             username: $('input[id="username"]').val(),
+             password: $('input[id="password"]').val(),
+             firstName: $('input[id="firstName"]').val(),
+             lastName: $('input[id="lastName"]').val(),
+             email: $('input[id="email"]').val(),
+             picture: $('input[id="picture"]').val(),
+             desc: $('input[id="desc"]').val()
+        };
+        var datas=JSON.stringify(dict);
+        console.log("test");
+        $.ajax({
+               url: "/user",
+               type: "PUT",
+               contentType:"application/json",
+               data: datas,
+               success: function(json){
+                   display_home();
+               }
+           });
+       bindings();
+       return false;
+    });
+}
+
+function display_register(){
+    $("#main_container").empty();
+    var html = "";
+    html +="<section id=\"contact\">";
+    html +="    <div class=\"container\">";
+    html +="        <div class=\"row\">";
+    html +="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+    html +="                  <div class=\"feature_header text-center\">";
+    html +="                      <h3 class=\"feature_title\">Sign <b>up</b></h3>";
+    html +="                      <h4 class=\"feature_sub\">Fresh meat is near...</h4>";
+    html +="                      <div class=\"divider\"></div>";
+    html +="                  </div>";
+    html +="          </div>";
+    html +="        </div>";
+    html +="        <div class=\"row\">";
+    html +="         <div class=\"contact_full\">"
+    html +="            <div class=\"col-md-6 left\">"
+    html +="                <div class=\"left_contact\">"
+    html +="                    <form id=\"register_form\">"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
+    html +="                            <span class=\"form-icon fa fa-user\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
+    html +="                            <span class=\"form-icon fa fa-key\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"firstName\" placeholder=\"First Name\" id=\"firstName\" class=\"input-block\" value=\"\" type=\"firstName\">"
+    html +="                            <span class=\"form-icon fa fa-hand-o-left\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"lastName\" placeholder=\"Last Name\" id=\"lastName\" class=\"input-block\" value=\"\" type=\"lastName\">"
+    html +="                            <span class=\"form-icon fa fa-hand-o-right\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
+    html +="                            <span class=\"form-icon fa fa-envelope\"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"picture\" placeholder=\"Picture\" id=\"picture\" class=\"input-block\" value=\"\" type=\"picture\">"
+    html +="                            <span class=\"form-icon fa fa-picture-o \"></span>"
+    html +="                        </div>"
+    html +="                        <input id=\"register_submit\"type=\"submit\" value=\"Time to Eat\" class=\"btn btn-main featured\">"
+    html +="                    </form>"
+    html +="                </div>"
+    html +="            </div>"
+    html +=""
+    html +="            <div class=\"col-md-6 right\">"
+    html +="                <div class=\"form-level\">"
+    html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"10\" class=\"textarea-block\" placeholder=\"Description\"></textarea>"
+    html +="                    <span class=\"form-icon fa fa-pencil\"></span>"
+    html +="                </div>"
+    html +="            </div>"
+    html +="        </div>"
+    html +="    </div>"
+    html +="</section>";
+    $("#main_container").append(html);
+    post_register();
+}
+
+
+
+
+
 
 function my_profil(){
     $("#main_container").empty();
@@ -366,70 +460,6 @@ function my_profil(){
     html+="{% endblock %}";
     $("#main_container").append(html);
 }
-
-
-function display_register(){
-    $("#main_container").empty();
-    var html = "";
-    html +="<section id=\"contact\">";
-    html +="    <div class=\"container\">";
-    html +="        <div class=\"row\">";
-    html +="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
-    html +="                  <div class=\"feature_header text-center\">";
-    html +="                      <h3 class=\"feature_title\">Sign <b>up</b></h3>";
-    html +="                      <h4 class=\"feature_sub\">Fresh meat is near...</h4>";
-    html +="                      <div class=\"divider\"></div>";
-    html +="                  </div>";
-    html +="          </div>";
-    html +="        </div>";
-    html +="        <div class=\"row\">";
-    html +="         <div class=\"contact_full\">"
-    html +="            <div class=\"col-md-6 left\">"
-    html +="                <div class=\"left_contact\">"
-    html +="                    <form action=\"role\">"
-    html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
-    html +="                            <span class=\"form-icon fa fa-user\"></span>"
-    html +="                        </div>"
-    html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
-    html +="                            <span class=\"form-icon fa fa-key\"></span>"
-    html +="                        </div>"
-    html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"firstName\" placeholder=\"First Name\" id=\"firstName\" class=\"input-block\" value=\"\" type=\"firstName\">"
-    html +="                            <span class=\"form-icon fa fa-hand-o-left\"></span>"
-    html +="                        </div>"
-    html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"lastName\" placeholder=\"Last Name\" id=\"lastName\" class=\"input-block\" value=\"\" type=\"lastName\">"
-    html +="                            <span class=\"form-icon fa fa-hand-o-right\"></span>"
-    html +="                        </div>"
-    html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
-    html +="                            <span class=\"form-icon fa fa-envelope\"></span>"
-    html +="                        </div>"
-    html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"picture\" placeholder=\"Picture\" id=\"picture\" class=\"input-block\" value=\"\" type=\"picture\">"
-    html +="                            <span class=\"form-icon fa fa-picture-o \"></span>"
-    html +="                        </div>"
-    html +="                    </form>"
-    html +="                </div>"
-    html +="            </div>"
-    html +=""
-    html +="            <div class=\"col-md-6 right\">"
-    html +="                <div class=\"form-level\">"
-    html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"10\" class=\"textarea-block\" placeholder=\"Description\"></textarea>"
-    html +="                    <span class=\"form-icon fa fa-pencil\"></span>"
-    html +="                </div>"
-    html +="            </div>"
-    html +="            <div class=\"col-md-12 text-center\">"
-    html +="                <button class=\"btn btn-main featured\">Submit Now</button>"
-    html +="            </div>"
-    html +="        </div>"
-    html +="    </div>"
-    html +="</section>";
-    $("#main_container").append(html);
-}
-
 
 function display_home(){
     $("#main_container").empty();

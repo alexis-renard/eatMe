@@ -58,6 +58,7 @@ def register():
     lastName = datas.get("lastName")
     email = datas.get("email")
     desc = datas.get("desc")
+    img = datas.get("picture")
     user = get_user(username)
     if user is None:
         m = sha256()
@@ -68,14 +69,14 @@ def register():
             lastName=lastName,
             password=m.hexdigest(),
             email=email,
-            img="" ,
+            img=img,
             desc=desc,
             foodLevel=0)
         db.session.add(u)
         db.session.commit()
         login_user(u)
-        return jsonify(register="success"),200
-    return jsonify(register="username already taken"),401
+        return jsonify(state="success"),200
+    return jsonify(state="username already taken"),401
 
 
 @login_required
