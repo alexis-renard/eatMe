@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    bindings();
     $("#login").click(function() {
         display_login();
     });
@@ -23,15 +24,10 @@ $(document).ready(function() {
  //     data {
  //       user:user
  //     },
- //     success : function(json){
- //       html = "<ul>";
  //       $.each(json.user, function(index,element)){
  //         html += "<li>" + element.name +"</li>"
  //       }
- //       hml +="</ul>"
- //     }
- //   })
- // }
+ //       hml
  //
  // function display_index() {
  //   $.ajax({
@@ -43,10 +39,10 @@ $(document).ready(function() {
  //     success : function(json){
  //       $("#main_container").empty();
  //       var html = "";
- //       $.each(json.propositions, function (username,dico_plates)){
- //          html+=" <div class=\"item\">"
- //          html+="   <div class=\"testimonial-thumb\">"
- //          html+="     <img class=\"img-circle\" src=\"images/team/pic1.jpg\" alt=\"testimonial\" >"
+ //       $.eacsitions:propositions
+ //     },
+ //     success : function(json){
+ //       $("#mml+="     <img class=\"img-circle\" src=\"images/team/pic1.jpg\" alt=\"testimonial\" >"
  //          html+="   </div>"
  //          html+="   <div class=\"testimonial-content\">"
  //          html+="     <h3 class=\"name\">"+username+" <span>Exectuive Director</span></h3>"
@@ -62,21 +58,43 @@ $(document).ready(function() {
  //     }
  //   })
  // }
+
+ function bindings(){
+   $("#login_form").bind("submit", post_login);
+   $("#login").click(function() {
+       display_login();
+   });
+   $("#register").click(function() {
+         display_register();
+   });
+   $("#home").click(function() {
+       display_home();
+   });
+   $("#my_profil").click(function() {
+       my_profil();
+   });
+ }
+
  function post_login(){
      $("#login_form").submit(function(e){
          e.preventDefault();
-         console.log("bite");
+         var dict={
+              username: $('input[id="username"]').val(),
+              password: $('input[id="password"]').val()
+         };
+         var datas=JSON.stringify(dict);
+         console.log("test");
          // test form
          $.ajax({
                 url: "/user",
                 type: "POST",
                 contentType:"application/json",
-                dataType:'json',
-                data: $(this).serialize(),
+                data: datas,
                 success: function (json) {
                     display_home();
                 },
             });
+            bindings();
             return false;
      });
  }
@@ -117,6 +135,7 @@ function display_login(){
     html +="    </div>"
     html +="</section>";
   $("#main_container").append(html);
+  post_login();
 }
 
 function my_profil(){
