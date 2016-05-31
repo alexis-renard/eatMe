@@ -62,6 +62,24 @@ $(document).ready(function() {
  //     }
  //   })
  // }
+ function post_login(){
+     $("#login_form").submit(function(e){
+         e.preventDefault();
+         console.log("bite");
+         // test form
+         $.ajax({
+                url: "/user",
+                type: "POST",
+                contentType:"application/json",
+                dataType:'json',
+                data: $(this).serialize(),
+                success: function (json) {
+                    display_home();
+                },
+            });
+            return false;
+     });
+ }
 
 function display_login(){
     $("#main_container").empty();
@@ -82,7 +100,7 @@ function display_login(){
     html +="         <div class=\"contact_full\">"
     html +="            <div class=\"col-md-12 text-center\">"
     html +="                <div class=\"center_contact\">"
-    html +="                    <form action=\"role\">"
+    html +="                    <form id=\"login_form\">"
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\"  value=\"\" type=\"text\" class=\"input-block\">"
     html +="                            <span class=\"form-icon fa fa-user\"></span>"
@@ -90,12 +108,10 @@ function display_login(){
     html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
     html +="                            <span class=\"form-icon fa fa-key \"></span>"
+    html +="                        </div>"
+    html +="                        <input id=\"login_submit\"type=\"submit\" value=\"Do Eat\" class=\"btn btn-main featured\">"
     html +="                    </form>"
     html +="                </div>"
-    html +="            </div>"
-    html +=""
-    html +="            <div class=\"col-md-12 text-center\">"
-    html +="                <button class=\"btn btn-main featured\">Let's eat</button>"
     html +="            </div>"
     html +="        </div>"
     html +="    </div>"
