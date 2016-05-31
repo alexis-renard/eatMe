@@ -1,200 +1,202 @@
 {% extends "base.html" %}
+{% extends "profil.html" %}
 
 {% block main %}
-  {% if not current_user.is_authenticated %}
-   <!-- Slider start -->
-    <section id="slider_part">
-         <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
-            <!-- Indicators -->
-         	 <ol class="carousel-indicators text-center">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-             </ol>
+{% if not current_user.is_authenticated %}
+ <!-- Slider start -->
+  <section id="slider_part">
+       <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
+          <!-- Indicators -->
+           <ol class="carousel-indicators text-center">
+              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+           </ol>
 
-           	<div class="carousel-inner">
-           	 	<div class="item active">
-           	 		<div class="overlay-slide">
-           	 			<img src="../static/images/news1.jpeg" alt="" class="img-responsive">
-           	 		</div>
-           	 		<div class="carousel-caption">
-               	 		<div class="col-md-12 col-xs-12 text-center">
-               	 			<h3> <b>EatMe</b>
-               	 			<div class="line"></div>
-               	 			<p> I love meat</p>
-               	 		</div>
-           	 		</div>
-           	 	</div>
-                <div class="item">
-                    <div class="overlay-slide">
-                        <img src="../static/images/news2.jpeg" alt="" class="img-responsive">
-           	 		</div>
-           	 		<div class="carousel-caption">
-               	 		<div class="col-md-12 col-xs-12 text-center">
-               	 			<h4 > We know you are Greats Chiefs </h4>
-               	 			<div class="line"></div>
-               	 			<p> Our range of flat has been extended!</p>
-               	 		</div>
-           	 		</div>
-           	 	</div>
-           	 	<div class="item">
-                    <div class="overlay-slide">
-                        <img src="../static/images/news3.jpeg" alt="" class="img-responsive">
-           	 		</div>
-           	 		<div class="carousel-caption">
-               	 		<div class="col-md-12 col-xs-12 text-center">
-               	 			<h3 > See your Days' Matches</h3>
-               	 			<div class="line"></div>
-               	 			<h5> We never know? Tonight, it might be you that makes you cook </h5>
-               	 		</div>
-           	 		</div>
-           	 	</div>
+          <div class="carousel-inner">
+              <div class="item active">
+                  <div class="overlay-slide">
+                      <img src="../static/images/news1.jpeg" alt="" class="img-responsive">
+                  </div>
+                  <div class="carousel-caption">
+                      <div class="col-md-12 col-xs-12 text-center">
+                          <h3> <b>EatMe</b>
+                          <div class="line"></div>
+                          <p> I love meat</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="overlay-slide">
+                      <img src="../static/images/news2.jpeg" alt="" class="img-responsive">
+                  </div>
+                  <div class="carousel-caption">
+                      <div class="col-md-12 col-xs-12 text-center">
+                          <h4 > We know you are Greats Chiefs </h4>
+                          <div class="line"></div>
+                          <p> Our range of flat has been extended!</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="overlay-slide">
+                      <img src="../static/images/news3.jpeg" alt="" class="img-responsive">
+                  </div>
+                  <div class="carousel-caption">
+                      <div class="col-md-12 col-xs-12 text-center">
+                          <h3 > See your Days' Matches</h3>
+                          <div class="line"></div>
+                          <h5> We never know? Tonight, it might be you that makes you cook </h5>
+                      </div>
+                  </div>
+              </div>
 
-           	 </div> 	 <!-- End Carousel Inner -->
+           </div> 	 <!-- End Carousel Inner -->
 
-            <!-- Controls -->
-            <div class="slides-control ">
-                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                	<span><i class="fa fa-angle-left"></i></span>
-                </a>
-                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                	<span><i class="fa fa-angle-right"></i></span>
-                </a>
-            </div>
-        </div>
-  	</section>
-    <!--/ Slider end -->
+          <!-- Controls -->
+          <div class="slides-control ">
+              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                  <span><i class="fa fa-angle-left"></i></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                  <span><i class="fa fa-angle-right"></i></span>
+              </a>
+          </div>
+      </div>
+  </section>
+  <!--/ Slider end -->
 
-    <!-- Service Area start -->
-        <section id="service">
-            <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="feature_header text-center">
-                                <h3 class="feature_title"> <b>WebSite utilisation</b></h3>
-                                <h4 class="feature_sub">EatMe is dating site between persons who love cuisine, they practice it like nationnal sport, or not at all. Here you could invite members to cook what they like to eat. Or at the contrary it's will be they who invite you !</h4>
-                                <div class="divider"></div>
-                            </div>
-                        </div>  <!-- Col-md-12 End -->
-                    </div>
-                    <div class="row">
-                        <div class="main_feature text-center">
-                            <div class="col-md-3 col-xs-12 col-sm-6">
-                                    <div class="feature_content">
-                                        <i class="fa fa-thumbs-o-up"></i>
-                                        <h5>Like</h5>
-                                        <p>You must grade in your like, all the plates you like to eat. It's could be the not ordinary pepperony pizza, or more sophisticated tiramisu!</p>
-                                    </div>
-                                </div>
-                            <div class="col-md-3 col-xs-12 col-sm-6">
-                                    <div class="feature_content">
-                                        <i class="fa fa-cutlery"></i>
-                                        <h5>Cook</h5>
-                                        <p>Si vous êtes du genre cordon bleu hipster, sur notre site vous pourrez y inscrire ce que vous savez, un peu, beaucoup, pationnement cuisinner. </p>
-                                    </div>
-                            </div> <!-- Col-md-4 Single_feature End -->
-                            <div class="col-md-3 col-xs-12 col-sm-6">
-                                    <div class="feature_content">
-                                        <i class="fa fa-check"></i>
-                                        <h5>Match</h5>
-                                        <p>Grâce à notre technologie de pointe, EatMe vous permet de mettre en relation les plats que vous savez cuisnier avec les gouts cullinaires de nos membres.</p>
-                                    </div>
-                            </div> <!-- Col-md-4 Single_feature End -->
-                            <div class="col-md-3 col-xs-12 col-sm-6">
-                                    <div class="feature_content">
-                                        <i class="fa fa-heart"></i>
-                                        <h5>Love</h5>
-                                        <p>Enfin grâce à un système de choix perfectionné vous pourrez choisir les profils de nos membres qui vous interesse et entrez facilement en contact avec eux!</p>
-                                    </div>
-                            </div> <!-- Col-md-4 Single_feature End -->
-                            <!-- <button class="btn btn-main"> Read More</button> -->
-                        </div>
-                </div>  <!-- Row End -->
-            </div>  <!-- Container End -->
-        </section>
-  {% else %}
-  <section id="testimonial" class="wow fadeInUp">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="feature_header text-center">
-                    <h3 class="feature_title">Your matches</h3>
-                    <h4 class="feature_sub">See your matches of the day </h4>
-                    <div class="divider"></div>
-                </div>
-            </div>  <!-- Col-md-12 End -->
-        </div>
-                <div class="row">
-                    <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide">
-                            <button type="submit" class="btn btn-danger btn-lg" ><i class="fa fa-heart" aria-hidden="true"></i>
-                            </button>
-                    </div>
-                    <!-- Navigation start -->
-                    <div class="customNavigation cyprass-carousel-controller">
-                        <a class="prev left">
-                            <i class="fa fa-chevron-left"></i>
-                        </a>
-                        <a class="next right">
-                          <i class="fa fa-chevron-right"></i>
-                        </a>
-                    </div>
-                    <!-- Navigation ENd -->
-                </div>
-            </div> <!-- Row End -->
-          </section> <!-- Section Testimonial End -->
+  <!-- Service Area start -->
+      <section id="service">
+          <div class="container">
+                  <div class="row">
+                      <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="feature_header text-center">
+                              <h3 class="feature_title"> <b>WebSite utilisation</b></h3>
+                              <h4 class="feature_sub">EatMe is dating site between persons who love cuisine, they practice it like nationnal sport, or not at all. Here you could invite members to cook what they like to eat. Or at the contrary it's will be they who invite you !</h4>
+                              <div class="divider"></div>
+                          </div>
+                      </div>  <!-- Col-md-12 End -->
+                  </div>
+                  <div class="row">
+                      <div class="main_feature text-center">
+                          <div class="col-md-3 col-xs-12 col-sm-6">
+                                  <div class="feature_content">
+                                      <i class="fa fa-thumbs-o-up"></i>
+                                      <h5>Like</h5>
+                                      <p>You must grade in your like, all the plates you like to eat. It's could be the not ordinary pepperony pizza, or more sophisticated tiramisu!</p>
+                                  </div>
+                              </div>
+                          <div class="col-md-3 col-xs-12 col-sm-6">
+                                  <div class="feature_content">
+                                      <i class="fa fa-cutlery"></i>
+                                      <h5>Cook</h5>
+                                      <p>Si vous êtes du genre cordon bleu hipster, sur notre site vous pourrez y inscrire ce que vous savez, un peu, beaucoup, pationnement cuisinner. </p>
+                                  </div>
+                          </div> <!-- Col-md-4 Single_feature End -->
+                          <div class="col-md-3 col-xs-12 col-sm-6">
+                                  <div class="feature_content">
+                                      <i class="fa fa-check"></i>
+                                      <h5>Match</h5>
+                                      <p>Grâce à notre technologie de pointe, EatMe vous permet de mettre en relation les plats que vous savez cuisnier avec les gouts cullinaires de nos membres.</p>
+                                  </div>
+                          </div> <!-- Col-md-4 Single_feature End -->
+                          <div class="col-md-3 col-xs-12 col-sm-6">
+                                  <div class="feature_content">
+                                      <i class="fa fa-heart"></i>
+                                      <h5>Love</h5>
+                                      <p>Enfin grâce à un système de choix perfectionné vous pourrez choisir les profils de nos membres qui vous interesse et entrez facilement en contact avec eux!</p>
+                                  </div>
+                          </div> <!-- Col-md-4 Single_feature End -->
+                          <!-- <button class="btn btn-main"> Read More</button> -->
+                      </div>
+              </div>  <!-- Row End -->
+          </div>  <!-- Container End -->
+      </section>
+{% else %}
+<section id="testimonial" class="wow fadeInUp">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="feature_header text-center">
+                  <h3 class="feature_title">Your matches</h3>
+                  <h4 class="feature_sub">See your matches of the day </h4>
+                  <div class="divider"></div>
+              </div>
+          </div>  <!-- Col-md-12 End -->
+      </div>
+              <div class="row">
+                  <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide">
+                          <button type="submit" class="btn btn-danger btn-lg" ><i class="fa fa-heart" aria-hidden="true"></i>
+                          </button>
+                  </div>
+                  <!-- Navigation start -->
+                  <div class="customNavigation cyprass-carousel-controller">
+                      <a class="prev left">
+                          <i class="fa fa-chevron-left"></i>
+                      </a>
+                      <a class="next right">
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                  </div>
+                  <!-- Navigation ENd -->
+              </div>
+          </div> <!-- Row End -->
+        </section> <!-- Section Testimonial End -->
 
-      </section>  <!-- Section TEam End -->
-        <section id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="feature_header text-center">
-                        <h3 class="feature_title">Vos possibilités du jour</h3>
-                        <div class="divider"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="feature-tab">
-                   <div class="col-md-2 col-sm-3 col-xs-12">
-                        <ul class="nav nav-tabs main-tab-list text-center" role="tablist">
-                              <li role="presentation" class="active">
-                                <a href="#home" role="tab" data-toggle="tab" >
-                                  <div class="single-tab">
-                                        <div class="f-icon">
-                                            <i class="fa fa-laptop"></i>
-                                        </div>
-                                    </div>
-                                     <h4>Plats aimés</h4>
-                                </a>
-                              </li>
-                              <li role="presentation" >
-                                <a href="#profile" role="tab" data-toggle="tab">
-                                    <div class="single-tab">
-                                        <div class="f-icon">
-                                            <i class="fa fa-send"></i>
-                                        </div>
-                                    </div>
-                                <h4>Plats cuisinés</h4>
-                            </a>
-                          </li>
-                          <li role="presentation" >
-                            <a href="#messages" role="tab" data-toggle="tab">
-                                <div class="single-tab">
-                                    <div class="f-icon">
-                                        <i class="fa fa-heart"></i>
-                                    </div>
-                                </div>
-                                <h4>Mes matchs</h4>
-                            </a>
-                          </li>
-                        </ul>
-                    </div>  <!-- col-md-12 end -->
+    </section>  <!-- Section TEam End -->
+      <section id="about">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="feature_header text-center">
+                      <h3 class="feature_title">Vos possibilités du jour</h3>
+                      <div class="divider"></div>
                   </div>
               </div>
           </div>
-      </section>
-  {% endif %}
+          <div class="row">
+              <div class="feature-tab">
+                 <div class="col-md-2 col-sm-3 col-xs-12">
+                      <ul class="nav nav-tabs main-tab-list text-center" role="tablist">
+                            <li role="presentation" class="active">
+                              <a href="#home" role="tab" data-toggle="tab" >
+                                <div class="single-tab">
+                                      <div class="f-icon">
+                                          <i class="fa fa-laptop"></i>
+                                      </div>
+                                  </div>
+                                   <h4>Plats aimés</h4>
+                              </a>
+                            </li>
+                            <li role="presentation" >
+                              <a href="#profile" role="tab" data-toggle="tab">
+                                  <div class="single-tab">
+                                      <div class="f-icon">
+                                          <i class="fa fa-send"></i>
+                                      </div>
+                                  </div>
+                              <h4>Plats cuisinés</h4>
+                          </a>
+                        </li>
+                        <li role="presentation" >
+                          <a href="#messages" role="tab" data-toggle="tab">
+                              <div class="single-tab">
+                                  <div class="f-icon">
+                                      <i class="fa fa-heart"></i>
+                                  </div>
+                              </div>
+                              <h4>Mes matchs</h4>
+                          </a>
+                        </li>
+                      </ul>
+                  </div>  <!-- col-md-12 end -->
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
 {% endblock %}
 {% block js %}
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
