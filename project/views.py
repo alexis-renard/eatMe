@@ -2,11 +2,8 @@ from .app import app, db
 from flask import Flask, render_template, url_for, redirect, request, g, flash, jsonify
 from datetime import datetime
 from .models import *
-from flask.ext.wtf import Form
-from wtforms import StringField, HiddenField, PasswordField, validators
-from wtforms.validators import DataRequired, Required, EqualTo, Length
 from hashlib import sha256
-from flask.ext.login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required
 import copy #Importation de copy pour gérer les pointeurs lors de la suppression d'albums
 
 @app.before_request
