@@ -62,24 +62,6 @@ $(document).ready(function() {
  //     }
  //   })
  // }
- function post_login(){
-     $("#login_form").submit(function(e){
-         e.preventDefault();
-         console.log("bite");
-         // test form
-         $.ajax({
-                url: "/user",
-                type: "POST",
-                contentType:"application/json",
-                dataType:'json',
-                data: $(this).serialize(),
-                success: function (json) {
-                    display_home();
-                },
-            });
-            return false;
-     });
- }
 
 function display_login(){
     $("#main_container").empty();
