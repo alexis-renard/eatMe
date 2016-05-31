@@ -123,6 +123,10 @@ function display_login(){
     html +="                            <span class=\"form-icon fa fa-user\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
+    html +="                            <input name=\"username\" placeholder=\"Username\" id=\"username\" class=\"input-block\" value=\"\" type=\"username\">"
+    html +="                            <span class=\"form-icon fa fa-user \"></span>"
+    html +="                        </div>"
+    html +="                        <div class=\"form-level\">"
     html +="                            <input name=\"password\" placeholder=\"Password\" id=\"password\" class=\"input-block\" value=\"\" type=\"password\">"
     html +="                            <span class=\"form-icon fa fa-key \"></span>"
     html +="                        </div>"
@@ -133,7 +137,8 @@ function display_login(){
     html +="        </div>"
     html +="    </div>"
     html +="</section>";
-    $("#main_container").empty();
+    $("#main_container").append(html);
+    post_login();
 }
 
 
