@@ -299,12 +299,7 @@ def plate_by_name_route(name):
             ##############
 
 @login_required
-@app.route("/mycook", methods=("GET",))
-def my_cook_route():
-    return jsonify(mycook=current_user.serialize()["cooked"])
-
-@login_required
-@app.route("/cook_by_class/<string:name>", methods=('GET',))
+@app.route("/user/cooked/class/<string:name>", methods=('GET',))
 def cook_by_class_route(name):
     class_used = name
     cook_by_class_dict = {}
