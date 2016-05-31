@@ -97,7 +97,7 @@ class User(db.Model, UserMixin):
             'img': self.img,
             'desc': self.desc,
             'foodLevel': self.foodLevel,
-            'town': self.town.serialize(),
+            'town_id': self.town_id,
             'loved': loved,
             'liked': liked,
             'cooked': cooked,

@@ -255,8 +255,6 @@ function my_profil(){
     html+="        <div class=\"row\">";
     html+="          <form class=\"form-horizontal\" role=\"form\" method=\"POST\" action=\"{{ url_for('register') }}\">";
     html+="              {{ form.hidden_tag() }}";
-
-
     html+="              {% if form.username.errors %}";
     html+="                  <div>";
     html+="                      <ul class=\"list-group\">";
