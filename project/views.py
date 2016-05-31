@@ -21,9 +21,16 @@ def logout():
 
 @app.route("/")
 def home():
-    return render_template(
-        "index.html",
-    )
+    if current_user.is_authenticated:
+        # print(get_propositions_user(current_user.username))
+        return render_template(
+            "index.html",
+            propositions=get_propositions_user(current_user.username),
+        )
+    else:
+        return render_template(
+            "index.html",
+        )
 
 @app.route("/home_user")
 def home_user():
