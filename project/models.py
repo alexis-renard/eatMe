@@ -98,7 +98,6 @@ class User(db.Model, UserMixin):
             'desc': self.desc,
             'foodLevel': self.foodLevel,
             'town_id': self.town_id,
-            'town': self.town.serialize(),
             'loved': loved,
             'liked': liked,
             'cooked': cooked,
@@ -128,7 +127,7 @@ def get_propositions_user(username):
     propositions = {}
     for user in get_users():
         if user.username!=currentuser.username:
-            if (user.username not in currentuser.loved):
+            if (user not in currentuser.loved):
                 commun_plates={}
                 commun_plates["User"]=[user.serialize()]
                 commun_plates["ICook"]=[]

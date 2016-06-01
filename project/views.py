@@ -21,11 +21,27 @@ def logout():
 
 @app.route("/")
 def home():
+<<<<<<< HEAD
     return render_template(
         "index.html",
     )
+    
+@login_required
+@app.route("/home_user", methods=('GET',))
+=======
+    if current_user.is_authenticated:
+        # print(get_propositions_user(current_user.username))
+        return render_template(
+            "index.html",
+            propositions=get_propositions_user(current_user.username),
+        )
+    else:
+        return render_template(
+            "index.html",
+        )
 
 @app.route("/home_user")
+>>>>>>> a15e4a5980040554b71504e131c0fc9b01f745fc
 def home_user():
     return jsonify(propositions=get_propositions_user(current_user.username))
 
@@ -58,6 +74,7 @@ def register():
     lastName = datas.get("lastName")
     email = datas.get("email")
     desc = datas.get("desc")
+    img = datas.get("picture")
     user = get_user(username)
     if user is None:
         m = sha256()
@@ -68,14 +85,14 @@ def register():
             lastName=lastName,
             password=m.hexdigest(),
             email=email,
-            img="" ,
+            img=img,
             desc=desc,
             foodLevel=0)
         db.session.add(u)
         db.session.commit()
         login_user(u)
-        return jsonify(register="success"),200
-    return jsonify(register="username already taken"),401
+        return jsonify(state="success"),200
+    return jsonify(state="username already taken"),401
 
 
 @login_required
@@ -180,6 +197,11 @@ def add_user_loved():
                 ## plates ##
                 ############
 
+@app.route("/user/profil", methods=("GET",))
+def get_myprofil():
+    user = current_user.serialize()
+    return jsonify(state=True, user=user)
+
 @app.route("/user/profil", methods=("PUT",))
 def user_modif():
     user=current_user
@@ -204,8 +226,6 @@ def user_modif():
     if password!=user.password:
         if password!='':
             user.password=password
-        else:
-            return jsonify(state=False, error="password can't be empty"),400
     if firstName!=user.firstName:
         if firstName!='':
             user.firstName=firstName

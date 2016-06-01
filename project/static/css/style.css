@@ -36,7 +36,7 @@ Version:1.1 */
 /* ----------------------------------------------------------------------------------- */
 /* CSS Reset & Clear
 /*----------------------------------------------------------------------------------- */
- 
+
 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,
 abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,
@@ -190,6 +190,8 @@ a {
 .feature-tab,.team-items,.pricing,.single_blog ,#testimonial .owl-carousel .owl-wrapper,.contact_full {
     margin-top: 40px;
 }
+
+
 
 
  /*Divider
@@ -350,7 +352,7 @@ ul.navbar-nav > .active > a {
     color: #fff;
 }
 
-.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, 
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus,
 .dropdown-menu>li.active>a {
     background: none !important;
 }
@@ -953,7 +955,7 @@ figcaption .links a {
     border-radius: 100% !important;
 }
 
-.bx-wrapper .bx-pager.bx-default-pager a:hover, 
+.bx-wrapper .bx-pager.bx-default-pager a:hover,
 .bx-wrapper .bx-pager.bx-default-pager a.active {
     background: #222 !important;
 }
@@ -1528,7 +1530,14 @@ figcaption .links a {
 #testimonial {
     visibility: visible;
     padding: 40px 0px;
+    /*background-color: gray;
+    border-radius: 200px;*/
 }
+
+/*#testimonial>.container>.row{
+  background-color: gray;
+  border-radius: 200px;
+}*/
 
 .testimonial-slide .testimonial-text {
     font-size: 16px;
@@ -1608,12 +1617,12 @@ figcaption .links a {
     -o-transition: all .3s ease 0s;
     transition: all .3s ease 0s;
 }
-/*.customNavigation .fa-chevron-left, .customNavigation .fa-chevron-right{ 
-   
-    background: #444; 
+/*.customNavigation .fa-chevron-left, .customNavigation .fa-chevron-right{
+
+    background: #444;
     color: #fff;
 }
-.customNavigation .fa-chevron-left:hover, .customNavigation .fa-chevron-right:hover{ 
+.customNavigation .fa-chevron-left:hover, .customNavigation .fa-chevron-right:hover{
      background: #4593DE;
     color: #fff;
 }*/
@@ -1666,7 +1675,7 @@ figcaption .links a {
     width: 150px;
     height: 50px;
 }
-/*.client_logo img:hover{ 
+/*.client_logo img:hover{
     border: 1px solid #4593DE;
 }*/
 
@@ -1942,7 +1951,7 @@ textarea:hover {
     margin: 25px 0px;
 }
 
-/* Back To Top Button 
+/* Back To Top Button
 ======================================*/
 
 #back-top {
@@ -2569,6 +2578,9 @@ textarea:hover {
     border-radius: 0px;
 }
 
+
+
+
 @media(min-width:768px) {
 }
 
@@ -2590,5 +2602,3 @@ textarea:hover {
         /*width: 100%;*/;
     }
 }
-
-
