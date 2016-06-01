@@ -233,7 +233,7 @@ function display_all_plates(){
       success: function(data){
         var html="";
         var category=data.category;
-        var plates=data.plates;
+        var plates=data.dictionnary;
         html+="<section id=\"portfolio\">";
         html+="        <div class=\"container\">";
         html+="            <div class=\"row\">";
@@ -250,19 +250,21 @@ function display_all_plates(){
         html+=" ";
         html+="    <div id=\"isotope-filter\" class=\"skew3 text-center\">";
         html+="        <a data-filter=\"*\"  href=\"#\" class=\"active \">All</a>";
-        html+="        <a data-filter=\".identity\"  href=\"#\" class=\"\">Identity</a>";
-        html+="        <a data-filter=\".web-design\" href=\"#\"  class=\"\">Web Design</a>";
-        html+="        <a data-filter=\".graphic\"  href=\"#\" class=\"\">Graphic</a>";
-        html+="        <a data-filter=\".logo\"  href=\"#\" class=\"\">Photography</a>";
+for (var prop in category) {
+        html+="        <a data-filter=\"."+prop+"*\"  href=\"#\" class=\"\">"+prop+"</a>";
+}
         html+="    </div>";
         html+="    <div class=\"clearfix\"></div>";
         html+="            <div class=\"text-center \">";
         html+="              <ul class=\"portfolio-wrap\" id=\"portfolio_items\">";
-        html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design\">";
+for (var prop in plates) {
+var plates_category=plates[prop];
+        html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio"; 
+for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
         html+="                        <figure>";
-        html+="                            <img src=\"images/portfolio/p1.jpg\" alt=\"\" />";
+        html+="                            <img src=\"../static/images/portfolio/p1.jpg\" alt=\"\" />";
         html+="                            <figcaption>";
-        html+="                                <h5>Creative Zoe</h5>";
+        html+="                                <h5>"+prop+"</h5>";
         html+="                                <p class=\"links\">";
         html+="                                    <a href=\"portfolio-single.html\"> <i class=\"fa fa-link\"></i></a>";
         html+="                                    <a href=\"images/portfolio/p1.jpg\" data-rel=\"prettyPhoto\" class=\"img-responsive\">";
@@ -275,8 +277,9 @@ function display_all_plates(){
         html+="                            </figcaption>";
         html+="                        </figure>";
         html+="                    </li>";
+}
         html+="                </ul>";
-        html+="        </div> <!-- Container Full End -->";
+        html+="             </div> <!-- Container Full End -->";
         html+="</section>  <!-- Portfolio Section End -->";
         $("#main_container").append(html);
     }
