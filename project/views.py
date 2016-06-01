@@ -246,12 +246,15 @@ def display_all_plates_route():
     list_category = Category.get_categories()
     category_dict = {}
     plates_dict = {}
+    dictionnary={}
     plates = get_all_food()
     for elem in plates:
         plates_dict[elem.name]=elem.serialize()["name"]
     for elem in list_category:
         category_dict[elem.name]=elem.serialize()["name"]
-    return  jsonify(category=category_dict, plates=plates_dict)
+    for elem in plates:
+        dictionnary[elem.name]=elem.serialize()["foodCategory"]
+    return  jsonify(category=category_dict, plates=plates_dict, dictionnary=dictionnary)
 
 
 @login_required
