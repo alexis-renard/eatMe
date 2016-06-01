@@ -2,11 +2,8 @@ from .app import app, db
 from flask import Flask, render_template, url_for, redirect, request, g, flash, jsonify
 from datetime import datetime
 from .models import *
-from flask.ext.wtf import Form
-from wtforms import StringField, HiddenField, PasswordField, validators
-from wtforms.validators import DataRequired, Required, EqualTo, Length
 from hashlib import sha256
-from flask.ext.login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required
 import copy #Importation de copy pour gérer les pointeurs lors de la suppression d'albums
 
 @app.before_request
@@ -24,12 +21,27 @@ def logout():
 
 @app.route("/")
 def home():
+<<<<<<< HEAD
     return render_template(
         "index.html",
     )
     
 @login_required
 @app.route("/home_user", methods=('GET',))
+=======
+    if current_user.is_authenticated:
+        # print(get_propositions_user(current_user.username))
+        return render_template(
+            "index.html",
+            propositions=get_propositions_user(current_user.username),
+        )
+    else:
+        return render_template(
+            "index.html",
+        )
+
+@app.route("/home_user")
+>>>>>>> a15e4a5980040554b71504e131c0fc9b01f745fc
 def home_user():
     return jsonify(propositions=get_propositions_user(current_user.username))
 
@@ -62,6 +74,7 @@ def register():
     lastName = datas.get("lastName")
     email = datas.get("email")
     desc = datas.get("desc")
+    img = datas.get("picture")
     user = get_user(username)
     if user is None:
         m = sha256()
@@ -72,14 +85,14 @@ def register():
             lastName=lastName,
             password=m.hexdigest(),
             email=email,
-            img="" ,
+            img=img,
             desc=desc,
             foodLevel=0)
         db.session.add(u)
         db.session.commit()
         login_user(u)
-        return jsonify(register="success"),200
-    return jsonify(register="username already taken"),401
+        return jsonify(state="success"),200
+    return jsonify(state="username already taken"),401
 
 
 @login_required
@@ -302,12 +315,7 @@ def plate_by_name_route(name):
             ##############
 
 @login_required
-@app.route("/mycook", methods=("GET",))
-def my_cook_route():
-    return jsonify(mycook=current_user.serialize()["cooked"])
-
-@login_required
-@app.route("/cook_by_class/<string:name>", methods=('GET',))
+@app.route("/user/cooked/class/<string:name>", methods=('GET',))
 def cook_by_class_route(name):
     class_used = name
     cook_by_class_dict = {}

@@ -1,8 +1,8 @@
 from flask import Flask
-from flask.ext.script import Manager
-from flask.ext.bootstrap import Bootstrap
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
+from flask_script import Manager
+from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 import os.path
 
 app = Flask(__name__)

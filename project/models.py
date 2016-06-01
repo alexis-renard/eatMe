@@ -1,10 +1,7 @@
 from .app import db, login_manager, app
-from flask.ext.login import UserMixin
-from wtforms import StringField, HiddenField, PasswordField, SelectField, RadioField, validators
-from wtforms.validators import DataRequired, Required, EqualTo, Length, Email
-from flask.ext.wtf import Form
+from flask_login import UserMixin
 from hashlib import sha256
-from flask.ext.login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required
 
 #Création de la table love entre deux user
 love = db.Table('love',
@@ -101,7 +98,6 @@ class User(db.Model, UserMixin):
             'desc': self.desc,
             'foodLevel': self.foodLevel,
             'town_id': self.town_id,
-            'town': self.town.serialize(),
             'loved': loved,
             'liked': liked,
             'cooked': cooked,
@@ -155,35 +151,6 @@ def get_propositions_user(username):
                 if somme>5:
                     propositions[user.username]=commun_plates
     return propositions
-
-class LoginForm(Form):
-    username = StringField('Username', [validators.Required()])
-    password = PasswordField('Password', [validators.Required()])
-    next = HiddenField()
-
-    def get_authenticated_user(self):
-        user = get_user(self.username.data)
-        if user is None:
-            return None
-        m = sha256()
-        m.update(self.password.data.encode())
-        passwd = m.hexdigest()
-        return user if passwd == user.password else None
-
-class RegisterForm(Form):
-    username = StringField('Username', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-    firstName = StringField('First Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-    lastName = StringField('Last Name', [validators.Length(min=4), validators.Required()]) #ce qui est entre simple quote correspond au label du champs
-    email = StringField('Email', [validators.Length(min=4), validators.Required(), validators.Email()])
-    password = PasswordField('Password', [
-    	validators.Required(),
-    	validators.EqualTo('confirm', message='Passwords must match'),
-        validators.Length(min=4)
-        ])
-    confirm = PasswordField('Repeat Password', [validators.Length(min=4), validators.Required()])
-    desc = StringField('Description', [validators.Length(min=4), validators.Required()])
-    next = HiddenField()
-
 
 class Food(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
@@ -358,9 +325,6 @@ class Category(db.Model):
 
     def get_category(name):
         return Category.query.filter(Category.name.lower().like("%" + name.lower() + "%")).first()
-
-class SearchForm(Form):
-    element=StringField("Recherche",validators=[DataRequired()])
 
 @login_manager.user_loader
 def load_user(username):
