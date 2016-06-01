@@ -79,7 +79,7 @@ $(document).ready(function() {
                 data: datas,
                 success: function(json){
                     window.location.reload();
-                    // display_home();
+                    // display_home() ;
                 }
             });
         bindings();
