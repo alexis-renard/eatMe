@@ -94,6 +94,8 @@ $(document).ready(function() {
             });
         bindings();
         return false;
+    });
+}
 
 function display_login(){
     $("#main_container").empty();
@@ -146,7 +148,7 @@ function post_register(){
              lastName: $('input[id="lastName"]').val(),
              email: $('input[id="email"]').val(),
              picture: $('input[id="picture"]').val(),
-             desc: $('input[id="desc"]').val(),
+             desc: $('textarea[id="desc"]').val(),
              town: $('input[id="town"]').val()
         };
         var datas=JSON.stringify(dict);
@@ -202,7 +204,7 @@ function display_register(){
     html +="                            <span class=\"form-icon fa fa-hand-o-right\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
-    html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\"\" type=\"email\">"
+    html +="                            <input name=\"email\" placeholder=\"Email\" id=\"email\" class=\"input-block\" value=\"\" type=\"email\">"
     html +="                            <span class=\"form-icon fa fa-envelope\"></span>"
     html +="                        </div>"
     html +="                        <div class=\"form-level\">"
@@ -523,21 +525,3 @@ function display_home(){
     }
   });
 }
-
-
-
-
-
- // {% for user in propositions %}
- //   <div class="item">
- //     <div class="testimonial-thumb">
- //       <img class="img-circle" src="../static/images/gerard.jpg" alt="testimonial" >
- //     </div>
- //     <div class="testimonial-content">
- //       <h3 class="name">{{ user.username }}<span>Description</span></h3>
- //       <p class="testimonial-text">
- //         What loved
- //       </p>
- //     </div>
- //   </div>
- //   {% endfor %}
