@@ -250,12 +250,22 @@ def display_all_message_route():
 
 @login_required
 @app.route("/conversation", methods=('GET',))
-def display_all_message_from_conversation_route():
-    username = "Alexis"
+def display_all_message_from_conversation_route(username):
     user = current_user
     messages = get_messages_by_users(user.username, username)
     return messages
 
+# @login_required
+# @app.route("/conversation/add", methods=("PUT",))
+# def add_message_to_conversation():
+#     user = current_user
+#     datas = request.get_json()
+#     receiver = get_user(datas.get('receiver',''))
+#         user.send.append(datas)
+#         db.session.commit()
+#         return jsonify(state=True)
+#     else:
+#         return jsonify(state=False, error="user already loved")
                 ############
                 ## plates ##
                 ############
