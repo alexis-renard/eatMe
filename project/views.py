@@ -21,14 +21,6 @@ def logout():
 
 @app.route("/")
 def home():
-<<<<<<< HEAD
-    return render_template(
-        "index.html",
-    )
-    
-@login_required
-@app.route("/home_user", methods=('GET',))
-=======
     if current_user.is_authenticated:
         # print(get_propositions_user(current_user.username))
         return render_template(
@@ -40,8 +32,8 @@ def home():
             "index.html",
         )
 
+
 @app.route("/home_user")
->>>>>>> a15e4a5980040554b71504e131c0fc9b01f745fc
 def home_user():
     return jsonify(propositions=get_propositions_user(current_user.username))
 
