@@ -1,6 +1,6 @@
 $(document).ready(function() {
     bindings();
-});;
+});
 
 /*
  * All plates
@@ -224,7 +224,64 @@ function display_register(){
 }
 
 
-
+function display_all_plates(){
+    $("#main_container").empty();
+    $.ajax({
+      url : "http://localhost:5000/allplates",
+      type : "GET",
+      datatype: "json",
+      success: function(data){
+        var html="";
+        var category=data.category;
+        var plates=data.plates;
+        html+="<section id=\"portfolio\">";
+        html+="        <div class=\"container\">";
+        html+="            <div class=\"row\">";
+        html+="                <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+        html+="                    <div class=\"feature_header text-center\">";
+        html+="                        <h3 class=\"feature_title\">aria-hidden plates</b></h3>";
+        html+="                        <h4 class=\"feature_sub\">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h4>";
+        html+="                        <div class=\"divider\"></div>";
+        html+="                    </div>";
+        html+="                </div>  <!-- Col-md-12 End -->";
+        html+="            </div>";
+        html+="        </div>";
+        html+=" ";
+        html+=" ";
+        html+="    <div id=\"isotope-filter\" class=\"skew3 text-center\">";
+        html+="        <a data-filter=\"*\"  href=\"#\" class=\"active \">All</a>";
+        html+="        <a data-filter=\".identity\"  href=\"#\" class=\"\">Identity</a>";
+        html+="        <a data-filter=\".web-design\" href=\"#\"  class=\"\">Web Design</a>";
+        html+="        <a data-filter=\".graphic\"  href=\"#\" class=\"\">Graphic</a>";
+        html+="        <a data-filter=\".logo\"  href=\"#\" class=\"\">Photography</a>";
+        html+="    </div>";
+        html+="    <div class=\"clearfix\"></div>";
+        html+="            <div class=\"text-center \">";
+        html+="              <ul class=\"portfolio-wrap\" id=\"portfolio_items\">";
+        html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design\">";
+        html+="                        <figure>";
+        html+="                            <img src=\"images/portfolio/p1.jpg\" alt=\"\" />";
+        html+="                            <figcaption>";
+        html+="                                <h5>Creative Zoe</h5>";
+        html+="                                <p class=\"links\">";
+        html+="                                    <a href=\"portfolio-single.html\"> <i class=\"fa fa-link\"></i></a>";
+        html+="                                    <a href=\"images/portfolio/p1.jpg\" data-rel=\"prettyPhoto\" class=\"img-responsive\">";
+        html+="                                        <i class=\"fa fa-plus\"></i>";
+        html+="                                    </a>";
+        html+="                                </p>";
+        html+="                                <p class=\"description\">";
+        html+="                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.";
+        html+="                                </p>";
+        html+="                            </figcaption>";
+        html+="                        </figure>";
+        html+="                    </li>";
+        html+="                </ul>";
+        html+="        </div> <!-- Container Full End -->";
+        html+="</section>  <!-- Portfolio Section End -->";
+        $("#main_container").append(html);
+    }
+});
+}
 
 
 

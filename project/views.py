@@ -185,10 +185,6 @@ def add_user_loved():
     else:
         return jsonify(state=False, error="user already loved")
 
-                ############
-                ## plates ##
-                ############
-
 @app.route("/user/profil", methods=("GET",))
 def get_myprofil():
     user = current_user.serialize()
@@ -240,6 +236,24 @@ def user_modif():
             return jsonify(state=False, error="Description can't be empty"),400
     return jsonify(state=True),200
 
+                ############
+                ## plates ##
+                ############
+
+@login_required
+@app.route("/allplates", methods=('GET',))
+def display_all_plates_route():
+    list_category = Category.get_categories()
+    category_dict = {}
+    plates_dict = {}
+    plates = get_all_food()
+    for elem in plates:
+        plates_dict[elem.name]=elem.serialize()["name"]
+    for elem in list_category:
+        category_dict[elem.name]=elem.serialize()["name"]
+    return  jsonify(category=category_dict, plates=plates_dict)
+
+
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
@@ -289,18 +303,18 @@ def plate_by_name_route(name):
 #     else:
 #         return jsonify(state=False)
 
-# @login_required
-# @app.route("/myplates/add/<int:id>", methods=('PUT',))
-# def add_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if add_plate_to_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
+@login_required
+@app.route("/myplates/add/<int:id>", methods=('PUT',))
+def add_plate(id):
+    plate_id = id
+    p = get_food_by_id(plate_id)
+    if p is not None :
+            if add_plate_to_user_plates(plate_id) != None:
+                return jsonify(state=True)
+            else:
+                return jsonify(state=False)
+    else:
+        return jsonify(state=False)
 
             ##############
             ## mycook ##
