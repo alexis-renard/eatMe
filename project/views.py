@@ -254,7 +254,7 @@ def display_all_message_from_conversation_route():
     username = "Alexis"
     user = current_user
     messages = get_messages_by_users(user.username, username)
-    return jsonify(messages=messages)
+    return messages
 
                 ############
                 ## plates ##

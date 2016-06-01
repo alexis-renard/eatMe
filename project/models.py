@@ -1,43 +1,43 @@
 from .app import db, login_manager, app
-from flask_login import UserMixin
+from flask import jsonify 
 from hashlib import sha256
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 
 #Création de la table love entre deux user
 love = db.Table('love',
-    db.Column('lover_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
-    db.Column('loved_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('lover_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
+    db.Column('loved_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
 )
 
 matches = db.Table('matches',
-    db.Column('matched_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
-    db.Column('matcher_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('matched_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
+    db.Column('matcher_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
 )
 
 #Création de la table cook entre User et food
 cook = db.Table('cook',
-    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
     db.PrimaryKeyConstraint('food_id', 'user_username')
 )
 
 #Création de la table like entre User et food
 like = db.Table('like',
-    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
     db.PrimaryKeyConstraint('food_id', 'user_username')
 )
 
 #Création de la table send entre User et message
 send = db.Table('send',
-    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('message_id', db.Integer, db.ForeignKey('message.id'), nullable=False),
     db.PrimaryKeyConstraint('message_id', 'user_username')
 )
 
 #Création de la table like entre User et food
 received = db.Table('received',
-    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('message_id', db.Integer, db.ForeignKey('message.id'), nullable=False),
     db.PrimaryKeyConstraint('message_id', 'user_username')
 )
@@ -218,18 +218,11 @@ def get_messages_by_user(username):
     return  message_dict
 
 def get_messages_by_users(username_sender, username_receiver):
-    messages_user1 = get_messages_by_user(username_sender)
-    messages_user2 = get_messages_by_user(username_receiver)
-    message_dict = {}
-    for message in messages_user1:
-        if message.sender == username_receiver or message.receiver == username_receiver:
-            message_dict[message.id] = message.serialize()
-    for message in messages_user2:
-            if message.sender == username_sender or message.receiver == username_sender:
-                if message.id not in message_dict:
-                    message_dict[message.id] = message.serialize()
-    return  message_dict
-
+    messages = get_messages_by_user(username_sender)
+    msgs = [message.serialize() for message in messages if message.receiver == username_receiver]
+    messages_received = get_user(username_sender).received
+    msgr =  [message.serialize() for message in messages if message.sender == username_receiver]
+    return jsonify(messages_send=msgs,messages_recus=msgr)
 
 
 class Food(db.Model):
