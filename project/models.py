@@ -1,5 +1,5 @@
 from .app import db, login_manager, app
-from flask import jsonify 
+from flask import jsonify
 from hashlib import sha256
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 
@@ -102,11 +102,11 @@ class User(db.Model, UserMixin):
             if match.username not in matches:
                 matches[match.username] = match.username
         send_messages= {}
-        for message in self.messages_send:
+        for message in self.send:
             if message.id not in send_messages:
                 send_messages[message.id] = message
         received_messages= {}
-        for message in self.messages_received:
+        for message in self.received:
             if message.id not in received_messages:
                 received_messages[message.id] = message
         return {
