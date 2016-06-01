@@ -89,7 +89,7 @@ $(document).ready(function() {
                 data: datas,
                 success: function(json){
                     window.location.reload();
-                    display_home();
+                    //display_home();
                 }
             });
         bindings();
@@ -428,8 +428,8 @@ function display_home(){
         html+="          </div>  <!-- Container End -->";
         html+="      </section>";
         html+="{% else %}";
-        html+="<section id=\"testimonial\" class=\"wow fadeInUp\">";
-        html+="  <div class=\"container\">";
+        html+="  <section id=\"testimonial\" class=\"wow fadeInUp\">";
+        html+="   <div class=\"container\">";
         html+="      <div class=\"row\">";
         html+="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
         html+="              <div class=\"feature_header text-center\">";
@@ -467,7 +467,7 @@ function display_home(){
         html+="                  <!-- Navigation ENd -->";
         html+="              </div>";
         html+="          </div> <!-- Row End -->";
-        html+="        </section> <!-- Section Testimonial End -->";
+        html+="  </section> <!-- Section Testimonial End -->";
         html+="";
         html+="    </section>  <!-- Section TEam End -->";
         html+="      <section id=\"about\">";
