@@ -236,6 +236,26 @@ def user_modif():
             return jsonify(state=False, error="Description can't be empty"),400
     return jsonify(state=True),200
 
+                ##############
+                ## Messages ##
+                ##############
+
+@login_required
+@app.route("/allmessages", methods=('GET',))
+def display_all_message_route():
+    user = current_user
+    messages = get_messages_by_user(user.username)
+    return jsonify(messages=messages)
+
+
+@login_required
+@app.route("/conversation", methods=('GET',))
+def display_all_message_from_conversation_route():
+    username = "Alexis"
+    user = current_user
+    messages = get_messages_by_users(user.username, username)
+    return jsonify(messages=messages)
+
                 ############
                 ## plates ##
                 ############
