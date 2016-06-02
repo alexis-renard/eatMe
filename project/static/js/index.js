@@ -63,15 +63,11 @@ $(document).ready(function() {
    $(".get_profil").click(function() {
        get_profil();
    });
-
-   $("#love").click(function(){
-     add_love();
-   })
  }
 
-function add_love(){
+function add_love(id){
   console.log("begin");
-  var dict = {username : $("#love>img").attr("id") };
+  var dict = {username : id };
   console.log(dict);
   var data = JSON.stringify(dict);
   console.log(data);

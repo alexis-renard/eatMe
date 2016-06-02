@@ -132,9 +132,9 @@
                         <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
                           <div class="testimonial-thumb">
                             {% if propositions[user]["User"][0]["img"] != "" %}
-                              <a id="love" href="#"><img id="{{ propositions[user]['User'][0]['username'] }}" class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" > </a>
+                              <img id="{{ propositions[user]['User'][0]['username'] }}" onclick="add_love(this.id)" class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
                             {% else %}
-                              <a id="love" href="#"><img id="{{ propositions[user]['User'][0]['username'] }}" class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
+                              <img id="{{ propositions[user]['User'][0]['username'] }}" class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
                             {% endif %}
                           </div>
                           <div class="testimonial-content">
