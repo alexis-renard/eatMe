@@ -5,7 +5,7 @@
   lastName: Durand
   password : c537c4e1f90e847bb641e97695227fc42155ff7acca8ed8fa649d2d7f90e1b25
   email : Gerard@gmail.com
-  photo: /static/images/user gerard.png
+  img: http://static8.viadeo-static.com/F1DJQcXr1hrii33q-D5Tk4Kypko=/140x185/smart/member/002qqs9rjne0s1l?ts=1426757524000
   desc:  Coucouu c'est gégé!
   foodLevel:  2
   town : 1
@@ -18,7 +18,7 @@
   lastName: Karine
   password : 12702e6a86aade454dfaf7bdaeb9347a02d8657ad271d0916fb886ba64365b3e
   email : Suala@gmail.com
-  photo: /static/images/usersuala.png
+  img: http://www.animationsource.org/sites_content/lion_king/upload/fanchars/pic_detail52a49955ac2d5.png
   desc: Oh my god!
   foodLevel: 1
   town : 2
@@ -31,7 +31,7 @@
   lastName:  Renard
   password : d6a7304069f99c5a5bfe62f1bf9134fb10e109eb5042210045ac422e90b61e6e
   email : Alexis@gmail.com
-  photo: /static/images/useralexis.png
+  img: https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/11902538_10208006798797214_8208226368089400400_n.jpg?oh=41147680cb37f7a829d74222cc6428d6&oe=57D418EC
   desc: Eh c'est zorro !
   foodLevel:  5
   town : 2
@@ -44,7 +44,7 @@
   lastName: Gaal
   password : b2fffcdb3f64e783d1b981ae3ab431282b3ad25160d02e66986b31f8de919123
   email : Clement@gmail.com
-  photo: /static/images/userclement.png
+  img: https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/1655917_163216107373723_5700187854839860942_n.jpg?oh=aa7e41332cf1fadd5b11e426bf5e8283&oe=57DB9D2D
   desc: Coucou c'est moi !
   foodLevel: 3
   town : 3
@@ -57,7 +57,7 @@
   lastName: Molveau
   password : 8d903bc7fa5779dbbc30c72c36b955ff5b88d295374f6d02017f5dee114f4a5c
   email : Gregoire@gmail.com
-  photo: /static/images/usergregoire.png
+  img: https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/10500554_10202573708880311_1239024838167274033_n.jpg?oh=226b272d49f41a050fc5e21c51ad3f84&oe=580B764A
   desc: Uesh t'as vu !
   foodLevel: 1
   town : 4
@@ -70,7 +70,7 @@
   lastName: Pitch
   password : 49f9e47c31eca963eb7f5d73222311de8afef54d84c73e354e6ad803b3bc1f41
   email : Bibiche@gmail.com
-  photo: /static/images/userbibiche.png
+  img: http://vignette4.wikia.nocookie.net/desencyclopedie/images/3/39/Biche2.JPG/revision/latest/scale-to-width-down/250?cb=20100914151820
   desc: Hum que c'est savoureux !
   foodLevel: 0
   town : 1

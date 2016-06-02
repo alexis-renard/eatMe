@@ -62,7 +62,7 @@ class User(db.Model, UserMixin):
     lastName    = db.Column(db.String(100))
     email       = db.Column(db.String(100), unique=True)
     password    = db.Column(db.String(100))
-    img         = db.Column(db.String())
+    img         = db.Column(db.String(100))
     desc        = db.Column(db.String(1000))
     foodLevel   = db.Column(db.Integer)
     town_id     = db.Column(db.Integer, db.ForeignKey("town.id"))

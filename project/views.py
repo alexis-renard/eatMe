@@ -32,7 +32,6 @@ def home():
             "index.html",
         )
 
-
 @app.route("/home_user")
 def home_user():
     return jsonify(propositions=get_propositions_user(current_user.username))

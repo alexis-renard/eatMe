@@ -79,6 +79,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             cook_list = user["cook"]
             like_list = user["like"]
             matches_list = user["matches"]
+            img = user["img"]
 
             o = User(username=username, firstName=fName, lastName=lName, email=email, password=pwd,
              img=img, desc=desc, foodLevel=foodLevel, town_id=town_id)
