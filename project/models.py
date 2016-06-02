@@ -104,11 +104,11 @@ class User(db.Model, UserMixin):
         send_messages = {}
         for message in self.send:
             if message.id not in send_messages:
-                send_messages[message.id] = message
+                send_messages[message.id] = message.serialize()
         received_messages = {}
         for message in self.received:
             if message.id not in received_messages:
-                received_messages[message.id] = message
+                received_messages[message.id] = message.serialize()
         return {
             'username': self.username,
             'firstName': self.firstName,
@@ -181,7 +181,7 @@ class Message(db.Model):
     receiver = db.Column(db.String(100), db.ForeignKey("user.username"))
     content = db.Column(db.Text, nullable= False)
     class_counter = 1
-    
+
     def __init__(self, sender, receiver, content):
         self.sender = sender
         self.receiver = receiver
