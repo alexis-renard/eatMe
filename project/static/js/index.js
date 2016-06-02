@@ -60,6 +60,9 @@ $(document).ready(function() {
    $("#my_profil").click(function() {
        my_profil();
    });
+   $(".name>a").click(function(){
+     user_profil();
+   })
  }
 
  function post_login(){
