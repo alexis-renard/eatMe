@@ -138,7 +138,8 @@
                             {% endif %}
                           </div>
                           <div class="testimonial-content">
-                            <h3 class="name">{{ propositions[user]["User"][0]["firstName"] }} <span> Gros mangeur : {{ propositions[user]["User"][0]["foodLevel"] }}/5</span></h3>                            <p class="testimonial-text">
+                            <h3 id="{{ propositions[user]['User'][0]['username'] }}" class="name"><a class="get_profil"id="{{ propositions[user]['User'][0]['username'] }}" href="#">{{ propositions[user]["User"][0]["username"] }}</a><span> Eating Rate : {{ propositions[user]["User"][0]["foodLevel"] }}/5</span></h3>
+                            <p class="testimonial-text">
                               {{ propositions[user]["User"][0]["desc"] }}
                             </p>
                             <div>

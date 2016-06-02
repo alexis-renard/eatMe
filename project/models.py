@@ -171,7 +171,7 @@ def get_propositions_user(username):
                         commun_plates["WeCook"].append(plat.serialize())
 
                 somme = sum([len(x) for x in commun_plates.values()])
-                if somme>1:
+                if somme>3:
                     propositions[user.username]=commun_plates
     return propositions
 

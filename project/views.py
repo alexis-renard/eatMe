@@ -189,6 +189,20 @@ def get_myprofil():
     user = current_user.serialize()
     return jsonify(state=True, user=user)
 
+@app.route("/user/profil", methods=("POST",))
+def get_profil_other_user():
+    print("COUCOUUUUUUUUUUUUUUUUUUU")
+    datas = request.get_json()
+    print(datas)
+    print("COUCOUUUUUUUUUUUUUUUUUUU2")
+    username = datas.get("username",'')
+    print(username)
+    user = get_user(username)
+    print(user)
+    if user == None:
+        return jsonify(state=False, user="User introuvable : "+username)
+    return jsonify(state=True, user=user.serialize())
+
 @app.route("/user/profil", methods=("PUT",))
 def user_modif():
     user=current_user
