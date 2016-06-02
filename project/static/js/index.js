@@ -81,7 +81,7 @@ function add_love(){
     contentType:"application/json",
     data: data,
     success: function(json){
-
+        window.location.reload();
     }
   })
 }
@@ -274,17 +274,17 @@ function display_all_plates(){
         html+=" ";
         html+="    <div id=\"isotope-filter\" class=\"skew3 text-center\">";
         html+="        <a data-filter=\"*\"  href=\"#\" class=\"active \">All</a>";
-for (var prop in category) {
+        for (var prop in category) {
         html+="        <a data-filter=\"."+prop+"*\"  href=\"#\" class=\"\">"+prop+"</a>";
-}
+        }
         html+="    </div>";
         html+="    <div class=\"clearfix\"></div>";
         html+="            <div class=\"text-center \">";
         html+="              <ul class=\"portfolio-wrap\" id=\"portfolio_items\">";
-for (var prop in plates) {
-var plates_category=plates[prop];
+        for (var prop in plates) {
+        var plates_category=plates[prop];
         html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio";
-for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
+        for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
         html+="                        <figure>";
         html+="                            <img src=\"../static/images/portfolio/p1.jpg\" alt=\"\" />";
         html+="                            <figcaption>";
@@ -301,7 +301,7 @@ for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
         html+="                            </figcaption>";
         html+="                        </figure>";
         html+="                    </li>";
-}
+        }
         html+="                </ul>";
         html+="             </div> <!-- Container Full End -->";
         html+="</section>  <!-- Portfolio Section End -->";
@@ -616,13 +616,15 @@ function get_profil(){
       contentType:"application/json",
       data: datas,
       success: function(data){
-        display_profil();
+        display_profil(data);
       }
   });
 }
 
 
-function display_profil(){
+function display_profil(json){
+  console.log(json);
+
   var html ="";
   $("#main_container").empty();
   html+="<div class='clearfix'></div>";
@@ -635,7 +637,7 @@ function display_profil(){
   html+="                    <div class='landing-video'>";
   html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
   html+="                                <!-- Change the url -->";
-  html+="                            <iframe src='../static/images/' width='350' height='281' allowfullscreen></iframe>";
+  html+="                            <iframe src='"+json.user.img+"' width='350' height='281' allowfullscreen></iframe>";
   html+="                        </div>";
   html+="                    </div>";
   html+="                </div>";
@@ -652,7 +654,11 @@ function display_profil(){
   html+="                            </div>";
   html+="                            <div id='collapseOne' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='headingOne'>";
   html+="                              <div class='panel-body p1'>";
-  html+="                                Food";
+  html+="                                <ul>";
+  $.each(json.user.liked, function(i, obj) {
+    html+="<li>"+obj+"</li>";
+  });
+  html+="                                </ul>";
   html+="                              </div>";
   html+="                            </div>";
   html+="                          </div>";
@@ -666,7 +672,11 @@ function display_profil(){
   html+="                        </div>";
   html+="                        <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingTwo'>";
   html+="                          <div class='panel-body p1'>";
-  html+="                            Food";
+  html+="                                <ul>";
+  $.each(json.user.cooked, function(i, obj) {
+    html+="<li>"+obj+"</li>";
+  });
+  html+="                                </ul>";
   html+="                          </div>";
   html+="                        </div>";
   html+="                      </div>";
@@ -680,9 +690,14 @@ function display_profil(){
   html+="                        </div>";
   html+="                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'>";
   html+="                          <div class='panel-body p1'>";
-  html+="                            Description";
+  html+="                            "+json.user.desc+"";
   html+="                          </div>";
   html+="                        </div>";
+  html+="                      </div>";
+  html+="                    </div>";
+  html+="                    <div class='row'>";
+  html+="                      <div class='col-md-1 col-md-push-5'>";
+  html+="                       <button class='btn btn-danger btn-lg' ><i class='fa fa-heart' aria-hidden='true'></i></button>";
   html+="                      </div>";
   html+="                    </div>";
   html+="                </div>";
