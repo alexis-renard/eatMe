@@ -685,7 +685,7 @@ function display_profil(json){
   html+="                    </div>";
   html+="                    <div class='row'>";
   html+="                      <div class='col-md-1 col-md-push-5'>";
-  html+="                       <button class='btn btn-danger btn-lg' ><i class='fa fa-heart' aria-hidden='true'></i></button>";
+  html+="                       <button id='"+json.user.username+"' onclick='add_love(this.id)' class='btn btn-danger btn-lg'><i class='fa fa-heart' aria-hidden='true'></i></button>";
   html+="                      </div>";
   html+="                    </div>";
   html+="                </div>";
