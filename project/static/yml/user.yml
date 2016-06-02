@@ -9,7 +9,7 @@
   desc:  Coucouu c'est gégé!
   foodLevel:  2
   town : 1
-  love: [Suala,Alexis]
+  love: [Suala]
   matches: []
   cook: [1,2,3]
   like: [1,2,3,5]

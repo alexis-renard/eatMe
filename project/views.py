@@ -174,13 +174,24 @@ def remove_user_cooked_plate():
 @app.route("/user/loved", methods=("PUT",))
 def add_user_loved():
     user = current_user
+    print("current user taken")
     datas = request.get_json()
     print(datas.get('username',''))
     loved_user = get_user(datas.get('username',''))
     if loved_user not in user.loved:
+        print(" if loved user not in user loved")
         user.loved.append(loved_user)
+        print("append user.loved")
         db.session.commit()
-        return jsonify(state=True)
+        print("commit")
+        if user in loved_user.loved:
+            print("user in loved_user.loved")
+            user.matched.append(loved_user)
+            print("append")
+            db.session.commit()
+            print("commit")
+            return jsonify(state=True, match=True)
+        return jsonify(state=True, match=False)
     else:
         return jsonify(state=False, error="user already loved")
 
@@ -191,14 +202,9 @@ def get_myprofil():
 
 @app.route("/user/profil", methods=("POST",))
 def get_profil_other_user():
-    print("COUCOUUUUUUUUUUUUUUUUUUU")
-    datas = request.get_json()
-    print(datas)
-    print("COUCOUUUUUUUUUUUUUUUUUUU2")
-    username = datas.get("username",'')
-    print(username)
+    data = request.get_json()
+    username = data.get('username')
     user = get_user(username)
-    print(user)
     if user == None:
         return jsonify(state=False, user="User introuvable : "+username)
     return jsonify(state=True, user=user.serialize())

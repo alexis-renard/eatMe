@@ -63,9 +63,30 @@ $(document).ready(function() {
    $(".get_profil").click(function() {
        get_profil();
    });
+
+   $("#love").click(function(){
+     add_love();
+   })
  }
 
- function post_login(){
+function add_love(){
+  console.log("begin");
+  var dict = {username : $("#love>img").attr("id") };
+  console.log(dict);
+  var data = JSON.stringify(dict);
+  console.log(data);
+  $.ajax({
+    url: "/user/loved",
+    type: "PUT",
+    contentType:"application/json",
+    data: data,
+    success: function(json){
+        window.location.reload();
+    }
+  })
+}
+
+function post_login(){
      $("#login_form").submit(function(e){
          e.preventDefault();
          var dict={
@@ -253,17 +274,17 @@ function display_all_plates(){
         html+=" ";
         html+="    <div id=\"isotope-filter\" class=\"skew3 text-center\">";
         html+="        <a data-filter=\"*\"  href=\"#\" class=\"active \">All</a>";
-for (var prop in category) {
+        for (var prop in category) {
         html+="        <a data-filter=\"."+prop+"*\"  href=\"#\" class=\"\">"+prop+"</a>";
-}
+        }
         html+="    </div>";
         html+="    <div class=\"clearfix\"></div>";
         html+="            <div class=\"text-center \">";
         html+="              <ul class=\"portfolio-wrap\" id=\"portfolio_items\">";
-for (var prop in plates) {
-var plates_category=plates[prop];
+        for (var prop in plates) {
+        var plates_category=plates[prop];
         html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio";
-for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
+        for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
         html+="                        <figure>";
         html+="                            <img src=\"../static/images/portfolio/p1.jpg\" alt=\"\" />";
         html+="                            <figcaption>";
@@ -280,7 +301,7 @@ for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
         html+="                            </figcaption>";
         html+="                        </figure>";
         html+="                    </li>";
-}
+        }
         html+="                </ul>";
         html+="             </div> <!-- Container Full End -->";
         html+="</section>  <!-- Portfolio Section End -->";
@@ -573,28 +594,27 @@ function display_home(){
         html+="    </section>";
         html+="{% endif %}";
         $("#main_container").append(html);
+        bindings();
     }
   });
 }
 
 function get_profil(){
     var id = $(".name").attr("id");
-    console.log(id);
-    console.log($(this));
+    console.log($('a',this));
+    console.log($(this).parent);
+    console.log($(this).className);
     var dict={
          "username": id
     };
-    console.log(dict);
     var datas=JSON.stringify(dict);
-    console.log(datas);
-    console.log("saluuuuuuuuut");
     $.ajax({
       url : "http://localhost:5000/user/profil",
       type : "POST",
       contentType:"application/json",
       data: datas,
-      success: function(json){
-        display_profil(json);
+      success: function(data){
+        display_profil(data);
       }
   });
 }

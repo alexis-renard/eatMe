@@ -115,7 +115,7 @@
 
 {% else %}
 
-    <section id="testimonial" class="wow fadeInUp">
+    <section id="testimonial" class="wow backglightgray">
       <div class="container">
           <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -129,15 +129,15 @@
                   <div class="row">
                     <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
                       {% if propositions=={} %}
-                        <p> Our algorithme hadn't found any matches. <a href="#" onclick="display_all_plates()"> Add one !</a> </p>
+                        <p> Our algorithme hadn't found any matches concerning your plates liked or cooked. <a href="#" onclick="display_all_plates()"> Please add one !</a> </p>
                       {% else %}
                         {% for user in propositions %}
                           <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
                             <div class="testimonial-thumb">
                               {% if propositions[user]["User"][0]["img"] != "" %}
-                                <a href="/user"><img class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" > </a>
+                              <a id="love" href="#"><img id="{{ propositions[user]['User'][0]['username'] }}" class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" > </a>
                               {% else %}
-                                <a href="/user"><img class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
+                              <a id="love" href="#"><img id="{{ propositions[user]['User'][0]['username'] }}" class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
                               {% endif %}
                             </div>
                             <div class="testimonial-content">
