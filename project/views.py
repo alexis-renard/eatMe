@@ -192,10 +192,10 @@ def get_myprofil():
 @app.route("/user/profil", methods=("POST",))
 def get_profil_other_user():
     print("COUCOUUUUUUUUUUUUUUUUUUU")
-    datas = request.get_json()
-    print(datas)
+    data = request.get_json()
+    print(data)
     print("COUCOUUUUUUUUUUUUUUUUUUU2")
-    username = datas.get("username",'')
+    username = data.get('username')
     print(username)
     user = get_user(username)
     print(user)

@@ -573,11 +573,13 @@ function display_home(){
         html+="    </section>";
         html+="{% endif %}";
         $("#main_container").append(html);
+        bindings();
     }
   });
 }
 
 function get_profil(){
+    console.log("coucou");
     var id = $(".name").attr("id");
     console.log(id);
     console.log($(this));
@@ -587,13 +589,12 @@ function get_profil(){
     console.log(dict);
     var datas=JSON.stringify(dict);
     console.log(datas);
-    console.log("saluuuuuuuuut");
     $.ajax({
       url : "http://localhost:5000/user/profil",
       type : "POST",
       datatype: "json",
       data: datas,
-      success: function(json){
+      success: function(data){
         display_profil();
       }
   });
