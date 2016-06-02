@@ -129,10 +129,10 @@
                   <div class="row">
                     <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
                       {% for user in propositions %}
-                        <div class="item">
+                        <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
                           <div class="testimonial-thumb">
                             {% if propositions[user]["User"][0]["img"] != "" %}
-                              <a href="/user"><img class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" > {{ propositions[user]['User']['img'] }} </a>
+                              <a href="/user"><img class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" > </a>
                             {% else %}
                               <a href="/user"><img class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
                             {% endif %}
