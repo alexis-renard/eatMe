@@ -60,18 +60,11 @@ $(document).ready(function() {
    $("#my_profil").click(function() {
        my_profil();
    });
-   $(".get_profil").click(function() {
-       get_profil();
-   });
-
-   $("#love").click(function(){
-     add_love();
-   })
  }
 
-function add_love(){
+function add_love(id){
   console.log("begin");
-  var dict = {username : $("#love>img").attr("id") };
+  var dict = {username : id };
   console.log(dict);
   var data = JSON.stringify(dict);
   console.log(data);
@@ -599,11 +592,8 @@ function display_home(){
   });
 }
 
-function get_profil(){
-    var id = $(".name").attr("id");
-    console.log($('a',this));
-    console.log($(this).parent);
-    console.log($(this).className);
+function get_profil(id){
+    console.log(id);
     var dict={
          "username": id
     };
