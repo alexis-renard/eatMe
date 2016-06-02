@@ -591,7 +591,7 @@ function get_profil(){
     $.ajax({
       url : "http://localhost:5000/user/profil",
       type : "POST",
-      datatype: "json",
+      contentType:"application/json",
       data: datas,
       success: function(json){
         display_profil();
@@ -613,7 +613,7 @@ function display_profil(){
   html+="                    <div class='landing-video'>";
   html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
   html+="                                <!-- Change the url -->";
-        html+="                            <iframe src='../static/images/' width='350' height='281' allowfullscreen></iframe>";
+  html+="                            <iframe src='../static/images/' width='350' height='281' allowfullscreen></iframe>";
   html+="                        </div>";
   html+="                    </div>";
   html+="                </div>";
