@@ -63,9 +63,30 @@ $(document).ready(function() {
    $(".get_profil").click(function() {
        get_profil();
    });
+
+   $("#love").click(function(){
+     add_love();
+   })
  }
 
- function post_login(){
+function add_love(){
+  console.log("begin");
+  var dict = {username : $("#love>img").attr("id") };
+  console.log(dict);
+  var data = JSON.stringify(dict);
+  console.log(data);
+  $.ajax({
+    url: "/user/loved",
+    type: "PUT",
+    contentType:"application/json",
+    data: data,
+    success: function(json){
+
+    }
+  })
+}
+
+function post_login(){
      $("#login_form").submit(function(e){
          e.preventDefault();
          var dict={
