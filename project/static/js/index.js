@@ -1,6 +1,6 @@
 $(document).ready(function() {
     bindings();
-});;
+});
 
 /*
  * All plates
@@ -227,7 +227,67 @@ function display_register(){
 }
 
 
-
+function display_all_plates(){
+    $("#main_container").empty();
+    $.ajax({
+      url : "http://localhost:5000/allplates",
+      type : "GET",
+      datatype: "json",
+      success: function(data){
+        var html="";
+        var category=data.category;
+        var plates=data.dictionnary;
+        html+="<section id=\"portfolio\">";
+        html+="        <div class=\"container\">";
+        html+="            <div class=\"row\">";
+        html+="                <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+        html+="                    <div class=\"feature_header text-center\">";
+        html+="                        <h3 class=\"feature_title\">aria-hidden plates</b></h3>";
+        html+="                        <h4 class=\"feature_sub\">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h4>";
+        html+="                        <div class=\"divider\"></div>";
+        html+="                    </div>";
+        html+="                </div>  <!-- Col-md-12 End -->";
+        html+="            </div>";
+        html+="        </div>";
+        html+=" ";
+        html+=" ";
+        html+="    <div id=\"isotope-filter\" class=\"skew3 text-center\">";
+        html+="        <a data-filter=\"*\"  href=\"#\" class=\"active \">All</a>";
+for (var prop in category) {
+        html+="        <a data-filter=\"."+prop+"*\"  href=\"#\" class=\"\">"+prop+"</a>";
+}
+        html+="    </div>";
+        html+="    <div class=\"clearfix\"></div>";
+        html+="            <div class=\"text-center \">";
+        html+="              <ul class=\"portfolio-wrap\" id=\"portfolio_items\">";
+for (var prop in plates) {
+var plates_category=plates[prop];
+        html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio";
+for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
+        html+="                        <figure>";
+        html+="                            <img src=\"../static/images/portfolio/p1.jpg\" alt=\"\" />";
+        html+="                            <figcaption>";
+        html+="                                <h5>"+prop+"</h5>";
+        html+="                                <p class=\"links\">";
+        html+="                                    <a href=\"portfolio-single.html\"> <i class=\"fa fa-link\"></i></a>";
+        html+="                                    <a href=\"images/portfolio/p1.jpg\" data-rel=\"prettyPhoto\" class=\"img-responsive\">";
+        html+="                                        <i class=\"fa fa-plus\"></i>";
+        html+="                                    </a>";
+        html+="                                </p>";
+        html+="                                <p class=\"description\">";
+        html+="                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.";
+        html+="                                </p>";
+        html+="                            </figcaption>";
+        html+="                        </figure>";
+        html+="                    </li>";
+}
+        html+="                </ul>";
+        html+="             </div> <!-- Container Full End -->";
+        html+="</section>  <!-- Portfolio Section End -->";
+        $("#main_container").append(html);
+    }
+});
+}
 
 
 
@@ -264,19 +324,19 @@ function my_profil(){
         html +="                        </div>";
         html +="                        <div class=\"form-level\">";
         html +="                            <input name=\"firstName\" placeholder=\"First Name\" id=\"firstName\" class=\"input-block\" value=\""+data.user.firstName+"\" type=\"firstName\">";
-        html +="                            <span class=\"form-icon fa fa-hand-spock-o\"></span>";
+        html +="                            <span class=\"form-icon fa fa-hand-o-left\"></span>";
         html +="                        </div>";
         html +="                        <div class=\"form-level\">";
         html +="                            <input name=\"lastName\" placeholder=\"Last Name\" id=\"lastName\" class=\"input-block\" value=\""+data.user.lastName+"\" type=\"lastName\">";
-        html +="                            <span class=\"form-icon fa fa-hand-paper\"></span>";
+        html +="                            <span class=\"form-icon fa fa-hand-o-right\"></span>";
         html +="                        </div>";
         html +="                        <div class=\"form-level\">";
         html +="                            <input name=\"email\" placeholder=\"Email\" id=\"mail\" class=\"input-block\" value=\""+data.user.email+"\" type=\"email\">";
         html +="                            <span class=\"form-icon fa fa-envelope\"></span>";
         html +="                        </div>";
         html +="                        <div class=\"form-level\">";
-        html +="                            <input name=\"img\" placeholder=\"Image\" id=\"img\" class=\"input-block\" value=\"\" type=\"url\">";
-        html +="                            <span class=\"form-icon fa fa-envelope\"></span>";
+        html +="                            <input name=\"img\" placeholder=\"Image\" id=\"img\" class=\"input-block\" value=\""+data.user.img+"\" type=\"url\">";
+        html +="                            <span class=\"form-icon fa fa-picture-o\"></span>";
         html +="                        </div>";
         html +="                    </form>";
         html +="                </div>";
@@ -436,7 +496,7 @@ function display_home(){
         html+="                          </button>";
         html+="                       <div class=\"item\">";
         html+="                         <div class=\"testimonial-thumb\">";
-        html+="                           <img class=\"img-circle\" src=\"images/team/pic1.jpg\" alt=\"testimonial\" >";
+        html+="                           <img class=\"img-circle\" src=\"images/pic1.jpg\" alt=\"testimonial\" >";
         html+="                         </div>";
         html+="                         <div class=\"testimonial-content\">";
         html+="                           <h3 class=\"name\">Katee Nureen <span>Exectuive Director</span></h3>";
@@ -553,7 +613,7 @@ function display_profil(){
   html+="                    <div class='landing-video'>";
   html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
   html+="                                <!-- Change the url -->";
-  html+="                            <iframe src='../static/images/depardieu.jpg' width='350' height='281' allowfullscreen></iframe>";
+        html+="                            <iframe src='../static/images/' width='350' height='281' allowfullscreen></iframe>";
   html+="                        </div>";
   html+="                    </div>";
   html+="                </div>";

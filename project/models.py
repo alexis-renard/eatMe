@@ -1,33 +1,46 @@
 from .app import db, login_manager, app
-from flask_login import UserMixin
+from flask import jsonify
 from hashlib import sha256
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 
 #Création de la table love entre deux user
 love = db.Table('love',
-    db.Column('lover_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
-    db.Column('loved_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('lover_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
+    db.Column('loved_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
 )
 
 matches = db.Table('matches',
-    db.Column('matched_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
-    db.Column('matcher_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('matched_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
+    db.Column('matcher_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
 )
 
 #Création de la table cook entre User et food
 cook = db.Table('cook',
-    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
     db.PrimaryKeyConstraint('food_id', 'user_username')
 )
 
 #Création de la table like entre User et food
 like = db.Table('like',
-    db.Column('user_username', db.Integer, db.ForeignKey('user.username'), nullable=False),
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('food_id', db.Integer, db.ForeignKey('food.id'), nullable=False),
     db.PrimaryKeyConstraint('food_id', 'user_username')
 )
 
+#Création de la table send entre User et message
+to_send = db.Table('send',
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
+    db.Column('message_id', db.Integer, db.ForeignKey('message.id'), nullable=False),
+    db.PrimaryKeyConstraint('message_id', 'user_username')
+)
+
+#Création de la table like entre User et food
+to_receive = db.Table('received',
+    db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
+    db.Column('message_id', db.Integer, db.ForeignKey('message.id'), nullable=False),
+    db.PrimaryKeyConstraint('message_id', 'user_username')
+)
 
 #Création de la table belong_Class enre food et class
 belong_Class = db.Table('belong_Class',
@@ -43,15 +56,13 @@ belong_Category = db.Table('belong_Category',
     db.PrimaryKeyConstraint('food_id', 'category_name')
 )
 
-
-
 class User(db.Model, UserMixin):
     username    = db.Column(db.String(100), primary_key=True)
     firstName   = db.Column(db.String(100))
     lastName    = db.Column(db.String(100))
     email       = db.Column(db.String(100), unique=True)
     password    = db.Column(db.String(100))
-    img         = db.Column(db.String())
+    img         = db.Column(db.String(100))
     desc        = db.Column(db.String(1000))
     foodLevel   = db.Column(db.Integer)
     town_id     = db.Column(db.Integer, db.ForeignKey("town.id"))
@@ -68,8 +79,10 @@ class User(db.Model, UserMixin):
                            secondaryjoin=(matches.c.matcher_username == username),
                            backref=db.backref('matchers', lazy='dynamic'),
                            lazy='dynamic')
-    liked = db.relationship("Food",secondary=like, backref = db.backref("user_liked", lazy="dynamic"))
-    cooked = db.relationship("Food",secondary=cook, backref = db.backref("user_cooked", lazy="dynamic"))
+    liked = db.relationship("Food", secondary=like, backref=db.backref("user_liked", lazy="dynamic"))
+    cooked = db.relationship("Food", secondary=cook, backref=db.backref("user_cooked", lazy="dynamic"))
+    send = db.relationship("Message", secondary=to_send, backref=db.backref("user_send", lazy="dynamic"))
+    received = db.relationship("Message", secondary=to_receive, backref=db.backref("user_received", lazy="dynamic"))
 
     def serialize(self):
         loved = {}
@@ -88,6 +101,14 @@ class User(db.Model, UserMixin):
         for match in self.matched:
             if match.username not in matches:
                 matches[match.username] = match.username
+        send_messages = {}
+        for message in self.send:
+            if message.id not in send_messages:
+                send_messages[message.id] = message.serialize()
+        received_messages = {}
+        for message in self.received:
+            if message.id not in received_messages:
+                received_messages[message.id] = message.serialize()
         return {
             'username': self.username,
             'firstName': self.firstName,
@@ -101,7 +122,9 @@ class User(db.Model, UserMixin):
             'loved': loved,
             'liked': liked,
             'cooked': cooked,
-            'matched': matches
+            'matched': matches,
+            'received': received_messages,
+            'send': send_messages
         }
 
     def get_id(self):
@@ -148,9 +171,67 @@ def get_propositions_user(username):
                         commun_plates["WeCook"].append(plat.serialize())
 
                 somme = sum([len(x) for x in commun_plates.values()])
-                if somme>5:
+                if somme>3:
                     propositions[user.username]=commun_plates
     return propositions
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key= True)
+    sender = db.Column(db.String(100), db.ForeignKey("user.username"))
+    receiver = db.Column(db.String(100), db.ForeignKey("user.username"))
+    content = db.Column(db.Text, nullable= False)
+    class_counter = 1
+
+    def __init__(self, sender, receiver, content):
+        self.sender = sender
+        self.receiver = receiver
+        self.content = content
+        self.id = Message.class_counter
+        Message.class_counter += 1
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'sender': self.sender,
+            'receiver': self.receiver,
+            'content': self.content
+        }
+
+    def get_id(self):
+        return self.id
+
+    def get_sender(self):
+        return self.sender
+
+    def get_receiver(self):
+        return self.receiver
+
+    def get_content(self):
+        return self.content
+
+def get_all_messages():
+    return Message.query.all()
+
+def get_message(id):
+    return Message.query.get(id)
+
+def get_messages_by_user(username):
+    messages_send = get_user(username).send
+    messages_received = get_user(username).received
+    message_dict = {}
+    for message in messages_send:
+        message_dict[message.id] = message.serialize()
+    for message in messages_received:
+        message_dict[message.id] = message.serialize()
+    return  message_dict
+
+def get_messages_by_users(username_sender, username_receiver):
+    messages = get_messages_by_user(username_sender)
+    msgs = [message.serialize() for message in messages if message.receiver == username_receiver]
+    messages_received = get_user(username_sender).received
+    msgr =  [message.serialize() for message in messages if message.sender == username_receiver]
+    return jsonify(messages_send=msgs,messages_recus=msgr)
+
 
 class Food(db.Model):
     id          = db.Column(db.Integer, primary_key=True)

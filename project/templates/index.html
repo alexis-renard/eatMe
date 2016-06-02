@@ -129,12 +129,12 @@
                   <div class="row">
                     <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
                       {% for user in propositions %}
-                        <div class="item">
+                        <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
                           <div class="testimonial-thumb">
-                            {% if propositions[user]["User"][0]["img"]=="" %}
-                              <a id="{{ propositions[user]['User'][0]['username'] }}" href="#" onclick="add_love();"><img class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
+                            {% if propositions[user]["User"][0]["img"] != "" %}
+                              <a href="/user"><img class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" > </a>
                             {% else %}
-                              <a id="{{ propositions[user]['User'][0]['username'] }}" href="#" onclick="add_love();"><img class="img-circle" src="images/gerard.jpg" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
+                              <a href="/user"><img class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
                             {% endif %}
                           </div>
                           <div class="testimonial-content">
@@ -238,7 +238,7 @@
                                           <div class="c-tab">
                                                <h4>Plates that you like</h4>
                                                <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
-                                               <a href="#"> Add one !</a>
+                                               <a href="#" onclick="display_all_plates()"> Add one !</a>
                                           </div>
                                       </div>
                                 </div>

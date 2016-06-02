@@ -32,7 +32,6 @@ def home():
             "index.html",
         )
 
-
 @app.route("/home_user")
 def home_user():
     return jsonify(propositions=get_propositions_user(current_user.username))
@@ -185,10 +184,6 @@ def add_user_loved():
     else:
         return jsonify(state=False, error="user already loved")
 
-                ############
-                ## plates ##
-                ############
-
 @app.route("/user/profil", methods=("GET",))
 def get_myprofil():
     user = current_user.serialize()
@@ -254,6 +249,72 @@ def user_modif():
             return jsonify(state=False, error="Description can't be empty"),400
     return jsonify(state=True),200
 
+                ##############
+                ## Messages ##
+                ##############
+
+@login_required
+@app.route("/allmessages", methods=('GET',))
+def display_all_message_route():
+    user = current_user
+    messages = get_messages_by_user(user.username)
+    return jsonify(messages=messages)
+
+
+@login_required
+@app.route("/conversation", methods=('GET',))
+def display_all_message_from_conversation_route(username):
+    user = current_user
+    messages = get_messages_by_users(user.username, username)
+    return messages
+
+@login_required
+@app.route("/conversation/add", methods=("PUT",))
+def add_message_to_conversation():
+    try:
+        datas = request.get_json()
+        sender = datas.get('sender', '')
+        user_sender = get_user(sender)
+        receiver = datas.get('receiver', '')
+        user_receiver = get_user(receiver)
+        try:
+            m = Message(sender=sender, receiver=receiver,
+                              content=datas.get('content'))
+            try:
+                db.session.add(m)
+                db.session.commit()
+                user_sender.send.append(m)
+                user_receiver.received.append(m)
+                db.session.commit()
+                return jsonify(state=True)
+            except:
+                return jsonify(state=False, error= "Message can't be added")
+        except:
+            return jsonify(state=False, error="Message can't be created")
+    except:
+        return jsonify(state=False, error="Message can't be transfered")
+
+                ############
+                ## plates ##
+                ############
+
+@login_required
+@app.route("/allplates", methods=('GET',))
+def display_all_plates_route():
+    list_category = Category.get_categories()
+    category_dict = {}
+    plates_dict = {}
+    dictionnary={}
+    plates = get_all_food()
+    for elem in plates:
+        plates_dict[elem.name]=elem.serialize()["name"]
+    for elem in list_category:
+        category_dict[elem.name]=elem.serialize()["name"]
+    for elem in plates:
+        dictionnary[elem.name]=elem.serialize()["foodCategory"]
+    return  jsonify(category=category_dict, plates=plates_dict, dictionnary=dictionnary)
+
+
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
@@ -303,18 +364,18 @@ def plate_by_name_route(name):
 #     else:
 #         return jsonify(state=False)
 
-# @login_required
-# @app.route("/myplates/add/<int:id>", methods=('PUT',))
-# def add_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if add_plate_to_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
+@login_required
+@app.route("/myplates/add/<int:id>", methods=('PUT',))
+def add_plate(id):
+    plate_id = id
+    p = get_food_by_id(plate_id)
+    if p is not None :
+            if add_plate_to_user_plates(plate_id) != None:
+                return jsonify(state=True)
+            else:
+                return jsonify(state=False)
+    else:
+        return jsonify(state=False)
 
             ##############
             ## mycook ##
