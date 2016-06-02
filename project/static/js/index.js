@@ -592,7 +592,7 @@ function get_profil(){
     $.ajax({
       url : "http://localhost:5000/user/profil",
       type : "POST",
-      datatype: "json",
+      contentType:"application/json",
       data: datas,
       success: function(data){
         display_profil();
