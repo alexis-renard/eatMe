@@ -132,13 +132,13 @@
                         <div class="item">
                           <div class="testimonial-thumb">
                             {% if propositions[user]["User"][0]["img"]=="" %}
-                              <a href="/user"><img class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
+                              <a id="{{ propositions[user]['User'][0]['username'] }}" href="#" onclick="add_love();"><img class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
                             {% else %}
-                              <a href="/user"><img class="img-circle" src="images/gerard.jpg" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
+                              <a id="{{ propositions[user]['User'][0]['username'] }}" href="#" onclick="add_love();"><img class="img-circle" src="images/gerard.jpg" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" ></a>
                             {% endif %}
                           </div>
                           <div class="testimonial-content">
-                            <h3 class="name">{{ propositions[user]["User"][0]["firstName"] }} <span> Gros mangeur : {{ propositions[user]["User"][0]["foodLevel"] }}/5</span></h3>
+                            <h3 id="{{ propositions[user]['User'][0]['username'] }}" class="name"><a class="get_profil"id="{{ propositions[user]['User'][0]['username'] }}" href="#">{{ propositions[user]["User"][0]["username"] }}</a><span> Eating Rate : {{ propositions[user]["User"][0]["foodLevel"] }}/5</span></h3>
                             <p class="testimonial-text">
                               {{ propositions[user]["User"][0]["desc"] }}
                             </p>

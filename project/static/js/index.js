@@ -60,6 +60,9 @@ $(document).ready(function() {
    $("#my_profil").click(function() {
        my_profil();
    });
+   $(".get_profil").click(function() {
+       get_profil();
+   });
  }
 
  function post_login(){
@@ -514,81 +517,96 @@ function display_home(){
   });
 }
 
-function display_profil(){
-    $("#main_container").empty();
+function get_profil(){
+    var id = $(".name").attr("id");
+    console.log(id);
+    console.log($(this));
+    var dict={
+         "username": id
+    };
+    console.log(dict);
+    var datas=JSON.stringify(dict);
+    console.log(datas);
+    console.log("saluuuuuuuuut");
     $.ajax({
-      url : "http://localhost:5000/?",
-      type : "GET",
+      url : "http://localhost:5000/user/profil",
+      type : "POST",
       datatype: "json",
-      success: function(data){
-        var html ="";
-        $("#main_container").empty();
-        html+="<div class='clearfix'></div>";
-        html+="</br>";
-        html+="</br>";
-        html+="<section id='video-fact'>";
-        html+="    <div class='container'>";
-        html+="         <div class='row'>";
-        html+="                 <div class='col-md-6 '>";
-        html+="                    <div class='landing-video'>";
-        html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
-        html+="                                <!-- Change the url -->";
-        html+="                            <iframe src='../static/images/depardieu.jpg' width='350' height='281' allowfullscreen></iframe>";
-        html+="                        </div>";
-        html+="                    </div>";
-        html+="                </div>";
-        html+="                <div class='col-md-6 '>";
-        html+="                    <div class='video-text'>";
-        html+="                        <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>";
-        html+="                          <div class='panel panel-default'>";
-        html+="                            <div class='panel-heading active' role='tab' id='headingOne'>";
-        html+="                              <h4 class='panel-title'>";
-        html+="                                <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>";
-        html+="                                  What like to eat:";
-        html+="                                </a>";
-        html+="                              </h4>";
-        html+="                            </div>";
-        html+="                            <div id='collapseOne' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='headingOne'>";
-        html+="                              <div class='panel-body p1'>";
-        html+="                                Food";
-        html+="                              </div>";
-        html+="                            </div>";
-        html+="                          </div>";
-        html+="                      <div class='panel panel-default'>";
-        html+="                        <div class='panel-heading ' role='tab' id='headingTwo'>";
-        html+="                          <h4 class='panel-title'>";
-        html+="                            <a class='accordion-toggle collapsed'  data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>";
-        html+="                              What like to cook:";
-        html+="                            </a>";
-        html+="                          </h4>";
-        html+="                        </div>";
-        html+="                        <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingTwo'>";
-        html+="                          <div class='panel-body p1'>";
-        html+="                            Food";
-        html+="                          </div>";
-        html+="                        </div>";
-        html+="                      </div>";
-        html+="                      <div class='panel panel-default'>";
-        html+="                        <div class='panel-heading ' role='tab' id='headingThree'>";
-        html+="                          <h4 class='panel-title'>";
-        html+="                            <a class='accordion-toggle collapsed' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>";
-        html+="                              Description:";
-        html+="                            </a>";
-        html+="                          </h4>";
-        html+="                        </div>";
-        html+="                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'>";
-        html+="                          <div class='panel-body p1'>";
-        html+="                            Description";
-        html+="                          </div>";
-        html+="                        </div>";
-        html+="                      </div>";
-        html+="                    </div>";
-        html+="                </div>";
-        html+="            </div>";
-        html+="        </div><!-- row End -->";
-        html+="    </div>";
-        html+="</section>";
-        $("#main_container").append(html);
+      data: datas,
+      success: function(json){
+        display_profil();
       }
   });
+}
+
+
+function display_profil(){
+  var html ="";
+  $("#main_container").empty();
+  html+="<div class='clearfix'></div>";
+  html+="</br>";
+  html+="</br>";
+  html+="<section id='video-fact'>";
+  html+="    <div class='container'>";
+  html+="         <div class='row'>";
+  html+="                 <div class='col-md-6 '>";
+  html+="                    <div class='landing-video'>";
+  html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
+  html+="                                <!-- Change the url -->";
+  html+="                            <iframe src='../static/images/depardieu.jpg' width='350' height='281' allowfullscreen></iframe>";
+  html+="                        </div>";
+  html+="                    </div>";
+  html+="                </div>";
+  html+="                <div class='col-md-6 '>";
+  html+="                    <div class='video-text'>";
+  html+="                        <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>";
+  html+="                          <div class='panel panel-default'>";
+  html+="                            <div class='panel-heading active' role='tab' id='headingOne'>";
+  html+="                              <h4 class='panel-title'>";
+  html+="                                <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>";
+  html+="                                  What like to eat:";
+  html+="                                </a>";
+  html+="                              </h4>";
+  html+="                            </div>";
+  html+="                            <div id='collapseOne' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='headingOne'>";
+  html+="                              <div class='panel-body p1'>";
+  html+="                                Food";
+  html+="                              </div>";
+  html+="                            </div>";
+  html+="                          </div>";
+  html+="                      <div class='panel panel-default'>";
+  html+="                        <div class='panel-heading ' role='tab' id='headingTwo'>";
+  html+="                          <h4 class='panel-title'>";
+  html+="                            <a class='accordion-toggle collapsed'  data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>";
+  html+="                              What like to cook:";
+  html+="                            </a>";
+  html+="                          </h4>";
+  html+="                        </div>";
+  html+="                        <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingTwo'>";
+  html+="                          <div class='panel-body p1'>";
+  html+="                            Food";
+  html+="                          </div>";
+  html+="                        </div>";
+  html+="                      </div>";
+  html+="                      <div class='panel panel-default'>";
+  html+="                        <div class='panel-heading ' role='tab' id='headingThree'>";
+  html+="                          <h4 class='panel-title'>";
+  html+="                            <a class='accordion-toggle collapsed' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>";
+  html+="                              Description:";
+  html+="                            </a>";
+  html+="                          </h4>";
+  html+="                        </div>";
+  html+="                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'>";
+  html+="                          <div class='panel-body p1'>";
+  html+="                            Description";
+  html+="                          </div>";
+  html+="                        </div>";
+  html+="                      </div>";
+  html+="                    </div>";
+  html+="                </div>";
+  html+="            </div>";
+  html+="        </div><!-- row End -->";
+  html+="    </div>";
+  html+="</section>";
+  $("#main_container").append(html);
 }
