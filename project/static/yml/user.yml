@@ -5,7 +5,7 @@
   lastName: Durand
   password : c537c4e1f90e847bb641e97695227fc42155ff7acca8ed8fa649d2d7f90e1b25
   email : Gerard@gmail.com
-  photo:  gege.png
+  photo: /static/images/user gerard.png
   desc:  Coucouu c'est gégé!
   foodLevel:  2
   town : 1
@@ -18,7 +18,7 @@
   lastName: Karine
   password : 12702e6a86aade454dfaf7bdaeb9347a02d8657ad271d0916fb886ba64365b3e
   email : Suala@gmail.com
-  photo: sualaKarine.png
+  photo: /static/images/usersuala.png
   desc: Oh my god!
   foodLevel: 1
   town : 2
@@ -31,7 +31,7 @@
   lastName:  Renard
   password : d6a7304069f99c5a5bfe62f1bf9134fb10e109eb5042210045ac422e90b61e6e
   email : Alexis@gmail.com
-  photo: zorro.png
+  photo: /static/images/useralexis.png
   desc: Eh c'est zorro !
   foodLevel:  5
   town : 2
@@ -44,7 +44,7 @@
   lastName: Gaal
   password : b2fffcdb3f64e783d1b981ae3ab431282b3ad25160d02e66986b31f8de919123
   email : Clement@gmail.com
-  photo: gaal.png
+  photo: /static/images/userclement.png
   desc: Coucou c'est moi !
   foodLevel: 3
   town : 3
@@ -57,7 +57,7 @@
   lastName: Molveau
   password : 8d903bc7fa5779dbbc30c72c36b955ff5b88d295374f6d02017f5dee114f4a5c
   email : Gregoire@gmail.com
-  photo: momo.png
+  photo: /static/images/usergregoire.png
   desc: Uesh t'as vu !
   foodLevel: 1
   town : 4
@@ -70,7 +70,7 @@
   lastName: Pitch
   password : 49f9e47c31eca963eb7f5d73222311de8afef54d84c73e354e6ad803b3bc1f41
   email : Bibiche@gmail.com
-  photo: pitch.png
+  photo: /static/images/userbibiche.png
   desc: Hum que c'est savoureux !
   foodLevel: 0
   town : 1
