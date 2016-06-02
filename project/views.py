@@ -191,14 +191,9 @@ def get_myprofil():
 
 @app.route("/user/profil", methods=("POST",))
 def get_profil_other_user():
-    print("COUCOUUUUUUUUUUUUUUUUUUU")
     data = request.get_json()
-    print(data)
-    print("COUCOUUUUUUUUUUUUUUUUUUU2")
     username = data.get('username')
-    print(username)
     user = get_user(username)
-    print(user)
     if user == None:
         return jsonify(state=False, user="User introuvable : "+username)
     return jsonify(state=True, user=user.serialize())
