@@ -29,14 +29,14 @@ like = db.Table('like',
 )
 
 #Création de la table send entre User et message
-send = db.Table('send',
+to_send = db.Table('send',
     db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('message_id', db.Integer, db.ForeignKey('message.id'), nullable=False),
     db.PrimaryKeyConstraint('message_id', 'user_username')
 )
 
 #Création de la table like entre User et food
-received = db.Table('received',
+to_receive = db.Table('received',
     db.Column('user_username', db.String(100), db.ForeignKey('user.username'), nullable=False),
     db.Column('message_id', db.Integer, db.ForeignKey('message.id'), nullable=False),
     db.PrimaryKeyConstraint('message_id', 'user_username')
@@ -81,8 +81,8 @@ class User(db.Model, UserMixin):
                            lazy='dynamic')
     liked = db.relationship("Food", secondary=like, backref=db.backref("user_liked", lazy="dynamic"))
     cooked = db.relationship("Food", secondary=cook, backref=db.backref("user_cooked", lazy="dynamic"))
-    send = db.relationship("Message", secondary=send, backref=db.backref("user_message_send", lazy="dynamic"))
-    received = db.relationship("Message", secondary=received, backref=db.backref("user_message_received", lazy="dynamic"))
+    send = db.relationship("Message", secondary=to_send, backref=db.backref("user_send", lazy="dynamic"))
+    received = db.relationship("Message", secondary=to_receive, backref=db.backref("user_received", lazy="dynamic"))
 
     def serialize(self):
         loved = {}
@@ -101,11 +101,11 @@ class User(db.Model, UserMixin):
         for match in self.matched:
             if match.username not in matches:
                 matches[match.username] = match.username
-        send_messages= {}
+        send_messages = {}
         for message in self.send:
             if message.id not in send_messages:
                 send_messages[message.id] = message
-        received_messages= {}
+        received_messages = {}
         for message in self.received:
             if message.id not in received_messages:
                 received_messages[message.id] = message
@@ -177,9 +177,17 @@ def get_propositions_user(username):
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key= True)
-    sender = db.Column(db.Integer, db.ForeignKey("user.username"))
-    receiver = db.Column(db.Integer, db.ForeignKey("user.username"))
+    sender = db.Column(db.String(100), db.ForeignKey("user.username"))
+    receiver = db.Column(db.String(100), db.ForeignKey("user.username"))
     content = db.Column(db.Text, nullable= False)
+    class_counter = 1
+    
+    def __init__(self, sender, receiver, content):
+        self.sender = sender
+        self.receiver = receiver
+        self.content = content
+        self.id = Message.class_counter
+        Message.class_counter += 1
 
     def serialize(self):
         return {

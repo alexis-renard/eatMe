@@ -255,17 +255,32 @@ def display_all_message_from_conversation_route(username):
     messages = get_messages_by_users(user.username, username)
     return messages
 
-# @login_required
-# @app.route("/conversation/add", methods=("PUT",))
-# def add_message_to_conversation():
-#     user = current_user
-#     datas = request.get_json()
-#     receiver = get_user(datas.get('receiver',''))
-#         user.send.append(datas)
-#         db.session.commit()
-#         return jsonify(state=True)
-#     else:
-#         return jsonify(state=False, error="user already loved")
+@login_required
+@app.route("/conversation/add", methods=("PUT",))
+def add_message_to_conversation():
+    try:
+        datas = request.get_json()
+        sender = datas.get('sender', '')
+        user_sender = get_user(sender)
+        receiver = datas.get('receiver', '')
+        user_receiver = get_user(receiver)
+        try:
+            m = Message(sender=sender, receiver=receiver,
+                              content=datas.get('content'))
+            try:
+                db.session.add(m)
+                db.session.commit()
+                user_sender.send.append(m)
+                user_receiver.received.append(m)
+                db.session.commit()
+                return jsonify(state=True)
+            except:
+                return jsonify(state=False, error= "Message can't be added")
+        except:
+            return jsonify(state=False, error="Message can't be created")
+    except:
+        return jsonify(state=False, error="Message can't be transfered")
+
                 ############
                 ## plates ##
                 ############
