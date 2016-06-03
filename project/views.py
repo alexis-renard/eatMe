@@ -366,13 +366,16 @@ def add_plate():
 
 
 @login_required
-@app.route("/allplates", methods=('DELETE',))
+@app.route("/all_plates", methods=('DELETE',))
 def delete_plate():
     try:
         datas = request.get_json()
         idfood = datas.get('idfood', '')
+        print("datas: "+datas)
+        print("idfood: "+idfood)
         try:
             f = get_food(idfood)
+            print("f: "+f)
             try:
                 db.session.delete(f)
                 db.session.commit()

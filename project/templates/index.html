@@ -281,7 +281,7 @@
                                                  <h4>List of all the plate you can propose to your matches !</h4>
                                                  <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
                                                {% endif %}
-                                               <a href="#" onclick="display_all_plates()"> Increase your cooked list </a>
+                                               <a href="#" onclick="display_all_cook('all')"> Increase your cooked list </a>
                                           </div>
                                       </div>
                                 </div>
