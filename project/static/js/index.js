@@ -244,67 +244,6 @@ function display_register(){
 }
 
 
-function Comdisplay_all_plates(){
-    $("#main_container").empty();
-    $.ajax({
-      url : "http://localhost:5000/allplates",
-      type : "GET",
-      datatype: "json",
-      success: function(data){
-        var html="";
-        var category=data.category;
-        var plates=data.dictionnary;
-        html+="<section id=\"portfolio\">";
-        html+="        <div class=\"container\">";
-        html+="            <div class=\"row\">";
-        html+="                <div class=\"col-md-12 col-sm-12 col-xs-12\">";
-        html+="                    <div class=\"feature_header text-center\">";
-        html+="                        <h3 class=\"feature_title\">aria-hidden plates</b></h3>";
-        html+="                        <h4 class=\"feature_sub\">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h4>";
-        html+="                        <div class=\"divider\"></div>";
-        html+="                    </div>";
-        html+="                </div>  <!-- Col-md-12 End -->";
-        html+="            </div>";
-        html+="        </div>";
-        html+=" ";
-        html+=" ";
-        html+="    <div id=\"isotope-filter\" class=\"skew3 text-center\">";
-        html+="        <a data-filter=\"*\"  href=\"#\" class=\"active \">All</a>";
-        for (var prop in category) {
-        html+="        <a data-filter=\"."+prop+"*\"  href=\"#\" class=\"\">"+prop+"</a>";
-        }
-        html+="    </div>";
-        html+="    <div class=\"clearfix\"></div>";
-        html+="            <div class=\"text-center \">";
-        html+="              <ul class=\"portfolio-wrap\" id=\"portfolio_items\">";
-        for (var prop in plates) {
-        var plates_category=plates[prop];
-        html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio";
-        for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
-        html+="                        <figure>";
-        html+="                            <img src=\"../static/images/portfolio/p1.jpg\" alt=\"\" />";
-        html+="                            <figcaption>";
-        html+="                                <h5>"+prop+"</h5>";
-        html+="                                <p class=\"links\">";
-        html+="                                    <a href=\"portfolio-single.html\"> <i class=\"fa fa-link\"></i></a>";
-        html+="                                    <a href=\"images/portfolio/p1.jpg\" data-rel=\"prettyPhoto\" class=\"img-responsive\">";
-        html+="                                        <i class=\"fa fa-plus\"></i>";
-        html+="                                    </a>";
-        html+="                                </p>";
-        html+="                                <p class=\"description\">";
-        html+="                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.";
-        html+="                                </p>";
-        html+="                            </figcaption>";
-        html+="                        </figure>";
-        html+="                    </li>";
-        }
-        html+="                </ul>";
-        html+="             </div> <!-- Container Full End -->";
-        html+="</section>  <!-- Portfolio Section End -->";
-        $("#main_container").append(html);
-    }
-});
-}
 
 function display_all_plates(category){
     $("#main_container").empty();
@@ -333,7 +272,7 @@ function display_all_plates(category){
         html+='    <div id="isotope-filter" class="skew3 text-center">';
         html+='        <a id="all"  href="#" onClick="display_all_plates(\'all\');" class="active ">All</a>';
         html+='        <a id="Entrée"  href="#" onClick="display_all_plates(\'Entree\');" class="">Entrée</a>';
-        html+='        <a id="Plat" href="#" onClick="display_all_plates(\'Plat\');" class="">PLat</a>';
+        html+='        <a id="Plat" href="#" onClick="display_all_plates(\'Plat\');" class="">Plat</a>';
         html+='        <a id="Dessert"  href="#" onClick="display_all_plates(\'Dessert\');" class="">Dessert</a>';
         html+='        <a id="Apéro"  href="#" onClick="display_all_plates(\'Apero\');" class="">Apéro</a>';
         html+='    </div>';
@@ -398,7 +337,7 @@ function display_all_cook(category){
         html+='    <div id="isotope-filter" class="skew3 text-center">';
         html+='        <a id="all"  href="#" onClick="display_all_cook(\'all\');" class="active ">All</a>';
         html+='        <a id="Entrée"  href="#" onClick="display_all_cook(\'Entree\');" class="">Entrée</a>';
-        html+='        <a id="Plat" href="#" onClick="display_all_cook(\'Plat\');" class="">PLat</a>';
+        html+='        <a id="Plat" href="#" onClick="display_all_cook(\'Plat\');" class="">Plat</a>';
         html+='        <a id="Dessert"  href="#" onClick="display_all_cook(\'Dessert\');" class="">Dessert</a>';
         html+='        <a id="Apéro"  href="#" onClick="display_all_cook(\'Apero\');" class="">Apéro</a>';
         html+='    </div>';
@@ -922,3 +861,4 @@ function delete_plate(id){
     }
   });
 }
+

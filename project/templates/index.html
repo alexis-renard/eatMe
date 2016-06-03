@@ -260,10 +260,10 @@
                                                <h4>Plates that you like</h4>
                                                {% if current_user.liked==None %}
                                                  <p>Don't you like any of our plates ?</p>
-                                                 <a href="#" onclick="display_all_plates()"> See our selection</a>
+                                                 <a href="#" onClick="display_all_plates('all');"> See our selection</a>
                                                {% else %}
                                                  <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
-                                                 <a href="#" onclick="display_all_plates()"> Add other plates</a>
+                                                 <a href="#" onClick="display_all_plates('all');"> Add other plates</a>
                                                {% endif %}
                                           </div>
                                       </div>
@@ -281,7 +281,7 @@
                                                  <h4>List of all the plate you can propose to your matches !</h4>
                                                  <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
                                                {% endif %}
-                                               <a href="#" onclick="display_all_cook('all')"> Increase your cooked list </a>
+                                               <a href="#" onClick="display_all_cook('all');"> Increase your cooked list </a>
                                           </div>
                                       </div>
                                 </div>
