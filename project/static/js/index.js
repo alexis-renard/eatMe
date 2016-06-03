@@ -852,12 +852,12 @@ function delete_plate(id){
   console.log(dict);
   console.log(datas);
   $.ajax({
-    url:"http://localhost:5000/all_plates",
+    url:"http://localhost:5000/allplates/"+id,
     type : "DELETE",
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("plat supprimé uesh");
+      alert("plat "+id+"supprimé uesh");
     }
   });
 }
