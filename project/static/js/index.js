@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // $("#testimonial").css("background","gray";);
-    $("#testimonial").css("background-color", "#EFEFEF");;
+    $("#testimonial").css("background-color", "#EFEFEF");
     console.log($("#testimonial"));
     bindings();
 });
@@ -348,7 +348,7 @@ function display_all_plates(category){
         html+='                            <figcaption>';
         html+='                                <h5>'+category[i]["name"]+'</h5>';
         html+='                                <p class="links">';
-        html+='                                    <a href="portfolio-single.html"> <i class="fa fa-link" onClick="delete_plate("'+category[i]["id"]+');></i></a>';
+        html+='                                    <a href="#"> <i class="fa fa-link" onClick="delete_plate('+category[i]["id"]+');"></i></a>';
         html+='                                    <a href="images/portfolio/p1.jpg" data-rel="prettyPhoto" class="img-responsive">';
         html+='                                        <i class="fa fa-plus"></i>';
         html+='                                    </a>';
@@ -841,17 +841,17 @@ function display_profil(json){
 }
 
 function delete_plate(id){
-  dict={
+  var dict={
     "idfood":id
-  }
-  datas = JSON.stringify(dict);
+  };
+  var datas = JSON.stringify(dict);
   $.ajax({
-    url:"http://localhost:5000/all_plates"
-    type : "DELETE"
-    contentType : "application/json"
+    url:"http://localhost:5000/all_plates",
+    type : "DELETE",
+    contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("plat supprimé uesh")
+      alert("plat supprimé uesh");
     }
   });
 }
