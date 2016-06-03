@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    // $("#testimonial").css("background","gray";);
-    $("#testimonial").css("background-color", "#EFEFEF");;
-    console.log($("#testimonial"));
     bindings();
 });
 
@@ -63,26 +60,12 @@ $(document).ready(function() {
    $("#my_profil").click(function() {
        my_profil();
    });
+   $(".get_profil").click(function() {
+       get_profil();
+   });
  }
 
-function add_love(id){
-  console.log("begin");
-  var dict = {username : id };
-  console.log(dict);
-  var data = JSON.stringify(dict);
-  console.log(data);
-  $.ajax({
-    url: "/user/loved",
-    type: "PUT",
-    contentType:"application/json",
-    data: data,
-    success: function(json){
-        window.location.reload();
-    }
-  })
-}
-
-function post_login(){
+ function post_login(){
      $("#login_form").submit(function(e){
          e.preventDefault();
          var dict={
@@ -270,17 +253,17 @@ function display_all_plates(){
         html+=" ";
         html+="    <div id=\"isotope-filter\" class=\"skew3 text-center\">";
         html+="        <a data-filter=\"*\"  href=\"#\" class=\"active \">All</a>";
-        for (var prop in category) {
+for (var prop in category) {
         html+="        <a data-filter=\"."+prop+"*\"  href=\"#\" class=\"\">"+prop+"</a>";
-        }
+}
         html+="    </div>";
         html+="    <div class=\"clearfix\"></div>";
         html+="            <div class=\"text-center \">";
         html+="              <ul class=\"portfolio-wrap\" id=\"portfolio_items\">";
-        for (var prop in plates) {
-        var plates_category=plates[prop];
+for (var prop in plates) {
+var plates_category=plates[prop];
         html+="                    <li class=\"col-xs-12 col-sm-6 col-md-3 single-portfolio";
-        for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
+for (var prop in plates_category) { html+=" "+prop}; html+= "\">";
         html+="                        <figure>";
         html+="                            <img src=\"../static/images/portfolio/p1.jpg\" alt=\"\" />";
         html+="                            <figcaption>";
@@ -297,7 +280,7 @@ function display_all_plates(){
         html+="                            </figcaption>";
         html+="                        </figure>";
         html+="                    </li>";
-        }
+}
         html+="                </ul>";
         html+="             </div> <!-- Container Full End -->";
         html+="</section>  <!-- Portfolio Section End -->";
@@ -352,7 +335,7 @@ function my_profil(){
         html +="                            <span class=\"form-icon fa fa-envelope\"></span>";
         html +="                        </div>";
         html +="                        <div class=\"form-level\">";
-        html +="                            <input name=\"img\" placeholder=\"Image\" id=\"img\" class=\"input-block\" value=\""+data.user.img+"\" type=\"url\">";
+        html +="                            <input name=\"img\" placeholder=\"Image\" id=\"img\" class=\"input-block\" value=\"\" type=\"url\">";
         html +="                            <span class=\"form-icon fa fa-picture-o\"></span>";
         html +="                        </div>";
         html +="                    </form>";
@@ -366,7 +349,7 @@ function my_profil(){
         html +="                </div>";
         html +="            </div>";
         html +="            <div class=\"col-md-12 text-center\">";
-        html +="                <button class=\"btn btn-main featured\">Change profil</button>";
+        html +="                <button class=\"btn btn-main featured\">Submit Now</button>";
         html +="            </div>";
         html +="        </div>";
         html +="    </div>";
@@ -386,311 +369,238 @@ function display_home(){
         var html="";
         html+="{% if not current_user.is_authenticated %}";
         html+=" <!-- Slider start -->";
-        html+="  <section id='slider_part'>";
-        html+="       <div class='carousel slide' id='carousel-example-generic' data-ride='carousel'>";
+        html+="  <section id=\"slider_part\">";
+        html+="       <div class=\"carousel slide\" id=\"carousel-example-generic\" data-ride=\"carousel\">";
         html+="          <!-- Indicators -->";
-        html+="           <ol class='carousel-indicators text-center'>";
-        html+="              <li data-target='#carousel-example-generic' data-slide-to='0' class='active'></li>";
-        html+="              <li data-target='#carousel-example-generic' data-slide-to='1'></li>";
-        html+="              <li data-target='#carousel-example-generic' data-slide-to='2'></li>";
+        html+="           <ol class=\"carousel-indicators text-center\">";
+        html+="              <li data-target=\"#carousel-example-generic\" data-slide-to=\"0\" class=\"active\"></li>";
+        html+="              <li data-target=\"#carousel-example-generic\" data-slide-to=\"1\"></li>";
+        html+="              <li data-target=\"#carousel-example-generic\" data-slide-to=\"2\"></li>";
         html+="           </ol>";
-        html+="          <div class='carousel-inner'>";
-        html+="              <div class='item active'>";
-        html+="                  <div class='overlay-slide'>";
-        html+="                      <img src='../static/images/news1.jpeg' alt='' class='img-responsive'>";
+        html+="";
+        html+="          <div class=\"carousel-inner\">";
+        html+="              <div class=\"item active\">";
+        html+="                  <div class=\"overlay-slide\">";
+        html+="                      <img src=\"../static/images/news1.jpeg\" alt=\"\" class=\"img-responsive\">";
         html+="                  </div>";
-        html+="                  <div class='carousel-caption'>";
-        html+="                      <div class='col-md-12 col-xs-12 text-center'>";
+        html+="                  <div class=\"carousel-caption\">";
+        html+="                      <div class=\"col-md-12 col-xs-12 text-center\">";
         html+="                          <h3> <b>EatMe</b>";
-        html+="                          <div class='line'></div>";
+        html+="                          <div class=\"line\"></div>";
         html+="                          <p> I love meat</p>";
         html+="                      </div>";
         html+="                  </div>";
         html+="              </div>";
-        html+="              <div class='item'>";
-        html+="                  <div class='overlay-slide'>";
-        html+="                      <img src='../static/images/news2.jpeg' alt='' class='img-responsive'>";
+        html+="              <div class=\"item\">";
+        html+="                  <div class=\"overlay-slide\">";
+        html+="                      <img src=\"../static/images/news2.jpeg\" alt=\"\" class=\"img-responsive\">";
         html+="                  </div>";
-        html+="                  <div class='carousel-caption'>";
-        html+="                      <div class='col-md-12 col-xs-12 text-center'>";
+        html+="                  <div class=\"carousel-caption\">";
+        html+="                      <div class=\"col-md-12 col-xs-12 text-center\">";
         html+="                          <h4 > We know you are Greats Chiefs </h4>";
-        html+="                          <div class='line'></div>";
+        html+="                          <div class=\"line\"></div>";
         html+="                          <p> Our range of flat has been extended!</p>";
         html+="                      </div>";
         html+="                  </div>";
         html+="              </div>";
-        html+="              <div class='item'>";
-        html+="                  <div class='overlay-slide'>";
-        html+="                      <img src='../static/images/news3.jpeg' alt='' class='img-responsive'>";
+        html+="              <div class=\"item\">";
+        html+="                  <div class=\"overlay-slide\">";
+        html+="                      <img src=\"../static/images/news3.jpeg\" alt=\"\" class=\"img-responsive\">";
         html+="                  </div>";
-        html+="                  <div class='carousel-caption'>";
-        html+="                      <div class='col-md-12 col-xs-12 text-center'>";
+        html+="                  <div class=\"carousel-caption\">";
+        html+="                      <div class=\"col-md-12 col-xs-12 text-center\">";
         html+="                          <h3 > See your Days' Matches</h3>";
-        html+="                          <div class='line'></div>";
+        html+="                          <div class=\"line\"></div>";
         html+="                          <h5> We never know? Tonight, it might be you that makes you cook </h5>";
         html+="                      </div>";
         html+="                  </div>";
         html+="              </div>";
+        html+="";
         html+="           </div> 	 <!-- End Carousel Inner -->";
+        html+="";
         html+="          <!-- Controls -->";
-        html+="          <div class='slides-control '>";
-        html+="              <a class='left carousel-control' href='#carousel-example-generic' data-slide='prev'>";
-        html+="                  <span><i class='fa fa-angle-left'></i></span>";
+        html+="          <div class=\"slides-control \">";
+        html+="              <a class=\"left carousel-control\" href=\"#carousel-example-generic\" data-slide=\"prev\">";
+        html+="                  <span><i class=\"fa fa-angle-left\"></i></span>";
         html+="              </a>";
-        html+="              <a class='right carousel-control' href='#carousel-example-generic' data-slide='next'>";
-        html+="                  <span><i class='fa fa-angle-right'></i></span>";
+        html+="              <a class=\"right carousel-control\" href=\"#carousel-example-generic\" data-slide=\"next\">";
+        html+="                  <span><i class=\"fa fa-angle-right\"></i></span>";
         html+="              </a>";
         html+="          </div>";
         html+="      </div>";
         html+="  </section>";
         html+="  <!--/ Slider end -->";
+        html+="";
         html+="  <!-- Service Area start -->";
-        html+="  <section id='service'>";
-        html+="      <div class='container'>";
-        html+="              <div class='row'>";
-        html+="                  <div class='col-md-12 col-sm-12 col-xs-12'>";
-        html+="                      <div class='feature_header text-center'>";
-        html+="                          <h3 class='feature_title'> <b>WebSite utilisation</b></h3>";
-        html+="                          <h4 class='feature_sub'>EatMe is dating site between persons who love cuisine, they practice it like nationnal sport, or not at all. Here you could invite members to cook what they like to eat. Or at the contrary it's will be they who invite you !</h4>";
-        html+="                          <div class='divider'></div>";
-        html+="                      </div>";
-        html+="                  </div>  <!-- Col-md-12 End -->";
-        html+="              </div>";
-        html+="              <div class='row'>";
-        html+="                  <div class='main_feature text-center'>";
-        html+="                      <div class='col-md-3 col-xs-12 col-sm-6'>";
-        html+="                              <div class='feature_content'>";
-        html+="                                  <i class='fa fa-thumbs-o-up'></i>";
-        html+="                                  <h5>Like</h5>";
-        html+="                                  <p>You must grade in your like, all the plates you like to eat. It's could be the not ordinary pepperony pizza, or more sophisticated tiramisu!</p>";
-        html+="                              </div>";
-        html+="                          </div>";
-        html+="                      <div class='col-md-3 col-xs-12 col-sm-6'>";
-        html+="                              <div class='feature_content'>";
-        html+="                                  <i class='fa fa-cutlery'></i>";
-        html+="                                  <h5>Cook</h5>";
-        html+="                                  <p>Si vous êtes du genre cordon bleu hipster, sur notre site vous pourrez y inscrire ce que vous savez, un peu, beaucoup, pationnement cuisinner. </p>";
-        html+="                              </div>";
-        html+="                      </div> <!-- Col-md-4 Single_feature End -->";
-        html+="                      <div class='col-md-3 col-xs-12 col-sm-6'>";
-        html+="                              <div class='feature_content'>";
-        html+="                                  <i class='fa fa-check'></i>";
-        html+="                                  <h5>Match</h5>";
-        html+="                                  <p>Grâce à notre technologie de pointe, EatMe vous permet de mettre en relation les plats que vous savez cuisnier avec les gouts cullinaires de nos membres.</p>";
-        html+="                              </div>";
-        html+="                      </div> <!-- Col-md-4 Single_feature End -->";
-        html+="                      <div class='col-md-3 col-xs-12 col-sm-6'>";
-        html+="                              <div class='feature_content'>";
-        html+="                                  <i class='fa fa-heart'></i>";
-        html+="                                  <h5>Love</h5>";
-        html+="                                  <p>Enfin grâce à un système de choix perfectionné vous pourrez choisir les profils de nos membres qui vous interesse et entrez facilement en contact avec eux!</p>";
-        html+="                              </div>";
-        html+="                      </div> <!-- Col-md-4 Single_feature End -->";
-        html+="                      <!-- <button class='btn btn-main'> Read More</button> -->";
-        html+="                  </div>";
-        html+="          </div>  <!-- Row End -->";
-        html+="      </div>  <!-- Container End -->";
-        html+="  </section>";
-        html+="{% else %}";
-        html+="    <section id='testimonial' class='wow fadeInUp '>";
-        html+="      <div class='container'>";
-        html+="          <div class='row'>";
-        html+="              <div class='col-md-12 col-sm-12 col-xs-12'>";
-        html+="                  <div class='feature_header text-center'>";
-        html+="                      {% if propositions=={} %}";
-        html+="                      <h3 class='feature_title'>No match found :(</h3>";
-        html+="                      <h4 class='feature_sub'>We're sorry for you</h4>";
-        html+="                      <div class='divider'></div>";
-        html+="                  </div>";
-        html+="              </div>  <!-- Col-md-12 End -->";
-        html+="          </div>";
-        html+="                  <div class='row'>";
-        html+="                      <div id='testimonial-carousel' class='owl-carousel owl-theme text-center testimonial-slide '>";
-        html+="                        <h4> Our algorithme hadn't found any matches concerning your plates liked or cooked. <a href='#' onclick='display_all_plates()'> Please add one !</h4> </p>";
-        html+="                      {% else %}";
-        html+="                              <h3 class='feature_title'>You should like them</h3>";
-        html+="                              <h4 class='feature_sub'>Mom, what do we eat tonight ?</h4>";
-        html+="                              <div class='divider'></div>";
+        html+="      <section id=\"service\">";
+        html+="          <div class=\"container\">";
+        html+="                  <div class=\"row\">";
+        html+="                      <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+        html+="                          <div class=\"feature_header text-center\">";
+        html+="                              <h3 class=\"feature_title\"> <b>WebSite utilisation</b></h3>";
+        html+="                              <h4 class=\"feature_sub\">EatMe is dating site between persons who love cuisine, they practice it like nationnal sport, or not at all. Here you could invite members to cook what they like to eat. Or at the contrary it's will be they who invite you !</h4>";
+        html+="                              <div class=\"divider\"></div>";
         html+="                          </div>";
         html+="                      </div>  <!-- Col-md-12 End -->";
         html+="                  </div>";
-        html+="                          <div class='row'>";
-        html+="                              <div id='testimonial-carousel' class='owl-carousel owl-theme text-center testimonial-slide '>";
-        html+="                        {% for user in propositions %}";
-        html+="                          <div id ='{{ propositions[user]['User'][0]['username'] }}' class='item'>";
-        html+="                            <div class='testimonial-thumb'>";
-        html+="                              {% if propositions[user]['User'][0]['img'] != '' %}";
-        html+="                                <img id='{{ propositions[user]['User'][0]['username'] }}' onclick='add_love(this.id)' class='img-circle' src='{{ propositions[user]['User'][0]['img'] }}' onerror=this.src='{{ url_for('static', filename='images/default.png')}}' >";
-        html+="                              {% else %}";
-        html+="                                <img id='{{ propositions[user]['User'][0]['username'] }}' class='img-circle' src='{{ url_for('static', filename='images/default.png')}}' onerror=this.src='{{ url_for('static', filename='images/default.png')}}' >";
-        html+="                              {% endif %}";
-        html+="                            </div>";
-        html+="                            <div class='testimonial-content'>";
-        html+="                              <h3 id='{{ propositions[user]['User'][0]['username'] }}' class='name'><a class='get_profil' onclick='get_profil(this.id)' id='{{ propositions[user]['User'][0]['username'] }}' href='#'>{{ propositions[user]['User'][0]['username'] }}</a><span> Eating Rate : {{ propositions[user]['User'][0]['foodLevel'] }}/5</span></h3>";
-        html+="                              <p class='testimonial-text'>";
-        html+="                                {{ propositions[user]['User'][0]['desc'] }}";
-        html+="                              </p>";
-        html+="                              <div>";
-        html+="                                <div class='proposition_commun'>She likes those of your meals  : {% for plate in propositions[user]['ICook'] %}{{ plate['name'] }},{% endfor %}</div>";
-        html+="                                <div class='proposition_commun'>You like those of her meals : {% for plate in propositions[user]['HeCooks'] %}{{ plate['name'] }},{% endfor %}</div>";
-        html+="                                <div class='proposition_commun'>You both like eating : {% for plate in propositions[user]['WeLike'] %}{{ plate['name'] }},{% endfor %}</div>";
-        html+="                                <div class='proposition_commun'>You both know cooking : {% for plate in propositions[user]['WeCook'] %}{{ plate['name'] }},{% endfor %}</div>";
+        html+="                  <div class=\"row\">";
+        html+="                      <div class=\"main_feature text-center\">";
+        html+="                          <div class=\"col-md-3 col-xs-12 col-sm-6\">";
+        html+="                                  <div class=\"feature_content\">";
+        html+="                                      <i class=\"fa fa-thumbs-o-up\"></i>";
+        html+="                                      <h5>Like</h5>";
+        html+="                                      <p>You must grade in your like, all the plates you like to eat. It's could be the not ordinary pepperony pizza, or more sophisticated tiramisu!</p>";
+        html+="                                  </div>";
         html+="                              </div>";
-        html+="                            </div>";
-        html+="                          </div>";
-        html+="                        {% endfor %}";
-        html+="                        </div>";
-        html+="                        <!-- Navigation start -->";
-        html+="                        <div class='customNavigation cyprass-carousel-controller'>";
-        html+="                          <a class='prev left'>";
-        html+="                            <i class='fa fa-chevron-left'></i>";
-        html+="                          </a>";
-        html+="                          <!-- <a class='prev center'>";
-        html+="                          <button class='btn btn-danger btn-lg' ><i class='fa fa-heart' aria-hidden='true'></i></button>";
-        html+="                        </a> -->";
-        html+="                        <a class='next right'>";
-        html+="                          <i class='fa fa-chevron-right'></i>";
-        html+="                        </a>";
+        html+="                          <div class=\"col-md-3 col-xs-12 col-sm-6\">";
+        html+="                                  <div class=\"feature_content\">";
+        html+="                                      <i class=\"fa fa-cutlery\"></i>";
+        html+="                                      <h5>Cook</h5>";
+        html+="                                      <p>Si vous êtes du genre cordon bleu hipster, sur notre site vous pourrez y inscrire ce que vous savez, un peu, beaucoup, pationnement cuisinner. </p>";
+        html+="                                  </div>";
+        html+="                          </div> <!-- Col-md-4 Single_feature End -->";
+        html+="                          <div class=\"col-md-3 col-xs-12 col-sm-6\">";
+        html+="                                  <div class=\"feature_content\">";
+        html+="                                      <i class=\"fa fa-check\"></i>";
+        html+="                                      <h5>Match</h5>";
+        html+="                                      <p>Grâce à notre technologie de pointe, EatMe vous permet de mettre en relation les plats que vous savez cuisnier avec les gouts cullinaires de nos membres.</p>";
+        html+="                                  </div>";
+        html+="                          </div> <!-- Col-md-4 Single_feature End -->";
+        html+="                          <div class=\"col-md-3 col-xs-12 col-sm-6\">";
+        html+="                                  <div class=\"feature_content\">";
+        html+="                                      <i class=\"fa fa-heart\"></i>";
+        html+="                                      <h5>Love</h5>";
+        html+="                                      <p>Enfin grâce à un système de choix perfectionné vous pourrez choisir les profils de nos membres qui vous interesse et entrez facilement en contact avec eux!</p>";
+        html+="                                  </div>";
+        html+="                          </div> <!-- Col-md-4 Single_feature End -->";
+        html+="                          <!-- <button class=\"btn btn-main\"> Read More</button> -->";
         html+="                      </div>";
-        html+="                    {% endif %}";
-        html+="                    <!-- Navigation ENd -->";
+        html+="              </div>  <!-- Row End -->";
+        html+="          </div>  <!-- Container End -->";
+        html+="      </section>";
+        html+="{% else %}";
+        html+="  <section id=\"testimonial\" class=\"wow fadeInUp\">";
+        html+="   <div class=\"container\">";
+        html+="      <div class=\"row\">";
+        html+="          <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+        html+="              <div class=\"feature_header text-center\">";
+        html+="                  <h3 class=\"feature_title\">Your matches</h3>";
+        html+="                  <h4 class=\"feature_sub\">See your matches of the day </h4>";
+        html+="                  <div class=\"divider\"></div>";
+        html+="              </div>";
+        html+="          </div>  <!-- Col-md-12 End -->";
+        html+="      </div>";
+        html+="              <div class=\"row\">";
+        html+="                  <div id=\"testimonial-carousel\" class=\"owl-carousel owl-theme text-center testimonial-slide\">";
+        html+="                          <button type=\"submit\" class=\"btn btn-danger btn-lg\" ><i class=\"fa fa-heart\" aria-hidden=\"true\"></i>";
+        html+="                          </button>";
+        html+="                       <div class=\"item\">";
+        html+="                         <div class=\"testimonial-thumb\">";
+        html+="                           <img class=\"img-circle\" src=\"images/pic1.jpg\" alt=\"testimonial\" >";
+        html+="                         </div>";
+        html+="                         <div class=\"testimonial-content\">";
+        html+="                           <h3 class=\"name\">Katee Nureen <span>Exectuive Director</span></h3>";
+        html+="                           <p class=\"testimonial-text\">";
+        html+="                             iLorem Ipsum as t";
+        html+="                           </p>";
+        html+="                         </div>";
+        html+="                       </div>";
         html+="                  </div>";
-        html+="              </div> <!-- Row End -->";
-        html+="            </section> <!-- Section Testimonial End -->";
-        html+="        </section>  <!-- Section TEam End -->";
-        html+="          <section id='about'>";
-        html+="          <div class='container'>";
-        html+="              <div class='row'>";
-        html+="                  <div class='col-md-12 col-sm-12 col-xs-12'>";
-        html+="                      <div class='feature_header text-center'>";
-        html+="                          <h3 class='feature_title'>Eating Program</h3>";
-        html+="                          <div class='divider'></div>";
-        html+="                      </div>";
+        html+="                  <!-- Navigation start -->";
+        html+="                  <div class=\"customNavigation cyprass-carousel-controller\">";
+        html+="                      <a class=\"prev left\">";
+        html+="                          <i class=\"fa fa-chevron-left\"></i>";
+        html+="                      </a>";
+        html+="                      <a class=\"next right\">";
+        html+="                        <i class=\"fa fa-chevron-right\"></i>";
+        html+="                      </a>";
+        html+="                  </div>";
+        html+="                  <!-- Navigation ENd -->";
+        html+="              </div>";
+        html+="          </div> <!-- Row End -->";
+        html+="  </section> <!-- Section Testimonial End -->";
+        html+="";
+        html+="    </section>  <!-- Section TEam End -->";
+        html+="      <section id=\"about\">";
+        html+="      <div class=\"container\">";
+        html+="          <div class=\"row\">";
+        html+="              <div class=\"col-md-12 col-sm-12 col-xs-12\">";
+        html+="                  <div class=\"feature_header text-center\">";
+        html+="                      <h3 class=\"feature_title\">Vos possibilités du jour</h3>";
+        html+="                      <div class=\"divider\"></div>";
         html+="                  </div>";
         html+="              </div>";
-        html+="              <div class='row'>";
-        html+="                  <div class='feature-tab'>";
-        html+="                     <div class='col-md-2 col-sm-3 col-xs-12'>";
-        html+="                          <ul class='nav nav-tabs main-tab-list text-center' role='tablist'>";
-        html+="                                <li role='presentation' class='active'>";
-        html+="                                  <a href='#matches' role='tab' data-toggle='tab'>";
-        html+="                                    <div class='single-tab'>";
-        html+="                                      <div class='f-icon'>";
-        html+="                                        <i class='fa fa-heart'></i>";
+        html+="          </div>";
+        html+="          <div class=\"row\">";
+        html+="              <div class=\"feature-tab\">";
+        html+="                 <div class=\"col-md-2 col-sm-3 col-xs-12\">";
+        html+="                      <ul class=\"nav nav-tabs main-tab-list text-center\" role=\"tablist\">";
+        html+="                            <li role=\"presentation\" class=\"active\">";
+        html+="                              <a href=\"#home\" role=\"tab\" data-toggle=\"tab\" >";
+        html+="                                <div class=\"single-tab\">";
+        html+="                                      <div class=\"f-icon\">";
+        html+="                                          <i class=\"fa fa-laptop\"></i>";
         html+="                                      </div>";
-        html+="                                    </div>";
-        html+="                                    <h4>Your matches</h4>";
-        html+="                                  </a>";
-        html+="                                </li>";
-        html+="                                <li role='presentation'>";
-        html+="                                  <a href='#liked' role='tab' data-toggle='tab' >";
-        html+="                                    <div class='single-tab'>";
-        html+="                                          <div class='f-icon'>";
-        html+="                                              <i class='fa fa-thumbs-up'></i>";
-        html+="                                          </div>";
-        html+="                                      </div>";
-        html+="                                       <h4>What I Like</h4>";
-        html+="                                  </a>";
-        html+="                                </li>";
-        html+="                                <li role='presentation' >";
-        html+="                                  <a href='#cooked' role='tab' data-toggle='tab'>";
-        html+="                                      <div class='single-tab'>";
-        html+="                                          <div class='f-icon'>";
-        html+="                                              <i class='fa fa-cutlery'></i>";
-        html+="                                          </div>";
-        html+="                                      </div>";
-        html+="                                  <h4>What I Cook</h4>";
+        html+="                                  </div>";
+        html+="                                   <h4>Plats aimés</h4>";
         html+="                              </a>";
         html+="                            </li>";
-        html+="                          </ul>";
-        html+="                      </div>  <!-- col-md-12 end -->";
-        html+="                      <div class='col-md-10 col-sm-9 col-xs-12'>";
-        html+="                          <div class='tab-content main-tab-content'>";
-        html+="                                <div role='tabpanel' class='tab-pane active ' id='matches'>";
-        html+="                                      <div class='col-md-12 col-sm-9'>";
-        html+="                                           <img src='images/about/web1.png' alt='' class='img-responsive'>";
+        html+="                            <li role=\"presentation\" >";
+        html+="                              <a href=\"#profile\" role=\"tab\" data-toggle=\"tab\">";
+        html+="                                  <div class=\"single-tab\">";
+        html+="                                      <div class=\"f-icon\">";
+        html+="                                          <i class=\"fa fa-send\"></i>";
         html+="                                      </div>";
-        html+="                                      <div class='col-md-12 col-sm-9'>";
-        html+="                                          <div class='c-tab'>";
-        html+="                                               <h4>Here you cand find the eaters that you loved, and loved you back : contact them !</h4>";
-        html+="                                               <div>";
-        html+="                                                   <ul>";
-        html+="                                                   {% for user in current_user.matched %}";
-        html+="                                                    <li>";
-        html+="                                                        <a href='#' onclick='get_profil(this.id)' id='{{user.username}}'>{{user.username}}</a> : {{user.email}}";
-        html+="                                                    </li>";
-        html+="                                                   {% endfor %}";
-        html+="                                                   </ul>";
-        html+="                                               </div>";
-        html+="                                          </div>";
-        html+="                                      </div>";
-        html+="                                </div>";
-        html+="                                <div role='tabpanel' class='tab-pane' id='liked'>";
-        html+="                                      <div class='col-md-12 col-sm-9'>";
-        html+="                                           <img src='images/about/browse.png' alt='' class='img-responsive'>";
-        html+="                                      </div>";
-        html+="                                      <div class='col-md-12 col-sm-9'>";
-        html+="                                          <div class='c-tab'>";
-        html+="                                               <h4>Plates that you like</h4>";
-        html+="                                               {% if current_user.liked==None %}";
-        html+="                                                 <p>Don't you like any of our plates ?</p>";
-        html+="                                                 <a href='#' onclick='display_all_plates()'> See our selection</a>";
-        html+="                                               {% else %}";
-        html+="                                                 <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>";
-        html+="                                                 <a href='#' onclick='display_all_plates()'> Add other plates</a>";
-        html+="                                               {% endif %}";
-        html+="                                          </div>";
-        html+="                                      </div>";
-        html+="                                </div>";
-        html+="                                <div role='tabpanel' class='tab-pane' id='cooked'>";
-        html+="                                     <div class='col-md-12 col-sm-9'>";
-        html+="                                           <img src='images/about/web1.png' alt='' class='img-responsive'>";
-        html+="                                      </div>";
-        html+="                                     <div class='col-md-12 col-sm-9'>";
-        html+="                                          <div class='c-tab'>";
-        html+="                                               {% if current_user.cooked==[] %}";
-        html+="                                                 <h4>Apparently nothing?</h4>";
-        html+="                                                 <p>We are sure you know how to cook something...</p>";
-        html+="                                               {% else %}";
-        html+="                                                 <h4>List of all the plate you can propose to your matches !</h4>";
-        html+="                                                 <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>";
-        html+="                                               {% endif %}";
-        html+="                                               <a href='#' onclick='display_all_plates()'> Increase your cooked list </a>";
-        html+="                                          </div>";
-        html+="                                      </div>";
-        html+="                                </div>";
-        html+="                          </div>";
-        html+="                      </div>";
-        html+="                    </div>";
+        html+="                                  </div>";
+        html+="                              <h4>Plats cuisinés</h4>";
+        html+="                          </a>";
+        html+="                        </li>";
+        html+="                        <li role=\"presentation\" >";
+        html+="                          <a href=\"#messages\" role=\"tab\" data-toggle=\"tab\">";
+        html+="                              <div class=\"single-tab\">";
+        html+="                                  <div class=\"f-icon\">";
+        html+="                                      <i class=\"fa fa-heart\"></i>";
+        html+="                                  </div>";
+        html+="                              </div>";
+        html+="                              <h4>Mes matchs</h4>";
+        html+="                          </a>";
+        html+="                        </li>";
+        html+="                      </ul>";
+        html+="                  </div>  <!-- col-md-12 end -->";
         html+="                </div>";
         html+="            </div>";
-        html+="        </section>";
+        html+="        </div>";
+        html+="    </section>";
         html+="{% endif %}";
         $("#main_container").append(html);
-        bindings();
     }
   });
 }
 
-function get_profil(id){
+function get_profil(){
+    var id = $(".name").attr("id");
     console.log(id);
+    console.log($(this));
     var dict={
          "username": id
     };
+    console.log(dict);
     var datas=JSON.stringify(dict);
+    console.log(datas);
+    console.log("saluuuuuuuuut");
     $.ajax({
       url : "http://localhost:5000/user/profil",
       type : "POST",
-      contentType:"application/json",
+      datatype: "json",
       data: datas,
-      success: function(data){
-        display_profil(data);
+      success: function(json){
+        display_profil();
       }
   });
 }
 
 
-function display_profil(json){
+function display_profil(){
   var html ="";
   $("#main_container").empty();
   html+="<div class='clearfix'></div>";
@@ -703,7 +613,7 @@ function display_profil(json){
   html+="                    <div class='landing-video'>";
   html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
   html+="                                <!-- Change the url -->";
-  html+="                            <iframe src='"+json.user.img+"' width='350' height='281' allowfullscreen></iframe>";
+  html+="                            <iframe src='../static/images/depardieu.jpg' width='350' height='281' allowfullscreen></iframe>";
   html+="                        </div>";
   html+="                    </div>";
   html+="                </div>";
@@ -720,11 +630,7 @@ function display_profil(json){
   html+="                            </div>";
   html+="                            <div id='collapseOne' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='headingOne'>";
   html+="                              <div class='panel-body p1'>";
-  html+="                                <ul>";
-  $.each(json.user.liked, function(i, obj) {
-    html+="<li>"+obj+"</li>";
-  });
-  html+="                                </ul>";
+  html+="                                Food";
   html+="                              </div>";
   html+="                            </div>";
   html+="                          </div>";
@@ -738,11 +644,7 @@ function display_profil(json){
   html+="                        </div>";
   html+="                        <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingTwo'>";
   html+="                          <div class='panel-body p1'>";
-  html+="                                <ul>";
-  $.each(json.user.cooked, function(i, obj) {
-    html+="<li>"+obj+"</li>";
-  });
-  html+="                                </ul>";
+  html+="                            Food";
   html+="                          </div>";
   html+="                        </div>";
   html+="                      </div>";
@@ -756,14 +658,9 @@ function display_profil(json){
   html+="                        </div>";
   html+="                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'>";
   html+="                          <div class='panel-body p1'>";
-  html+="                            "+json.user.desc+"";
+  html+="                            Description";
   html+="                          </div>";
   html+="                        </div>";
-  html+="                      </div>";
-  html+="                    </div>";
-  html+="                    <div class='row'>";
-  html+="                      <div class='col-md-1 col-md-push-5'>";
-  html+="                       <button id='"+json.user.username+"' onclick='add_love(this.id)' class='btn btn-danger btn-lg'><i class='fa fa-heart' aria-hidden='true'></i></button>";
   html+="                      </div>";
   html+="                    </div>";
   html+="                </div>";
@@ -772,20 +669,4 @@ function display_profil(json){
   html+="    </div>";
   html+="</section>";
   $("#main_container").append(html);
-}
-
-function delete_plate(id){
-  dict={
-    "idfood":id
-  }
-  datas = JSON.stringify(dict);
-  $.ajax({
-    url:"http://localhost:5000/all_plates"
-    type : "DELETE"
-    contentType : "application/json"
-    data: datas,
-    success : function(json){
-      alert("plat supprimé uesh")
-    }
-  });
 }

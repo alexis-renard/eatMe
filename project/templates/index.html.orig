@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% if not current_user.is_authenticated %}
+ <!-- Slider start -->
+  <section id="slider_part">
+       <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
+          <!-- Indicators -->
+           <ol class="carousel-indicators text-center">
+              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+           </ol>
+
+          <div class="carousel-inner">
+              <div class="item active">
+                  <div class="overlay-slide">
+                      <img src="../static/images/news1.jpeg" alt="" class="img-responsive">
+                  </div>
+                  <div class="carousel-caption">
+                      <div class="col-md-12 col-xs-12 text-center">
+                          <h3> <b>EatMe</b>
+                          <div class="line"></div>
+                          <p> I love meat</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="overlay-slide">
+                      <img src="../static/images/news2.jpeg" alt="" class="img-responsive">
+                  </div>
+                  <div class="carousel-caption">
+                      <div class="col-md-12 col-xs-12 text-center">
+                          <h4 > We know you are Greats Chiefs </h4>
+                          <div class="line"></div>
+                          <p> Our range of flat has been extended!</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="overlay-slide">
+                      <img src="../static/images/news3.jpeg" alt="" class="img-responsive">
+                  </div>
+                  <div class="carousel-caption">
+                      <div class="col-md-12 col-xs-12 text-center">
+                          <h3 > See your Days' Matches</h3>
+                          <div class="line"></div>
+                          <h5> We never know? Tonight, it might be you that makes you cook </h5>
+                      </div>
+                  </div>
+              </div>
+
+           </div> 	 <!-- End Carousel Inner -->
+
+          <!-- Controls -->
+          <div class="slides-control ">
+              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                  <span><i class="fa fa-angle-left"></i></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                  <span><i class="fa fa-angle-right"></i></span>
+              </a>
+          </div>
+      </div>
+  </section>
+  <!--/ Slider end -->
+
+  <!-- Service Area start -->
+  <section id="service">
+      <div class="container">
+              <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                      <div class="feature_header text-center">
+                          <h3 class="feature_title"> <b>WebSite utilisation</b></h3>
+                          <h4 class="feature_sub">EatMe is dating site between persons who love cuisine, they practice it like nationnal sport, or not at all. Here you could invite members to cook what they like to eat. Or at the contrary it's will be they who invite you !</h4>
+                          <div class="divider"></div>
+                      </div>
+                  </div>  <!-- Col-md-12 End -->
+              </div>
+              <div class="row">
+                  <div class="main_feature text-center">
+                      <div class="col-md-3 col-xs-12 col-sm-6">
+                              <div class="feature_content">
+                                  <i class="fa fa-thumbs-o-up"></i>
+                                  <h5>Like</h5>
+                                  <p>You must grade in your like, all the plates you like to eat. It's could be the not ordinary pepperony pizza, or more sophisticated tiramisu!</p>
+                              </div>
+                          </div>
+                      <div class="col-md-3 col-xs-12 col-sm-6">
+                              <div class="feature_content">
+                                  <i class="fa fa-cutlery"></i>
+                                  <h5>Cook</h5>
+                                  <p>Si vous êtes du genre cordon bleu hipster, sur notre site vous pourrez y inscrire ce que vous savez, un peu, beaucoup, pationnement cuisinner. </p>
+                              </div>
+                      </div> <!-- Col-md-4 Single_feature End -->
+                      <div class="col-md-3 col-xs-12 col-sm-6">
+                              <div class="feature_content">
+                                  <i class="fa fa-check"></i>
+                                  <h5>Match</h5>
+                                  <p>Grâce à notre technologie de pointe, EatMe vous permet de mettre en relation les plats que vous savez cuisnier avec les gouts cullinaires de nos membres.</p>
+                              </div>
+                      </div> <!-- Col-md-4 Single_feature End -->
+                      <div class="col-md-3 col-xs-12 col-sm-6">
+                              <div class="feature_content">
+                                  <i class="fa fa-heart"></i>
+                                  <h5>Love</h5>
+                                  <p>Enfin grâce à un système de choix perfectionné vous pourrez choisir les profils de nos membres qui vous interesse et entrez facilement en contact avec eux!</p>
+                              </div>
+                      </div> <!-- Col-md-4 Single_feature End -->
+                      <!-- <button class="btn btn-main"> Read More</button> -->
+                  </div>
+          </div>  <!-- Row End -->
+      </div>  <!-- Container End -->
+  </section>
+
+{% else %}
+
+    <section id="testimonial" class="wow fadeInUp ">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="feature_header text-center">
+                      <h3 class="feature_title">You should like them</h3>
+                      <h4 class="feature_sub">Mom, what do we eat tonight ?</h4>
+                      <div class="divider"></div>
+                  </div>
+              </div>  <!-- Col-md-12 End -->
+          </div>
+                  <div class="row">
+                    <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
+<<<<<<< HEAD
+                      {% if propositions=={} %}
+                        <p> Our algorithme hadn't found any matches concerning your plates liked or cooked. <a href="#" onclick="display_all_plates()"> Please add one !</a> </p>
+                      {% else %}
+                        {% for user in propositions %}
+                          <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
+                            <div class="testimonial-thumb">
+                              {% if propositions[user]["User"][0]["img"] != "" %}
+                                <img id="{{ propositions[user]['User'][0]['username'] }}" onclick="add_love(this.id)" class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
+                              {% else %}
+                                <img id="{{ propositions[user]['User'][0]['username'] }}" class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
+                              {% endif %}
+                            </div>
+                            <div class="testimonial-content">
+                              <h3 id="{{ propositions[user]['User'][0]['username'] }}" class="name"><a class="get_profil" onclick="get_profil(this.id)" id="{{ propositions[user]['User'][0]['username'] }}" href="#">{{ propositions[user]["User"][0]["username"] }}</a><span> Eating Rate : {{ propositions[user]["User"][0]["foodLevel"] }}/5</span></h3>
+                              <p class="testimonial-text">
+                                {{ propositions[user]["User"][0]["desc"] }}
+                              </p>
+                              <div>
+                                <div class="proposition_commun">She likes those of your meals  : {% for plate in propositions[user]["ICook"] %}{{ plate["name"] }},{% endfor %}</div>
+                                <div class="proposition_commun">You like those of her meals : {% for plate in propositions[user]["HeCooks"] %}{{ plate["name"] }},{% endfor %}</div>
+                                <div class="proposition_commun">You both like eating : {% for plate in propositions[user]["WeLike"] %}{{ plate["name"] }},{% endfor %}</div>
+                                <div class="proposition_commun">You both know cooking : {% for plate in propositions[user]["WeCook"] %}{{ plate["name"] }},{% endfor %}</div>
+                              </div>
+=======
+                      {% for user in propositions %}
+                        <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
+                          <div class="testimonial-thumb">
+                            {% if propositions[user]["User"][0]["img"] != "" %}
+                              <img id="{{ propositions[user]['User'][0]['username'] }}" onclick="add_love(this.id)" class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
+                            {% else %}
+                              <img id="{{ propositions[user]['User'][0]['username'] }}" onclick="add_love(this.id)" class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
+                            {% endif %}
+                          </div>
+                          <div class="testimonial-content">
+                            <h3 id="{{ propositions[user]['User'][0]['username'] }}" class="name"><a class="get_profil" id="{{ propositions[user]['User'][0]['username'] }}" href="#">{{ propositions[user]["User"][0]["username"] }}</a><span> Eating Rate : {{ propositions[user]["User"][0]["foodLevel"] }}/5</span></h3>
+                            <p class="testimonial-text">
+                              {{ propositions[user]["User"][0]["desc"] }}
+                            </p>
+                            <div>
+                              <div class="proposition_commun">She likes those of your meals  : {% for plate in propositions[user]["ICook"] %}{{ plate["name"] }},{% endfor %}</div>
+                              <div class="proposition_commun">You like those of her meals : {% for plate in propositions[user]["HeCooks"] %}{{ plate["name"] }},{% endfor %}</div>
+                              <div class="proposition_commun">You both like eating : {% for plate in propositions[user]["WeLike"] %}{{ plate["name"] }},{% endfor %}</div>
+                              <div class="proposition_commun">You both know cooking : {% for plate in propositions[user]["WeCook"] %}{{ plate["name"] }},{% endfor %}</div>
+>>>>>>> 53de88d6a168c9380910fb7a00624fd89466a4d5
+                            </div>
+                          </div>
+                        {% endfor %}
+                        </div>
+                        <!-- Navigation start -->
+                        <div class="customNavigation cyprass-carousel-controller">
+                          <a class="prev left">
+                            <i class="fa fa-chevron-left"></i>
+                          </a>
+                          <!-- <a class="prev center">
+                          <button class="btn btn-danger btn-lg" ><i class="fa fa-heart" aria-hidden="true"></i></button>
+                        </a> -->
+                        <a class="next right">
+                          <i class="fa fa-chevron-right"></i>
+                        </a>
+                      </div>
+                    {% endif %}
+
+                    <!-- Navigation ENd -->
+                  </div>
+              </div> <!-- Row End -->
+            </section> <!-- Section Testimonial End -->
+
+        </section>  <!-- Section TEam End -->
+          <section id="about">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                      <div class="feature_header text-center">
+                          <h3 class="feature_title">Eating Program</h3>
+                          <div class="divider"></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="feature-tab">
+                     <div class="col-md-2 col-sm-3 col-xs-12">
+                          <ul class="nav nav-tabs main-tab-list text-center" role="tablist">
+                                <li role="presentation" class="active">
+                                  <a href="#matches" role="tab" data-toggle="tab">
+                                    <div class="single-tab">
+                                      <div class="f-icon">
+                                        <i class="fa fa-heart"></i>
+                                      </div>
+                                    </div>
+                                    <h4>Your matches</h4>
+                                  </a>
+                                </li>
+                                <li role="presentation">
+                                  <a href="#liked" role="tab" data-toggle="tab" >
+                                    <div class="single-tab">
+                                          <div class="f-icon">
+                                              <i class="fa fa-laptop"></i>
+                                          </div>
+                                      </div>
+                                       <h4>What I Like</h4>
+                                  </a>
+                                </li>
+                                <li role="presentation" >
+                                  <a href="#cooked" role="tab" data-toggle="tab">
+                                      <div class="single-tab">
+                                          <div class="f-icon">
+                                              <i class="fa fa-send"></i>
+                                          </div>
+                                      </div>
+                                  <h4>What I Cook</h4>
+                              </a>
+                            </li>
+                          </ul>
+                      </div>  <!-- col-md-12 end -->
+                      <div class="col-md-10 col-sm-9 col-xs-12">
+                          <div class="tab-content main-tab-content">
+                                <div role="tabpanel" class="tab-pane active " id="matches">
+                                      <div class="col-md-12 col-sm-9">
+                                           <img src="images/about/web1.png" alt="" class="img-responsive">
+                                      </div>
+                                      <div class="col-md-12 col-sm-9">
+                                          <div class="c-tab">
+                                               <h4>Here you cand find the eaters that you loved, and loved you back : contact them !</h4>
+                                               <p>{% for user in current_user.matched %}{{user.username}} : {{user.email}} {% endfor %}</p>
+                                               <a href="#"> Learn More</a>
+                                          </div>
+                                      </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="liked">
+                                      <div class="col-md-12 col-sm-9">
+                                           <img src="images/about/browse.png" alt="" class="img-responsive">
+                                      </div>
+                                      <div class="col-md-12 col-sm-9">
+                                          <div class="c-tab">
+                                               <h4>Plates that you like</h4>
+                                               <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
+                                               <a href="#" onclick="display_all_plates()"> Add one !</a>
+                                          </div>
+                                      </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="cooked">
+                                     <div class="col-md-12 col-sm-9">
+                                           <img src="images/about/web1.png" alt="" class="img-responsive">
+                                      </div>
+                                     <div class="col-md-12 col-sm-9">
+                                          <div class="c-tab">
+                                               <h4>What you like to cook</h4>
+                                               <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
+                                               <a href="#"> Add one !</a>
+                                          </div>
+                                      </div>
+                                </div>
+
+                          </div>
+                      </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endif %}
+
+{% endblock %}
+{% block js %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
+{% endblock %}

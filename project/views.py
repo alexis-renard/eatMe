@@ -334,6 +334,12 @@ def add_plate():
             f = Food(name=name, img=img)
             try:
                 print(categories)
+                print("ca bugg")
+                print("categories : ")
+                print(get_category("Plat"))
+                print("ca bugg encore?")
+                print(get_categories())
+                print("ca bugg pas")
                 print(classes)
                 for cat in categories :
                     print("cat : "+cat)

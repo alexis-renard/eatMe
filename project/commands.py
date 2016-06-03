@@ -35,7 +35,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             o = Class(name=name)
             db.session.add(o)
             classes[_class["name"]] = o
-            db.session.commit()
+    db.session.commit()
 
     # create category
     categories = {}
@@ -45,7 +45,7 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             o = Category(name=name)
             db.session.add(o)
             categories[category["name"]] = o
-            db.session.commit()
+    db.session.commit()
 
     # create food
     foods = {}

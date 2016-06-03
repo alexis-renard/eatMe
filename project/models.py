@@ -373,16 +373,17 @@ class Town(db.Model):
 class Class(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
-    def serialize(self):
-        return {
-            'name': self.name
-        }
-
     def __repr__(self):
         return "<Class (%d)>" % (self.name)
 
     def get_id(self):
         return self.name
+
+    def serialize(self):
+        return {
+        'name': self.name
+        }
+
 
 def get_classes():
     return Class.query.all()
@@ -396,15 +397,16 @@ def get_class_like_name(name):
 class Category(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
 
-    def serialize(self):
-        return {
-            'name': self.name
-        }
     def __repr__(self):
         return "<Category (%d)>" % (self.name)
 
     def get_id(self):
         return self.name
+
+    def serialize(self):
+        return {
+            'name': self.name
+        }
 
 def get_categories():
     return Category.query.all()
