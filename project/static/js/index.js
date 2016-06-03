@@ -241,7 +241,7 @@ function display_register(){
 }
 
 
-function display_all_plates(){
+function Comdisplay_all_plates(){
     $("#main_container").empty();
     $.ajax({
       url : "http://localhost:5000/allplates",
@@ -302,6 +302,72 @@ function display_all_plates(){
     }
 });
 }
+
+function display_all_plates(category){
+    $("#main_container").empty();
+    var source="/plates_by_class/"+category;
+      $.ajax({
+      url : source,
+      type : "GET",
+      datatype: "json",
+      success: function(data){
+        var category=data.plates_by_class;
+        console.log(category);
+
+        var html = "";
+        html+='<section id="portfolio">';
+        html+='        <div class="container">';
+        html+='            <div class="row">';
+        html+='                <div class="col-md-12 col-sm-12 col-xs-12">';
+        html+='                    <div class="feature_header text-center">';
+        html+='                        <h3 class="feature_title">Our <b>Works</b></h3>';
+        html+='                        <h4 class="feature_sub">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h4>';
+        html+='                        <div class="divider"></div>';
+        html+='                    </div>';
+        html+='                </div>  <!-- Col-md-12 End -->';
+        html+='            </div>';
+        html+='        </div>';
+        html+='    <div id="isotope-filter" class="skew3 text-center">';
+        html+='        <a id="all"  href="#" onClick="display_all_plates(\'all\');" class="active ">All</a>';
+        html+='        <a id="Entrée"  href="#" onClick="display_all_plates(\'Entree\');" class="">Entrée</a>';
+        html+='        <a id="Plat" href="#" onClick="display_all_plates(\'Plat\');" class="">PLat</a>';
+        html+='        <a id="Dessert"  href="#" onClick="display_all_plates(\'Dessert\');" class="">Dessert</a>';
+        html+='        <a id="Apéro"  href="#" onClick="display_all_plates(\'Apero\');" class="">Apéro</a>';
+        html+='    </div>';
+        html+='    <div class="clearfix"></div>';
+        html+='         <div class="text-center ">';
+        html+='              <ul class="portfolio-wrap" id="portfolio_items">';
+        // debut li
+        for(var i=0; i<category.length; i++){
+        html+='                    <li class="col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design">';
+        html+='                        <figure>';
+        html+='                            <img src="../static/images/portfolio/p1.jpg" alt="" />';
+        html+='                            <figcaption>';
+        html+='                                <h5>'+category[i]["name"]+'</h5>';
+        html+='                                <p class="links">';
+        html+='                                    <a href="portfolio-single.html"> <i class="fa fa-link" onClick="delete_plate("'+category[i]["id"]+');></i></a>';
+        html+='                                    <a href="images/portfolio/p1.jpg" data-rel="prettyPhoto" class="img-responsive">';
+        html+='                                        <i class="fa fa-plus"></i>';
+        html+='                                    </a>';
+        html+='                                </p>';
+        html+='                                <p class="description">';
+        html+='                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.';
+        html+='                                </p>';
+        html+='                            </figcaption>';
+        html+='                        </figure>';
+        html+='                    </li>';
+        }
+        //fin li
+        html+='                </ul>';
+        html+='        </div> <!-- Container Full End -->';
+        html+='</section>  <!-- Portfolio Section End -->';
+        html+= "<script type='text/javascript' src='/static/js/jquery.easing.1.3.js'></script>";
+        $("#main_container").append(html);
+        //include('jquery.easing.1.3.js');
+    }
+  });
+}
+
 
 
 

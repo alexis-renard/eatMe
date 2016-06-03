@@ -324,14 +324,15 @@ def display_all_plates_route():
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
-    class_used = name
-    plate_by_class_dict = {}
-    if  get_food_by_class(class_used) != []:
-        food_list=[]
-        for food in get_food_by_class(class_used):
-            food_list.append(food)
-            plate_by_class_dict[class_used]=food_list
-    return  jsonify(plates_by_class=plate_by_class_dict)
+    plates_dict = {}
+    if name=='all':
+        plates = get_all_food()
+        for elem in plates:
+            plates_dict[elem.name]=elem.serialize()
+        return  jsonify(plates_by_class=plates_dict)   
+    else:
+        plates=get_food_by_category(name)
+        return  jsonify(plates_by_class=plates) 
 
 @login_required
 @app.route("/plates_by_category/<string:name>", methods=('GET',))
