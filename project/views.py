@@ -366,18 +366,22 @@ def add_plate():
 
 
 @login_required
-@app.route("/all_plates", methods=('DELETE',))
-def delete_plate():
+@app.route("/allplates/<int:idfood>", methods=('DELETE',))
+def delete_plate(idfood):
     try:
-        datas = request.get_json()
-        idfood = datas.get('idfood', '')
-        print("datas: "+datas)
+        # datas = request.get_json()
+        # print("datas: "+datas)
+        # idfood = datas.get("idfood","")
         print("idfood: "+idfood)
         try:
             f = get_food(idfood)
             print("f: "+f)
             try:
+                print("COUCOUUUUUUU C MOI")
                 db.session.delete(f)
+                print("COUCOUUUUUUU C MOI1")
+                print(get_food(idfood))
+                print("COUCOUUUUUUU C MOI2")
                 db.session.commit()
                 return jsonify(state=True)
             except:
@@ -396,10 +400,10 @@ def plate_by_class_route(name):
         plates = get_all_food()
         for elem in plates:
             plates_dict[elem.name]=elem.serialize()
-        return  jsonify(plates_by_class=plates_dict)   
+        return  jsonify(plates_by_class=plates_dict)
     else:
         plates=get_food_by_category(name)
-        return  jsonify(plates_by_class=plates) 
+        return  jsonify(plates_by_class=plates)
 
 @login_required
 @app.route("/plates_by_category/<string:name>", methods=('GET',))
@@ -425,18 +429,6 @@ def plate_by_name_route(name):
             plate_by_name_dict[name_used] = food_list
     return  jsonify(plates_by_name=plate_by_name_dict)
 
-# @login_required
-# @app.route("/myplates/delete/<int:id>", methods=('PUT',))
-# def delete_plate(id):
-#     plate_id = id
-#     p = get_food_by_id(plate_id)
-#     if p is not None :
-#             if delete_plate_from_user_plates(plate_id) != None:
-#                 return jsonify(state=True)
-#             else:
-#                 return jsonify(state=False)
-#     else:
-#         return jsonify(state=False)
 
 @login_required
 @app.route("/myplates/add/<int:id>", methods=('PUT',))
