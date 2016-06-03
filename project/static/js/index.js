@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    // $("#testimonial").css("background","gray";);
+    $("#testimonial").css("background-color", "#EFEFEF");;
+    console.log($("#testimonial"));
     bindings();
 });
 

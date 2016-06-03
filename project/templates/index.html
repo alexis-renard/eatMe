@@ -257,8 +257,13 @@
                                       <div class="col-md-12 col-sm-9">
                                           <div class="c-tab">
                                                <h4>Plates that you like</h4>
-                                               <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
-                                               <a href="#" onclick="display_all_plates()"> Add one !</a>
+                                               {% if current_user.liked==None %}
+                                                 <p>Don't you like any of our plates ?</p>
+                                                 <a href="#" onclick="display_all_plates()"> See our selection</a>
+                                               {% else %}
+                                                 <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
+                                                 <a href="#" onclick="display_all_plates()"> Add other plates</a>
+                                               {% endif %}
                                           </div>
                                       </div>
                                 </div>
@@ -268,9 +273,14 @@
                                       </div>
                                      <div class="col-md-12 col-sm-9">
                                           <div class="c-tab">
-                                               <h4>What you like to cook</h4>
-                                               <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
-                                               <a href="#"> Add one !</a>
+                                               {% if current_user.cooked==[] %}
+                                                 <h4>Apparently nothing?</h4>
+                                                 <p>We are sure you know how to cook something...</p>
+                                               {% else %}
+                                                 <h4>List of all the plate you can propose to your matches !</h4>
+                                                 <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
+                                               {% endif %}
+                                               <a href="#" onclick="display_all_plates()"> Increase your cooked list </a>
                                           </div>
                                       </div>
                                 </div>

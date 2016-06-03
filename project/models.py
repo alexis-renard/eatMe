@@ -236,7 +236,7 @@ def get_messages_by_users(username_sender, username_receiver):
 class Food(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     name        = db.Column(db.String(100))
-    img         = db.Column(db.String(100))
+    img         = db.Column(db.String(1000))
     foodCategory = db.relationship("Category",secondary=belong_Category, backref = db.backref("food_category", lazy="dynamic"))
     foodClass = db.relationship("Class",secondary=belong_Class, backref = db.backref("food_classes", lazy="dynamic"))
 
@@ -274,6 +274,11 @@ def get_food(id):
 
 def get_all_food():
     return Food.query.all()
+
+def delete_food(id):
+    o = get_food(id)
+    db.session.remove(o)
+    db.session.commit()
 
 def l_contient(l, m):
     for ll in l:
@@ -376,17 +381,17 @@ class Class(db.Model):
     def __repr__(self):
         return "<Class (%d)>" % (self.name)
 
-    def get_name(self):
+    def get_id(self):
         return self.name
 
-    def get_classes():
-        return Class.query.all()
+def get_classes():
+    return Class.query.all()
 
-    def get_class(name):
-        print('debut')
-        print ((Class.query.filter(Class.name.like("%" + name+ "%")).first()).food_classes)
-        print('fin')
-        return Class.query.filter(Class.name.like("%" + name+ "%")).first()
+def get_class(name):
+    return Class.query.filter(Class.name.like(name)).first()
+
+def get_class_like_name(name):
+    return Class.query.filter(Class.name.like("%" + name+ "%")).first()
 
 class Category(db.Model):
     name          = db.Column(db.String(100), primary_key=True)
@@ -398,14 +403,18 @@ class Category(db.Model):
     def __repr__(self):
         return "<Category (%d)>" % (self.name)
 
-    def get_name(self):
+    def get_id(self):
         return self.name
 
-    def get_categories():
-        return Category.query.all()
+def get_categories():
+    return Category.query.all()
 
-    def get_category(name):
-        return Category.query.filter(Category.name.lower().like("%" + name.lower() + "%")).first()
+def get_category(name):
+    print("coucou")
+    return Category.query.filter(Category.name==name).first()
+
+def get_category_like_name(name):
+    return Category.query.filter(Category.name.lower().like("%" + name.lower() + "%")).first()
 
 @login_manager.user_loader
 def load_user(username):
