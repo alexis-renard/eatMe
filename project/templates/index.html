@@ -120,17 +120,25 @@
           <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="feature_header text-center">
-                      <h3 class="feature_title">You should like them</h3>
-                      <h4 class="feature_sub">Mom, what do we eat tonight ?</h4>
+                      {% if propositions=={} %}
+                      <h3 class="feature_title">No match found :(</h3>
+                      <h4 class="feature_sub">We're sorry for you</h4>
                       <div class="divider"></div>
                   </div>
               </div>  <!-- Col-md-12 End -->
           </div>
                   <div class="row">
-                    <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
-                      {% if propositions=={} %}
-                        <p> Our algorithme hadn't found any matches concerning your plates liked or cooked. <a href="#" onclick="display_all_plates()"> Please add one !</a> </p>
+                      <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
+                        <h4> Our algorithme hadn't found any matches concerning your plates liked or cooked. <a href="#" onclick="display_all_plates()"> Please add one !</h4> </p>
                       {% else %}
+                              <h3 class="feature_title">You should like them</h3>
+                              <h4 class="feature_sub">Mom, what do we eat tonight ?</h4>
+                              <div class="divider"></div>
+                          </div>
+                      </div>  <!-- Col-md-12 End -->
+                  </div>
+                          <div class="row">
+                              <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
                         {% for user in propositions %}
                           <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
                             <div class="testimonial-thumb">
@@ -203,7 +211,7 @@
                                   <a href="#liked" role="tab" data-toggle="tab" >
                                     <div class="single-tab">
                                           <div class="f-icon">
-                                              <i class="fa fa-laptop"></i>
+                                              <i class="fa fa-thumbs-up"></i>
                                           </div>
                                       </div>
                                        <h4>What I Like</h4>
@@ -213,7 +221,7 @@
                                   <a href="#cooked" role="tab" data-toggle="tab">
                                       <div class="single-tab">
                                           <div class="f-icon">
-                                              <i class="fa fa-send"></i>
+                                              <i class="fa fa-cutlery"></i>
                                           </div>
                                       </div>
                                   <h4>What I Cook</h4>
@@ -230,8 +238,15 @@
                                       <div class="col-md-12 col-sm-9">
                                           <div class="c-tab">
                                                <h4>Here you cand find the eaters that you loved, and loved you back : contact them !</h4>
-                                               <p>{% for user in current_user.matched %}{{user.username}} : {{user.email}} {% endfor %}</p>
-                                               <a href="#"> Learn More</a>
+                                               <div>
+                                                   <ul>
+                                                   {% for user in current_user.matched %}
+                                                    <li>
+                                                        <a href="#" onclick="get_profil(this.id)" id="{{user.username}}">{{user.username}}</a> : {{user.email}}
+                                                    </li>
+                                                   {% endfor %}
+                                                   </ul>
+                                               </div>
                                           </div>
                                       </div>
                                 </div>

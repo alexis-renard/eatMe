@@ -611,8 +611,6 @@ function get_profil(id){
 
 
 function display_profil(json){
-  console.log(json);
-
   var html ="";
   $("#main_container").empty();
   html+="<div class='clearfix'></div>";
