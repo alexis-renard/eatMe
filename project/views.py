@@ -306,8 +306,8 @@ def add_message_to_conversation():
 
 @login_required
 @app.route("/allplates", methods=('GET',))
-def display_all_plates_route():
-    list_category = Category.get_categories()
+def get_all_plates_route():
+    list_category = get_categories()
     category_dict = {}
     plates_dict = {}
     dictionnary={}
@@ -319,6 +319,70 @@ def display_all_plates_route():
     for elem in plates:
         dictionnary[elem.name]=elem.serialize()["foodCategory"]
     return  jsonify(category=category_dict, plates=plates_dict, dictionnary=dictionnary)
+
+@login_required
+@app.route("/allplates", methods=('POST',))
+############## BUGGGGGGG A RESOUDRE MAIS JE COMPRENDS PAS ALORS JE PASSE À LA SUITE ###############
+def add_plate():
+    try:
+        datas = request.get_json()
+        name = datas.get('name', '')
+        img = datas.get('img', '')
+        categories = datas.get('categories', '')
+        classes = datas.get('classes', '')
+        try:
+            f = Food(name=name, img=img)
+            try:
+                print(categories)
+                print("ca bugg")
+                print("categories : ")
+                print(get_category("Plat"))
+                print("ca bugg encore?")
+                print(get_categories())
+                print("ca bugg pas")
+                print(classes)
+                for cat in categories :
+                    print("cat : "+cat)
+                    print(get_user("Alexis"))
+                    ### C'est le get_category qui plante. Mais sérieusement, pourquoi ? #jerage
+                    print(get_category("Plat"))
+                    catObject = get_category(cat)
+                    print("coucou"+catObject)
+                    f.foodCategory.append(catObject)
+                for cla in classes :
+                    print(cla)
+                    claObject = get_class(cla)
+                    print(claObject)
+                    f.foodClass.append(claObject)
+                db.session.add(f)
+                db.session.commit()
+                return jsonify(state=True)
+            except:
+                return jsonify(state=False, error= "Food can't be added")
+        except:
+            return jsonify(state=False, error="Food can't be created")
+    except:
+        return jsonify(state=False, error="Information can not be parsed")
+
+
+@login_required
+@app.route("/allplates", methods=('DELETE',))
+def delete_plate():
+    try:
+        datas = request.get_json()
+        idfood = datas.get('idfood', '')
+        try:
+            f = get_food(idfood)
+            try:
+                db.session.delete(f)
+                db.session.commit()
+                return jsonify(state=True)
+            except:
+                return jsonify(state=False, error= "Food can't be deleted")
+        except:
+            return jsonify(state=False, error="Food can't be found")
+    except:
+        return jsonify(state=False, error="Information can not be parsed")
 
 
 @login_required
@@ -373,7 +437,7 @@ def plate_by_name_route(name):
 
 @login_required
 @app.route("/myplates/add/<int:id>", methods=('PUT',))
-def add_plate(id):
+def add_plate_user(id):
     plate_id = id
     p = get_food_by_id(plate_id)
     if p is not None :

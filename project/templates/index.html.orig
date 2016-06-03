@@ -120,26 +120,18 @@
           <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="feature_header text-center">
-                      {% if propositions=={} %}
-                      <h3 class="feature_title">No match found :(</h3>
-                      <h4 class="feature_sub">We're sorry for you</h4>
+                      <h3 class="feature_title">You should like them</h3>
+                      <h4 class="feature_sub">Mom, what do we eat tonight ?</h4>
                       <div class="divider"></div>
                   </div>
               </div>  <!-- Col-md-12 End -->
           </div>
                   <div class="row">
-                      <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
-                        <h4> Our algorithme hadn't found any matches concerning your plates liked or cooked. 
-                        <a id="my_plates" onClick="display_all_plates('all');" href="#"> Please add one !</h4> </p>
+                    <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
+<<<<<<< HEAD
+                      {% if propositions=={} %}
+                        <p> Our algorithme hadn't found any matches concerning your plates liked or cooked. <a href="#" onclick="display_all_plates()"> Please add one !</a> </p>
                       {% else %}
-                              <h3 class="feature_title">You should like them</h3>
-                              <h4 class="feature_sub">Mom, what do we eat tonight ?</h4>
-                              <div class="divider"></div>
-                          </div>
-                      </div>  <!-- Col-md-12 End -->
-                  </div>
-                          <div class="row">
-                              <div id="testimonial-carousel" class="owl-carousel owl-theme text-center testimonial-slide ">
                         {% for user in propositions %}
                           <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
                             <div class="testimonial-thumb">
@@ -160,6 +152,27 @@
                                 <div class="proposition_commun">You both like eating : {% for plate in propositions[user]["WeLike"] %}{{ plate["name"] }},{% endfor %}</div>
                                 <div class="proposition_commun">You both know cooking : {% for plate in propositions[user]["WeCook"] %}{{ plate["name"] }},{% endfor %}</div>
                               </div>
+=======
+                      {% for user in propositions %}
+                        <div id ="{{ propositions[user]['User'][0]['username'] }}" class="item">
+                          <div class="testimonial-thumb">
+                            {% if propositions[user]["User"][0]["img"] != "" %}
+                              <img id="{{ propositions[user]['User'][0]['username'] }}" onclick="add_love(this.id)" class="img-circle" src="{{ propositions[user]['User'][0]['img'] }}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
+                            {% else %}
+                              <img id="{{ propositions[user]['User'][0]['username'] }}" onclick="add_love(this.id)" class="img-circle" src="{{ url_for('static', filename='images/default.png')}}" onerror=this.src="{{ url_for('static', filename='images/default.png')}}" >
+                            {% endif %}
+                          </div>
+                          <div class="testimonial-content">
+                            <h3 id="{{ propositions[user]['User'][0]['username'] }}" class="name"><a class="get_profil" id="{{ propositions[user]['User'][0]['username'] }}" href="#">{{ propositions[user]["User"][0]["username"] }}</a><span> Eating Rate : {{ propositions[user]["User"][0]["foodLevel"] }}/5</span></h3>
+                            <p class="testimonial-text">
+                              {{ propositions[user]["User"][0]["desc"] }}
+                            </p>
+                            <div>
+                              <div class="proposition_commun">She likes those of your meals  : {% for plate in propositions[user]["ICook"] %}{{ plate["name"] }},{% endfor %}</div>
+                              <div class="proposition_commun">You like those of her meals : {% for plate in propositions[user]["HeCooks"] %}{{ plate["name"] }},{% endfor %}</div>
+                              <div class="proposition_commun">You both like eating : {% for plate in propositions[user]["WeLike"] %}{{ plate["name"] }},{% endfor %}</div>
+                              <div class="proposition_commun">You both know cooking : {% for plate in propositions[user]["WeCook"] %}{{ plate["name"] }},{% endfor %}</div>
+>>>>>>> 53de88d6a168c9380910fb7a00624fd89466a4d5
                             </div>
                           </div>
                         {% endfor %}
@@ -212,7 +225,7 @@
                                   <a href="#liked" role="tab" data-toggle="tab" >
                                     <div class="single-tab">
                                           <div class="f-icon">
-                                              <i class="fa fa-thumbs-up"></i>
+                                              <i class="fa fa-laptop"></i>
                                           </div>
                                       </div>
                                        <h4>What I Like</h4>
@@ -222,7 +235,7 @@
                                   <a href="#cooked" role="tab" data-toggle="tab">
                                       <div class="single-tab">
                                           <div class="f-icon">
-                                              <i class="fa fa-cutlery"></i>
+                                              <i class="fa fa-send"></i>
                                           </div>
                                       </div>
                                   <h4>What I Cook</h4>
@@ -239,15 +252,8 @@
                                       <div class="col-md-12 col-sm-9">
                                           <div class="c-tab">
                                                <h4>Here you cand find the eaters that you loved, and loved you back : contact them !</h4>
-                                               <div>
-                                                   <ul>
-                                                   {% for user in current_user.matched %}
-                                                    <li>
-                                                        <a href="#" onclick="get_profil(this.id)" id="{{user.username}}">{{user.username}}</a> : {{user.email}}
-                                                    </li>
-                                                   {% endfor %}
-                                                   </ul>
-                                               </div>
+                                               <p>{% for user in current_user.matched %}{{user.username}} : {{user.email}} {% endfor %}</p>
+                                               <a href="#"> Learn More</a>
                                           </div>
                                       </div>
                                 </div>
@@ -258,13 +264,8 @@
                                       <div class="col-md-12 col-sm-9">
                                           <div class="c-tab">
                                                <h4>Plates that you like</h4>
-                                               {% if current_user.liked==None %}
-                                                 <p>Don't you like any of our plates ?</p>
-                                                 <a href="#" onclick="display_all_plates()"> See our selection</a>
-                                               {% else %}
-                                                 <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
-                                                 <a href="#" onclick="display_all_plates()"> Add other plates</a>
-                                               {% endif %}
+                                               <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
+                                               <a href="#" onclick="display_all_plates()"> Add one !</a>
                                           </div>
                                       </div>
                                 </div>
@@ -274,14 +275,9 @@
                                       </div>
                                      <div class="col-md-12 col-sm-9">
                                           <div class="c-tab">
-                                               {% if current_user.cooked==[] %}
-                                                 <h4>Apparently nothing?</h4>
-                                                 <p>We are sure you know how to cook something...</p>
-                                               {% else %}
-                                                 <h4>List of all the plate you can propose to your matches !</h4>
-                                                 <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
-                                               {% endif %}
-                                               <a href="#" onclick="display_all_plates()"> Increase your cooked list </a>
+                                               <h4>What you like to cook</h4>
+                                               <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
+                                               <a href="#"> Add one !</a>
                                           </div>
                                       </div>
                                 </div>
