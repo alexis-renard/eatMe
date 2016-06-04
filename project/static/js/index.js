@@ -238,17 +238,20 @@ function display_all_plates(category){
         html+='                            <figcaption>';
         html+='                                <h5>'+category[i]["name"]+'</h5>';
         html+='                                <p class="links">';
-        html+='                                    <a href="#"> <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i></a>';
         html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
         html+='                                        <i class="fa fa-plus" onClick="add_user_liked('+category[i]["id"]+');"></i>';
         html+='                                    </a>';
-        html+='                                </p>';
-        html+='                                <p class="description">';
-        html+='                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.';
+        html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+        html+='                                       <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
+        html+='                                    </a>';
         html+='                                </p>';
         html+='                            </figcaption>';
         html+='                        </figure>';
         html+='                    </li>';
+        html+='                    {% if current_user.admin==1 %}';
+        html+='                         <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+        html+='                            <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
+        html+='                         </a>';
         }
         //fin li
         html+='                </ul>';
@@ -260,8 +263,6 @@ function display_all_plates(category){
     }
   });
 }
-
-
 
 function add_user_liked(id){
   var dict={
