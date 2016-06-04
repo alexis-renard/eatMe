@@ -356,12 +356,19 @@ def add_plate(id):
 def delete_plate():
     try:
         datas = request.get_json()
+<<<<<<< HEAD
+        idfood = datas.get('iddd', '')
+=======
         idfood = datas.get("id","")
+>>>>>>> 8c6d851a2ab9423df9fa02a806c4b32a8642d228
         try:
             f = get_food(idfood)
             try:
                 db.session.delete(f)
+<<<<<<< HEAD
+=======
                 print(get_food(idfood))
+>>>>>>> 8c6d851a2ab9423df9fa02a806c4b32a8642d228
                 db.session.commit()
                 return jsonify(state=True)
             except:
