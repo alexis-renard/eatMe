@@ -5,64 +5,15 @@ $(document).ready(function() {
     bindings();
 });
 
-/*
- * All plates
- */
- // function display_plates() {
- //   $.ajax({
- //     url: "/myplates",
- //     type: "GET",
- //     data {
- //       user:user
- //     },
- //       $.each(json.user, function(index,element)){
- //         html += "<li>" + element.name +"</li>"
- //       }
- //       hml
- //
- // function display_index() {
- //   $.ajax({
- //     url: "/home_user",
- //     type: "GET",
- //     data: {
- //       propositions:propositions
- //     },
- //     success : function(json){
- //       $("#main_container").empty();
- //       var html = "";
- //       $.eacsitions:propositions
- //     },
- //     success : function(json){
- //       $("#mml+="     <img class=\"img-circle\" src=\"images/team/pic1.jpg\" alt=\"testimonial\" >"
- //          html+="   </div>"
- //          html+="   <div class=\"testimonial-content\">"
- //          html+="     <h3 class=\"name\">"+username+" <span>Exectuive Director</span></h3>"
- //          html+="     <p class=\"testimonial-text\">"
- //          html+="       iLorem Ipsum as their default model text, and a search for ‘lorem ipsum’ will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose. Lorem Ipsum is that it as opposed to using."
- //          html+="     </p>"
- //          html+="   </div>"
- //          html+=" </div>"
- //       }
- //       $("#testimonial-carousel").append(html);
- //     }
- //     error : function(json){
- //     }
- //   })
- // }
-
  function bindings(){
    $("#login_form").bind("submit", post_login);
    $("#register_form").bind("submit", post_register);
 
-   $("#login").click(function() {
-       display_login();
-   });
-   $("#register").click(function() {
-         display_register();
-   });
-   $("#my_profil").click(function() {
-       my_profil();
-   });
+   $("#login").bind("click", display_login);
+   $("#register").bind("click",display_register);
+   $("#my_profil").bind("click",my_profil);
+   $(".fa-plus").bind("click", add_user_liked);
+   $(".fa-minus").bind("click", remove_user_liked);
  }
 
 function add_love(id){
@@ -287,9 +238,9 @@ function display_all_plates(category){
         html+='                            <figcaption>';
         html+='                                <h5>'+category[i]["name"]+'</h5>';
         html+='                                <p class="links">';
-        html+='                                    <a href="#"> <i class="fa fa-link" onClick="delete_plate('+category[i]["id"]+');"></i></a>';
+        html+='                                    <a href="#"> <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i></a>';
         html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-        html+='                                        <i class="fa fa-plus"></i>';
+        html+='                                        <i class="fa fa-plus" onClick="add_user_liked('+category[i]["id"]+');"></i>';
         html+='                                    </a>';
         html+='                                </p>';
         html+='                                <p class="description">';
@@ -306,6 +257,40 @@ function display_all_plates(category){
         html+= "<script type='text/javascript' src='/static/js/jquery.easing.1.3.js'></script>";
         $("#main_container").append(html);
         //include('jquery.easing.1.3.js');
+    }
+  });
+}
+
+function add_user_liked(id){
+  var dict={
+    "id":id
+  };
+  var datas = JSON.stringify(dict);
+  bindings();
+  $.ajax({
+    url:"http://localhost:5000/user/liked/add",
+    type : "PUT",
+    contentType : "application/json",
+    data: datas,
+    success : function(json){
+      alert("food added");
+    }
+  });
+}
+
+function remove_user_liked(id){
+  var dict={
+    "id":id
+  };
+  var datas = JSON.stringify(dict);
+  bindings();
+  $.ajax({
+    url:"http://localhost:5000/user/liked/remove",
+    type : "PUT",
+    contentType : "application/json",
+    data: datas,
+    success : function(json){
+      alert("food removed");
     }
   });
 }
@@ -861,4 +846,3 @@ function delete_plate(id){
     }
   });
 }
-

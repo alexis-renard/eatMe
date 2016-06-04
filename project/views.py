@@ -120,7 +120,9 @@ def my_plate_like_route():
 @app.route("/user/liked/add", methods=("PUT",))
 def add_user_liked():
     user = current_user
-    liked_food = get_food(request.get_json().get('id'))
+    datas = request.get_json()
+    print(datas)
+    liked_food = get_food(datas.get('id'))
     if liked_food not in user.liked:
         user.liked.append(liked_food)
         db.session.commit()
@@ -321,9 +323,9 @@ def get_all_plates_route():
     return  jsonify(category=category_dict, plates=plates_dict, dictionnary=dictionnary)
 
 @login_required
-@app.route("/allplates", methods=('POST',))
+@app.route("/allplates", methods=('PUT',))
 ############## BUGGGGGGG A RESOUDRE MAIS JE COMPRENDS PAS ALORS JE PASSE À LA SUITE ###############
-def add_plate():
+def add_plate(id):
     try:
         datas = request.get_json()
         name = datas.get('name', '')
