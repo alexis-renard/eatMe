@@ -884,6 +884,9 @@ function delete_plate(id){
     data: datas,
     success : function(json){
       alert("Food has been removed form Database");
+    },
+    error : function(json){
+      alert("An error has occured : "+json.error);
     }
   });
 }

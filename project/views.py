@@ -368,22 +368,15 @@ def add_plate(id):
 
 
 @login_required
-@app.route("/allplates/<int:idfood>", methods=('DELETE',))
-def delete_plate(idfood):
+@app.route("/allplates", methods=('DELETE',))
+def delete_plate():
     try:
-        # datas = request.get_json()
-        # print("datas: "+datas)
-        # idfood = datas.get("idfood","")
-        print("idfood: "+idfood)
+        datas = request.get_json()
+        idfood = datas.get('iddd', '')
         try:
             f = get_food(idfood)
-            print("f: "+f)
             try:
-                print("COUCOUUUUUUU C MOI")
                 db.session.delete(f)
-                print("COUCOUUUUUUU C MOI1")
-                print(get_food(idfood))
-                print("COUCOUUUUUUU C MOI2")
                 db.session.commit()
                 return jsonify(state=True)
             except:
