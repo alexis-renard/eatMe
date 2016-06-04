@@ -22,6 +22,7 @@ def logout():
 @app.route("/")
 def home():
     if current_user.is_authenticated:
+        # print(get_propositions_user(current_user.username))
         return render_template(
             "index.html",
             propositions=get_propositions_user(current_user.username),
@@ -120,6 +121,7 @@ def my_plate_like_route():
 def add_user_liked():
     user = current_user
     datas = request.get_json()
+    print(datas)
     liked_food = get_food(datas.get('id'))
     if liked_food not in user.liked:
         user.liked.append(liked_food)
@@ -147,7 +149,7 @@ def my_plate_cooked_route():
 
 @login_required
 @app.route("/user/cooked/add", methods=("PUT",))
-def add_user_cooked():
+def add_user_cooked_plate():
     user = current_user
     cooked_food = get_food(request.get_json().get('id'))
     if cooked_food not in user.cooked:
@@ -159,7 +161,7 @@ def add_user_cooked():
 
 @login_required
 @app.route("/user/cooked/remove", methods=("PUT",))
-def remove_user_cooked():
+def remove_user_cooked_plate():
     user = current_user
     cooked_food = get_food(request.get_json().get('id'))
     if cooked_food in user.cooked:
@@ -174,14 +176,22 @@ def remove_user_cooked():
 @app.route("/user/loved", methods=("PUT",))
 def add_user_loved():
     user = current_user
+    print("current user taken")
     datas = request.get_json()
+    print(datas.get('username',''))
     loved_user = get_user(datas.get('username',''))
     if loved_user not in user.loved:
+        print(" if loved user not in user loved")
         user.loved.append(loved_user)
+        print("append user.loved")
         db.session.commit()
+        print("commit")
         if user in loved_user.loved:
+            print("user in loved_user.loved")
             user.matched.append(loved_user)
+            print("append")
             db.session.commit()
+            print("commit")
             return jsonify(state=True, match=True)
         return jsonify(state=True, match=False)
     else:
@@ -325,12 +335,26 @@ def add_plate(id):
         try:
             f = Food(name=name, img=img)
             try:
+                print(categories)
+                print("ca bugg")
+                print("categories : ")
+                print(get_category("Plat"))
+                print("ca bugg encore?")
+                print(get_categories())
+                print("ca bugg pas")
+                print(classes)
                 for cat in categories :
+                    print("cat : "+cat)
+                    print(get_user("Alexis"))
                     ### C'est le get_category qui plante. Mais sérieusement, pourquoi ? #jerage
+                    print(get_category("Plat"))
                     catObject = get_category(cat)
+                    print("coucou"+catObject)
                     f.foodCategory.append(catObject)
                 for cla in classes :
+                    print(cla)
                     claObject = get_class(cla)
+                    print(claObject)
                     f.foodClass.append(claObject)
                 db.session.add(f)
                 db.session.commit()
@@ -344,15 +368,22 @@ def add_plate(id):
 
 
 @login_required
-@app.route("/allplates", methods=('DELETE',))
-def delete_plate():
+@app.route("/allplates/<int:idfood>", methods=('DELETE',))
+def delete_plate(idfood):
     try:
-        datas = request.get_json()
-        id = datas.get('id','')
+        # datas = request.get_json()
+        # print("datas: "+datas)
+        # idfood = datas.get("idfood","")
+        print("idfood: "+idfood)
         try:
-            f = get_food(id)
+            f = get_food(idfood)
+            print("f: "+f)
             try:
+                print("COUCOUUUUUUU C MOI")
                 db.session.delete(f)
+                print("COUCOUUUUUUU C MOI1")
+                print(get_food(idfood))
+                print("COUCOUUUUUUU C MOI2")
                 db.session.commit()
                 return jsonify(state=True)
             except:
@@ -371,10 +402,11 @@ def plate_by_class_route(name):
         plates = get_all_food()
         for elem in plates:
             plates_dict[elem.name]=elem.serialize()
-        return  jsonify(plates_by_class=plates_dict)
+            print(current_user.admin)
+        return  jsonify(plates_by_class=plates_dict,admin=current_user.admin)
     else:
         plates=get_food_by_category(name)
-        return  jsonify(plates_by_class=plates)
+        return  jsonify(plates_by_class=plates,admin=current_user.admin)
 
 @login_required
 @app.route("/plates_by_category/<string:name>", methods=('GET',))

@@ -1,7 +1,8 @@
 $(document).ready(function() {
     // $("#testimonial").css("background","gray";);
-    $("#testimonial").css("background-color", "#EFEFEF");
-    //console.log($("#testimonial"));
+    $("#testimonial").css("background", "#EFEFEF");
+    // console.log($("#testimonial"));
+    // console.log($("#testimonial").css());
     bindings();
 });
 
@@ -213,8 +214,6 @@ function display_all_plates(category){
       datatype: "json",
       success: function(data){
         var category=data.plates_by_class;
-       // console.log(category);
-
         var html = "";
         html+='<section id="portfolio">';
         html+='        <div class="container">';
@@ -240,25 +239,28 @@ function display_all_plates(category){
         html+='              <ul class="portfolio-wrap" id="portfolio_items">';
         // debut li
         for(var i=0; i<category.length; i++){
-        html+='                    <li class="col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design">';
-        html+='                        <figure>';
-        html+='                            <img src="../static/images/food/'+category[i]["img"]+'" alt="" />';
-        html+='                            <figcaption>';
-        html+='                                <h5>'+category[i]["name"]+'</h5>';
-        html+='                                <div class="links">';
-        html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-        html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
-        html+='                                    </a>';
-        html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-        html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
-        html+='                                    </a>';
-        html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-        html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
-        html+='                                    </a>';
-        html+='                                </div>';
-        html+='                            </figcaption>';
-        html+='                        </figure>';
-        html+='                    </li>';
+          html+='                    <li class="col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design">';
+          html+='                        <figure>';
+          html+='                            <img src="../static/images/food/'+category[i]["img"]+'" alt="" />';
+          html+='                            <figcaption>';
+          html+='                                <h5>'+category[i]["name"]+'</h5>';
+          html+='                                <div class="links">';
+          html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+          html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
+          html+='                                    </a>';
+          html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+          html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
+          html+='                                    </a>';
+        console.log(data.admin);
+        if (data.admin==1){
+          html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+          html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
+          html+='                                    </a>';
+        };
+          html+='                                </div>';
+          html+='                            </figcaption>';
+          html+='                        </figure>';
+          html+='                    </li>';
         }
         //fin li
         html+='                </ul>';
@@ -266,7 +268,6 @@ function display_all_plates(category){
         html+='</section>  <!-- Portfolio Section End -->';
         html+= "<script type='text/javascript' src='/static/js/jquery.easing.1.3.js'></script>";
         $("#main_container").append(html);
-        //include('jquery.easing.1.3.js');
     }
   });
 }
