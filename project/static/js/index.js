@@ -12,8 +12,10 @@ $(document).ready(function() {
    $("#login").bind("click", display_login);
    $("#register").bind("click",display_register);
    $("#my_profil").bind("click",my_profil);
-   $(".fa-plus").bind("click", add_user_liked);
-   $(".fa-minus").bind("click", remove_user_liked);
+   $(".plus_like").bind("click", add_user_liked);
+   $(".minus_like").bind("click", remove_user_liked);
+   $(".plus_cook").bind("click", add_user_cooked);
+   $(".minus_cook").bind("click", remove_user_cooked);
    $(".fa-times").bind("click", delete_plate);
  }
 
@@ -240,10 +242,10 @@ function display_all_plates(category){
         html+='                                <h5>'+category[i]["name"]+'</h5>';
         html+='                                <div class="links">';
         html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-        html+='                                        <i class="fa fa-plus" onClick="add_user_liked('+category[i]["id"]+');"></i>';
+        html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
         html+='                                    </a>';
         html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-        html+='                                       <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
+        html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
         html+='                                    </a>';
         html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
         html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
@@ -298,6 +300,40 @@ function remove_user_liked(id){
   });
 }
 
+function add_user_cooked(id){
+  var dict={
+    "id":id
+  };
+  var datas = JSON.stringify(dict);
+  bindings();
+  $.ajax({
+    url:"http://localhost:5000/user/cooked/add",
+    type : "PUT",
+    contentType : "application/json",
+    data: datas,
+    success : function(json){
+      alert("food added");
+    }
+  });
+}
+
+function remove_user_cooked(id){
+  var dict={
+    "id":id
+  };
+  var datas = JSON.stringify(dict);
+  bindings();
+  $.ajax({
+    url:"http://localhost:5000/user/cooked/remove",
+    type : "PUT",
+    contentType : "application/json",
+    data: datas,
+    success : function(json){
+      alert("food removed");
+    }
+  });
+}
+
 function display_all_cook(category){
     $("#main_container").empty();
     var source="/plates_by_class/"+category;
@@ -309,55 +345,58 @@ function display_all_cook(category){
         var category=data.plates_by_class;
        // console.log(category);
 
-        var html = "";
-        html+='<section id="portfolio">';
-        html+='        <div class="container">';
-        html+='            <div class="row">';
-        html+='                <div class="col-md-12 col-sm-12 col-xs-12">';
-        html+='                    <div class="feature_header text-center">';
-        html+='                        <h3 class="feature_title">Your <b>cooks</b></h3>';
-        html+='                        <h4 class="feature_sub">Here you can add, or delete plates you cook. </h4>';
-        html+='                        <div class="divider"></div>';
-        html+='                    </div>';
-        html+='                </div>  <!-- Col-md-12 End -->';
-        html+='            </div>';
-        html+='        </div>';
-        html+='    <div id="isotope-filter" class="skew3 text-center">';
-        html+='        <a id="all"  href="#" onClick="display_all_cook(\'all\');" class="active ">All</a>';
-        html+='        <a id="Entrée"  href="#" onClick="display_all_cook(\'Entree\');" class="">Entrée</a>';
-        html+='        <a id="Plat" href="#" onClick="display_all_cook(\'Plat\');" class="">Plat</a>';
-        html+='        <a id="Dessert"  href="#" onClick="display_all_cook(\'Dessert\');" class="">Dessert</a>';
-        html+='        <a id="Apéro"  href="#" onClick="display_all_cook(\'Apero\');" class="">Apéro</a>';
-        html+='    </div>';
-        html+='    <div class="clearfix"></div>';
-        html+='         <div class="text-center ">';
-        html+='              <ul class="portfolio-wrap" id="portfolio_items">';
-        // debut li
-        for(var i=0; i<category.length; i++){
-        html+='                    <li class="col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design">';
-        html+='                        <figure>';
-        html+='                            <img src="../static/images/food/'+category[i]["img"]+'" alt="" />';
-        html+='                            <figcaption>';
-        html+='                                <h5>'+category[i]["name"]+'</h5>';
-        html+='                                <p class="links">';
-        html+='                                    <a href="#"> <i class="fa fa-link" onClick="delete_plate('+category[i]["id"]+');"></i></a>';
-        html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-        html+='                                        <i class="fa fa-plus"></i>';
-        html+='                                    </a>';
-        html+='                                </p>';
-        html+='                                <p class="description">';
-        html+='                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.';
-        html+='                                </p>';
-        html+='                            </figcaption>';
-        html+='                        </figure>';
-        html+='                    </li>';
-        }
-        //fin li
-        html+='                </ul>';
-        html+='        </div> <!-- Container Full End -->';
-        html+='</section>  <!-- Portfolio Section End -->';
-        html+= "<script type='text/javascript' src='/static/js/jquery.easing.1.3.js'></script>";
-        $("#main_container").append(html);
+       var html = "";
+       html+='<section id="portfolio">';
+       html+='        <div class="container">';
+       html+='            <div class="row">';
+       html+='                <div class="col-md-12 col-sm-12 col-xs-12">';
+       html+='                    <div class="feature_header text-center">';
+       html+='                        <h3 class="feature_title">Your <b>plates</b></h3>';
+       html+='                        <h4 class="feature_sub">Here you can add, or delete plates you like. </h4>';
+       html+='                        <div class="divider"></div>';
+       html+='                    </div>';
+       html+='                </div>  <!-- Col-md-12 End -->';
+       html+='            </div>';
+       html+='        </div>';
+       html+='    <div id="isotope-filter" class="skew3 text-center">';
+       html+='        <a id="all"  href="#" onClick="display_all_cook(\'all\');" class="active ">All</a>';
+       html+='        <a id="Entrée"  href="#" onClick="display_all_cook(\'Entree\');" class="">Entrée</a>';
+       html+='        <a id="Plat" href="#" onClick="display_all_cook(\'Plat\');" class="">Plat</a>';
+       html+='        <a id="Dessert"  href="#" onClick="display_all_cook(\'Dessert\');" class="">Dessert</a>';
+       html+='        <a id="Apéro"  href="#" onClick="display_all_cook(\'Apero\');" class="">Apéro</a>';
+       html+='    </div>';
+       html+='    <div class="clearfix"></div>';
+       html+='         <div class="text-center ">';
+       html+='              <ul class="portfolio-wrap" id="portfolio_items">';
+       // debut li
+       for(var i=0; i<category.length; i++){
+       html+='                    <li class="col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design">';
+       html+='                        <figure>';
+       html+='                            <img src="../static/images/food/'+category[i]["img"]+'" alt="" />';
+       html+='                            <figcaption>';
+       html+='                                <h5>'+category[i]["name"]+'</h5>';
+       html+='                                <div class="links">';
+       html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+       html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
+       html+='                                    </a>';
+       html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+       html+='                                       <i class="fa fa-minus minus_cook" onClick="remove_user_cooked('+category[i]["id"]+');"></i>';
+       html+='                                    </a>';
+       html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+       html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
+       html+='                                    </a>';
+       html+='                                </div>';
+       html+='                            </figcaption>';
+       html+='                        </figure>';
+       html+='                    </li>';
+       }
+       //fin li
+       html+='                </ul>';
+       html+='        </div> <!-- Container Full End -->';
+       html+='</section>  <!-- Portfolio Section End -->';
+       html+= "<script type='text/javascript' src='/static/js/jquery.easing.1.3.js'></script>";
+       $("#main_container").append(html);
+       bindings();
         //include('jquery.easing.1.3.js');
     }
   });
@@ -747,7 +786,6 @@ function get_profil(id){
   });
 }
 
-
 function display_profil(json){
   var html ="";
   $("#main_container").empty();
@@ -837,15 +875,13 @@ function delete_plate(id){
     "id":id
   };
   var datas = JSON.stringify(dict);
-  console.log(dict);
-  console.log(datas);
   $.ajax({
     url:"http://localhost:5000/allplates",
     type : 'DELETE',
     contentType : "application/json",
     data: datas,
     success : function(json){
-
+      alert("Food has been removed form Database");
     }
   });
 }

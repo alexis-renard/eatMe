@@ -22,7 +22,6 @@ def logout():
 @app.route("/")
 def home():
     if current_user.is_authenticated:
-        # print(get_propositions_user(current_user.username))
         return render_template(
             "index.html",
             propositions=get_propositions_user(current_user.username),
@@ -121,7 +120,6 @@ def my_plate_like_route():
 def add_user_liked():
     user = current_user
     datas = request.get_json()
-    print(datas)
     liked_food = get_food(datas.get('id'))
     if liked_food not in user.liked:
         user.liked.append(liked_food)
@@ -149,7 +147,7 @@ def my_plate_cooked_route():
 
 @login_required
 @app.route("/user/cooked/add", methods=("PUT",))
-def add_user_cooked_plate():
+def add_user_cooked():
     user = current_user
     cooked_food = get_food(request.get_json().get('id'))
     if cooked_food not in user.cooked:
@@ -161,7 +159,7 @@ def add_user_cooked_plate():
 
 @login_required
 @app.route("/user/cooked/remove", methods=("PUT",))
-def remove_user_cooked_plate():
+def remove_user_cooked():
     user = current_user
     cooked_food = get_food(request.get_json().get('id'))
     if cooked_food in user.cooked:
@@ -176,22 +174,14 @@ def remove_user_cooked_plate():
 @app.route("/user/loved", methods=("PUT",))
 def add_user_loved():
     user = current_user
-    print("current user taken")
     datas = request.get_json()
-    print(datas.get('username',''))
     loved_user = get_user(datas.get('username',''))
     if loved_user not in user.loved:
-        print(" if loved user not in user loved")
         user.loved.append(loved_user)
-        print("append user.loved")
         db.session.commit()
-        print("commit")
         if user in loved_user.loved:
-            print("user in loved_user.loved")
             user.matched.append(loved_user)
-            print("append")
             db.session.commit()
-            print("commit")
             return jsonify(state=True, match=True)
         return jsonify(state=True, match=False)
     else:
@@ -335,26 +325,12 @@ def add_plate(id):
         try:
             f = Food(name=name, img=img)
             try:
-                print(categories)
-                print("ca bugg")
-                print("categories : ")
-                print(get_category("Plat"))
-                print("ca bugg encore?")
-                print(get_categories())
-                print("ca bugg pas")
-                print(classes)
                 for cat in categories :
-                    print("cat : "+cat)
-                    print(get_user("Alexis"))
                     ### C'est le get_category qui plante. Mais sérieusement, pourquoi ? #jerage
-                    print(get_category("Plat"))
                     catObject = get_category(cat)
-                    print("coucou"+catObject)
                     f.foodCategory.append(catObject)
                 for cla in classes :
-                    print(cla)
                     claObject = get_class(cla)
-                    print(claObject)
                     f.foodClass.append(claObject)
                 db.session.add(f)
                 db.session.commit()
@@ -375,10 +351,8 @@ def delete_plate():
         id = datas.get('id','')
         try:
             f = get_food(id)
-            print(f)
             try:
                 db.session.delete(f)
-                print(get_food(id))
                 db.session.commit()
                 return jsonify(state=True)
             except:
