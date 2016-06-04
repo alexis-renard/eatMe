@@ -402,10 +402,11 @@ def plate_by_class_route(name):
         plates = get_all_food()
         for elem in plates:
             plates_dict[elem.name]=elem.serialize()
-        return  jsonify(plates_by_class=plates_dict,user=current_user.username)
+            print(current_user.admin)
+        return  jsonify(plates_by_class=plates_dict,admin=current_user.admin)
     else:
         plates=get_food_by_category(name)
-        return  jsonify(plates_by_class=plates,user=current_user.username)
+        return  jsonify(plates_by_class=plates,admin=current_user.admin)
 
 @login_required
 @app.route("/plates_by_category/<string:name>", methods=('GET',))

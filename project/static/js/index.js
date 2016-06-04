@@ -1,7 +1,8 @@
 $(document).ready(function() {
     // $("#testimonial").css("background","gray";);
-    $("#testimonial").css("background-color", "#EFEFEF");
-    //console.log($("#testimonial"));
+    $("#testimonial").css("background", "#EFEFEF");
+    // console.log($("#testimonial"));
+    // console.log($("#testimonial").css());
     bindings();
 });
 
@@ -245,7 +246,8 @@ function display_all_plates(category){
           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
           html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
           html+='                                    </a>';
-        if data.admin==1{
+        console.log(data.admin);
+        if (data.admin==1){
           html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
           html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
           html+='                                    </a>';
