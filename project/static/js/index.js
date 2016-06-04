@@ -14,6 +14,7 @@ $(document).ready(function() {
    $("#my_profil").bind("click",my_profil);
    $(".fa-plus").bind("click", add_user_liked);
    $(".fa-minus").bind("click", remove_user_liked);
+   $(".fa-times").bind("click", delete_plate);
  }
 
 function add_love(id){
@@ -237,21 +238,20 @@ function display_all_plates(category){
         html+='                            <img src="../static/images/food/'+category[i]["img"]+'" alt="" />';
         html+='                            <figcaption>';
         html+='                                <h5>'+category[i]["name"]+'</h5>';
-        html+='                                <p class="links">';
+        html+='                                <div class="links">';
         html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
         html+='                                        <i class="fa fa-plus" onClick="add_user_liked('+category[i]["id"]+');"></i>';
         html+='                                    </a>';
         html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
         html+='                                       <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
         html+='                                    </a>';
-        html+='                                </p>';
+        html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+        html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
+        html+='                                    </a>';
+        html+='                                </div>';
         html+='                            </figcaption>';
         html+='                        </figure>';
         html+='                    </li>';
-        html+='                    {% if current_user.admin==1 %}';
-        html+='                         <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-        html+='                            <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
-        html+='                         </a>';
         }
         //fin li
         html+='                </ul>';
@@ -834,18 +834,18 @@ function display_profil(json){
 
 function delete_plate(id){
   var dict={
-    "idfood":id
+    "id":id
   };
   var datas = JSON.stringify(dict);
   console.log(dict);
   console.log(datas);
   $.ajax({
-    url:"http://localhost:5000/allplates/"+id,
-    type : "DELETE",
+    url:"http://localhost:5000/allplates",
+    type : 'DELETE',
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("plat "+id+"supprimé uesh");
+
     }
   });
 }
