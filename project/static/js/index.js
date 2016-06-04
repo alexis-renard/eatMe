@@ -201,7 +201,6 @@ function display_register(){
 
 
 function display_all_plates(category){
-    $("#main_container").empty();
     if ( category == 'all') {
       var source="/allplates";
       var choice = "";
@@ -216,6 +215,8 @@ function display_all_plates(category){
       datatype: "json",
       data :choice,
       success: function(data){
+        $(this).addClass("active");
+        $("#main_container").empty();
         var category=data.plates;
         var html = "";
         html+='<section id="portfolio">';
