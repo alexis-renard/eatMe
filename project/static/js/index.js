@@ -252,6 +252,7 @@ function display_all_plates(category){
         html+='                         <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
         html+='                            <i class="fa fa-minus" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
         html+='                         </a>';
+        html+='                    {% endif%}';
         }
         //fin li
         html+='                </ul>';
