@@ -201,8 +201,13 @@ function display_register(){
 
 function display_all_plates(category){
     $("#main_container").empty();
+    if ( $(category) == 'all'){
+    var  source = '/allplates/';
+    }
+    else {
     var source="/plates_by_class/"+category;
-      $.ajax({
+    }
+    $.ajax({
       url : source,
       type : "GET",
       datatype: "json",
@@ -336,12 +341,19 @@ function remove_user_cooked(id){
 
 function display_all_cook(category){
     $("#main_container").empty();
+    if ( $(category) == 'all') {
+      var source="/allplates";
+    }
+    else {
     var source="/plates_by_class/"+category;
-      $.ajax({
+    }
+    choice = {"choice" : category};
+    $.ajax({
       url : source,
       type : "GET",
-      datatype: "json",
-      success: function(data){
+      contentType: "application/json",
+      data : choice,
+      success: function(json){
         var category=data.plates_by_class;
        // console.log(category);
 
