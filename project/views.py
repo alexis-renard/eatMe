@@ -307,22 +307,6 @@ def add_message_to_conversation():
                 ############
 
 @login_required
-@app.route("/allplates", methods=('GET',))
-def get_all_plates_route():
-    list_category = get_categories()
-    category_dict = {}
-    plates_dict = {}
-    dictionnary={}
-    plates = get_all_food()
-    for elem in plates:
-        plates_dict[elem.name]=elem.serialize()["name"]
-    for elem in list_category:
-        category_dict[elem.name]=elem.serialize()["name"]
-    for elem in plates:
-        dictionnary[elem.name]=elem.serialize()["foodCategory"]
-    return  jsonify(category=category_dict, plates=plates_dict, dictionnary=dictionnary)
-
-@login_required
 @app.route("/allplates", methods=('PUT',))
 ############## BUGGGGGGG A RESOUDRE MAIS JE COMPRENDS PAS ALORS JE PASSE À LA SUITE ###############
 def add_plate(id):
@@ -389,18 +373,27 @@ def delete_plate():
 
 
 @login_required
+@app.route("/allplates", methods=('GET',))
+def get_all_plates_route():
+    plate_dict = get_all_food()
+    plates = []
+    for elem in plate_dict:
+        plates.append(elem.serialize())
+    return jsonify(plates=plates, admin=current_user.admin)
+
+@login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
     plates_dict = {}
-    if name=='all':
+    if name == 'all':
         plates = get_all_food()
         for elem in plates:
-            plates_dict[elem.name]=elem.serialize()
+            plates_dict[elem.name] = elem.serialize()
             print(current_user.admin)
-        return  jsonify(plates_by_class=plates_dict,admin=current_user.admin)
+        return jsonify(plates=plates_dict, admin=current_user.admin)
     else:
-        plates=get_food_by_category(name)
-        return  jsonify(plates_by_class=plates,admin=current_user.admin)
+        plates = get_food_by_category(name)
+        return jsonify(plates=plates, admin=current_user.admin)
 
 @login_required
 @app.route("/plates_by_category/<string:name>", methods=('GET',))

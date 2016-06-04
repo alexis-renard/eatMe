@@ -202,18 +202,21 @@ function display_register(){
 
 function display_all_plates(category){
     $("#main_container").empty();
-    if ( $(category) == 'all'){
-    var  source = '/allplates/';
+    if ( category == 'all') {
+      var source="/allplates";
+      var choice = "";
     }
     else {
-    var source="/plates_by_class/"+category;
+      var source="/plates_by_class/"+category;
+      var choice = {"choice" : category};
     }
     $.ajax({
       url : source,
       type : "GET",
       datatype: "json",
+      data :choice,
       success: function(data){
-        var category=data.plates_by_class;
+        var category=data.plates;
         var html = "";
         html+='<section id="portfolio">';
         html+='        <div class="container">';
@@ -346,22 +349,23 @@ function remove_user_cooked(id){
 
 function display_all_cook(category){
     $("#main_container").empty();
-    if ( $(category) == 'all') {
+    if ( category == 'all') {
       var source="/allplates";
+      var choice = "";
     }
     else {
-    var source="/plates_by_class/"+category;
+      var source="/plates_by_class/"+category;
+      var choice = {"choice" : category};
     }
-    choice = {"choice" : category};
     $.ajax({
       url : source,
       type : "GET",
       contentType: "application/json",
       data : choice,
-      success: function(json){
-        var category=data.plates_by_class;
-       // console.log(category);
-
+      success: function(data){
+       var category = data.plates;
+       console.log(data);
+       console.log(category.length);
        var html = "";
        html+='<section id="portfolio">';
        html+='        <div class="container">';
