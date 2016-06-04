@@ -156,7 +156,7 @@
 	    position: absolute;
 	    width: 2px;
 	    height: 55px;
-	    background: #EE3B24;
+	    background: orange;
 	    left: 5px;
 	    top: -10px;
 	}
@@ -165,7 +165,7 @@
 	    position: absolute;
 	    width: 2px;
 	    height: 55px;
-	    background: #EE3B24;
+	    background: orange;
 	    right: 5px;
 	    top: -10px;
 	}
