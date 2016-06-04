@@ -19,7 +19,7 @@
 /*Menu style
 ==================================*/
 #section_header .haeder-fixed,#section_header{
-    background: #fff;
+    background-color: #fff;
 }
 .divider{
     background: #EE3B24;
@@ -217,14 +217,14 @@ figcaption .links a:hover{
 /*testimonial
 =========================*/
 .testimonial-slide .testimonial-text:before,.testimonial-slide .testimonial-text:after {
-    color: #EE3B24;
+    color: orange;
 }
 
 .testimonial-slide .testimonial-content h3.name {
-    color: #EE3B24!important;
+    color: orange!important;
 }
 .customNavigation .fa-chevron-left, .customNavigation .fa-chevron-right{ 
-    background: #EE3B24;
+    background: orange;
     color: #fff!important;
 }
 .customNavigation .fa-chevron-left:hover, .customNavigation .fa-chevron-right:hover{ 
@@ -236,7 +236,7 @@ figcaption .links a:hover{
 }
 
 .client_logo img:hover{ 
-    border: 1px solid #EE3B24;
+    border: 1px solid orange;
 }
 
 
