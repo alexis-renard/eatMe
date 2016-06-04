@@ -80,9 +80,10 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             like_list = user["like"]
             matches_list = user["matches"]
             img = user["img"]
+            admin = user["admin"]
 
             o = User(username=username, firstName=fName, lastName=lName, email=email, password=pwd,
-             img=img, desc=desc, foodLevel=foodLevel, town_id=town_id)
+             img=img, desc=desc, foodLevel=foodLevel, town_id=town_id, admin=admin)
             db.session.add(o)
             users[username] = o
             db.session.commit()

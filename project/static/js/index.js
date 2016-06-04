@@ -261,6 +261,8 @@ function display_all_plates(category){
   });
 }
 
+
+
 function add_user_liked(id){
   var dict={
     "id":id

@@ -13,6 +13,7 @@
   matches: []
   cook: [1,2,3]
   like: [1,2,3,5]
+  admin: 1
 - username: Suala
   firstName : Suala
   lastName: Karine
@@ -26,6 +27,7 @@
   matches: [Clement]
   cook: [4]
   like: [1,2]
+  admin: 0
 - username: Alexis
   firstName : Alexis
   lastName:  Renard
@@ -39,6 +41,7 @@
   matches: [Gerard,Gregoire]
   cook: []
   like: [1,2,3,4,5]
+  admin: 0
 - username: Clement
   firstName : Clement
   lastName: Gaal
@@ -52,6 +55,7 @@
   matches: [Suala]
   cook: [1,2,3,4,5]
   like: [1,2,4]
+  admin: 0
 - username: Gregoire
   firstName : Gregoire
   lastName: Molveau
@@ -65,6 +69,7 @@
   matches: [Alexis]
   cook: []
   like: [3,5]
+  admin: 0
 - username: Bibiche
   firstName : Bibiche
   lastName: Pitch
@@ -78,3 +83,4 @@
   love: [Clement]
   cook: [2,4]
   like: [2,4]
+  admin: 0

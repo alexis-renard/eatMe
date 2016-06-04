@@ -65,6 +65,7 @@ class User(db.Model, UserMixin):
     img         = db.Column(db.String(100))
     desc        = db.Column(db.String(1000))
     foodLevel   = db.Column(db.Integer)
+    admin       = db.Column(db.Integer)
     town_id     = db.Column(db.Integer, db.ForeignKey("town.id"))
     town        = db.relationship("Town", backref="user")
     loved = db.relationship('User',
