@@ -461,6 +461,7 @@ function my_profil(){
         html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"10\" class=\"textarea-block\" placeholder=\"Description\">"+data.user.desc+"</textarea>";
         html +="                    <span class=\"form-icon fa fa-pencil\"></span>";
         html +="                </div>";
+        html+="                       <iframe src='"+data.user.img+"' width='350' height='281' allowfullscreen></iframe>";
         html +="            </div>";
         html +="            <div class=\"col-md-12 text-center\">";
         html +="                <button class=\"btn btn-main featured\">Change profil</button>";
