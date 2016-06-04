@@ -227,12 +227,16 @@ function display_all_plates(category){
         html+='                </div>  <!-- Col-md-12 End -->';
         html+='            </div>';
         html+='        </div>';
+        html+='    <div id="Search">';
+        html+='    <input name=\"Search\" placeholder=\"Search\" id=\"inputSearch\"  value=\"\" type=\"text\" class=\"input-block\">';
+        html+='    </div>';
         html+='    <div id="isotope-filter" class="skew3 text-center">';
         html+='        <a id="all"  href="#" onClick="display_all_plates(\'all\');" class="active ">All</a>';
         html+='        <a id="Entrée"  href="#" onClick="display_all_plates(\'Entree\');" class="">Entrée</a>';
         html+='        <a id="Plat" href="#" onClick="display_all_plates(\'Plat\');" class="">Plat</a>';
         html+='        <a id="Dessert"  href="#" onClick="display_all_plates(\'Dessert\');" class="">Dessert</a>';
         html+='        <a id="Apéro"  href="#" onClick="display_all_plates(\'Apero\');" class="">Apéro</a>';
+        html+='        <a id="Search"  href="#" onClick="#" class="">Search</a>';
         html+='    </div>';
         html+='    <div class="clearfix"></div>';
         html+='         <div class="text-center ">';

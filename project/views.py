@@ -537,10 +537,8 @@ def category_route(name=None):
         ##############
 
 @login_required
-@app.route("/addplates/search",methods=("POST",))
-@app.route("/addcook/search",methods=("POST",))
-def searchcook():
-    datas = request.get_json()
-    query = datas.get('search')
-    dico_food=get_food_by_name(query)
+@app.route("/addplates/search/<string:search>",methods=("GET",))
+@app.route("/addcook/search/<string:search>",methods=("GET",))
+def searchcook(search):
+    dico_food=get_food_by_name(search)
     return  jsonify(state=True, results=dico_food),200
