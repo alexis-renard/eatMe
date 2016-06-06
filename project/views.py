@@ -176,22 +176,14 @@ def remove_user_cooked_plate():
 @app.route("/user/loved", methods=("PUT",))
 def add_user_loved():
     user = current_user
-    print("current user taken")
     datas = request.get_json()
-    print(datas.get('username',''))
     loved_user = get_user(datas.get('username',''))
     if loved_user not in user.loved:
-        print(" if loved user not in user loved")
         user.loved.append(loved_user)
-        print("append user.loved")
         db.session.commit()
-        print("commit")
         if user in loved_user.loved:
-            print("user in loved_user.loved")
             user.matched.append(loved_user)
-            print("append")
             db.session.commit()
-            print("commit")
             return jsonify(state=True, match=True)
         return jsonify(state=True, match=False)
     else:
@@ -379,21 +371,23 @@ def get_all_plates_route():
     plates = []
     for elem in plate_dict:
         plates.append(elem.serialize())
-    return jsonify(plates=plates, admin=current_user.admin)
+    user = current_user.serialize();
+    return jsonify(plates=plates, admin=user["admin"], cooked=user["cooked"], liked=user["liked"])
 
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
     plates_dict = {}
+    user = current_user.serialize();
     if name == 'all':
         plates = get_all_food()
         for elem in plates:
             plates_dict[elem.name] = elem.serialize()
             print(current_user.admin)
-        return jsonify(plates=plates_dict, admin=current_user.admin)
+        return jsonify(plates=plates_dict, admin=current_user.admin, cooked=user["cooked"], liked=user["liked"])
     else:
         plates = get_food_by_category(name)
-        return jsonify(plates=plates, admin=current_user.admin)
+        return jsonify(plates=plates, admin=current_user.admin, cooked=user["cooked"], liked=user["liked"])
 
 @login_required
 @app.route("/plates_by_category/<string:name>", methods=('GET',))

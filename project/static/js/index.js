@@ -9,7 +9,6 @@ $(document).ready(function() {
  function bindings(){
    $("#login_form").bind("submit", post_login);
    $("#register_form").bind("submit", post_register);
-
    $("#login").bind("click", display_login);
    $("#register").bind("click",display_register);
    $("#my_profil").bind("click",my_profil);
@@ -252,13 +251,16 @@ function display_all_plates(category){
           html+='                            <figcaption>';
           html+='                                <h5>'+category[i]["name"]+'</h5>';
           html+='                                <div class="links">';
-          html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-          html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
-          html+='                                    </a>';
-          html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-          html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
-          html+='                                    </a>';
-        console.log(data.admin);
+        if(category[i]["name"] in data.liked){
+            html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+            html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
+            html+='                                    </a>';
+        }
+        else{
+            html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+            html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
+            html+='                                    </a>';
+        }
         if (data.admin==1){
           html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
           html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
@@ -348,7 +350,6 @@ function remove_user_cooked(id){
 }
 
 function display_all_cook(category){
-    $("#main_container").empty();
     if ( category == 'all') {
       var source="/allplates";
       var choice = "";
@@ -363,6 +364,7 @@ function display_all_cook(category){
       contentType: "application/json",
       data : choice,
       success: function(data){
+       $("#main_container").empty();
        var category = data.plates;
        console.log(data);
        console.log(category.length);
@@ -401,15 +403,21 @@ function display_all_cook(category){
        html+='                            <figcaption>';
        html+='                                <h5>'+category[i]["name"]+'</h5>';
        html+='                                <div class="links">';
-       html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-       html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
-       html+='                                    </a>';
-       html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-       html+='                                       <i class="fa fa-minus minus_cook" onClick="remove_user_cooked('+category[i]["id"]+');"></i>';
-       html+='                                    </a>';
+       if(category[i]["name"] in data.cooked){
+           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+           html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
+           html+='                                    </a>';
+       }
+       else{
+           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+           html+='                                       <i class="fa fa-minus minus_cook" onClick="remove_user_cooked('+category[i]["id"]+');"></i>';
+           html+='                                    </a>';
+       }
+       if (data.admin==1){
        html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
        html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
        html+='                                    </a>';
+    };
        html+='                                </div>';
        html+='                            </figcaption>';
        html+='                        </figure>';
