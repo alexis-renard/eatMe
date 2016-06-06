@@ -52,9 +52,9 @@ def login():
         password = m.hexdigest()
         if (user.password == password):
             login_user(user)
-            return jsonify(login="success"),200
-        return jsonify(login="password or username incorrect"),401
-    return jsonify(login="password or username incorrect"),401
+            return jsonify(state="success"),200
+        return jsonify(state="error"),401
+    return jsonify(state="error"),401
 
 @app.route("/user", methods=("PUT",))
 def register():
@@ -83,7 +83,7 @@ def register():
         db.session.commit()
         login_user(u)
         return jsonify(state="success"),200
-    return jsonify(state="username already taken"),401
+    return jsonify(state="error"),401
 
 
 @login_required
@@ -128,7 +128,7 @@ def add_user_liked():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food already liked")
+        return jsonify(state="error")
 
 @login_required
 @app.route("/user/liked/remove", methods=("PUT",))
@@ -140,7 +140,7 @@ def remove_user_liked():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food not liked yet")
+        return jsonify(state="error")
 
 @login_required
 @app.route("/user/cooked", methods=("GET",))
@@ -157,7 +157,7 @@ def add_user_cooked_plate():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food already cooked")
+        return jsonify(state="error")
 
 @login_required
 @app.route("/user/cooked/remove", methods=("PUT",))
@@ -169,7 +169,7 @@ def remove_user_cooked_plate():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food not cooked yet")
+        return jsonify(state="error")
 
 
 @login_required
@@ -192,10 +192,10 @@ def add_user_loved():
             print("append")
             db.session.commit()
             print("commit")
-            return jsonify(state=True, match=True)
+            return jsonify(state="match", match=True)
         return jsonify(state=True, match=False)
     else:
-        return jsonify(state=False, error="user already loved")
+        return jsonify(state="error")
 
 @app.route("/user/profil", methods=("GET",))
 def get_myprofil():

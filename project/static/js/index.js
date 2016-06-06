@@ -9,7 +9,6 @@ $(document).ready(function() {
  function bindings(){
    $("#login_form").bind("submit", post_login);
    $("#register_form").bind("submit", post_register);
-
    $("#login").bind("click", display_login);
    $("#register").bind("click",display_register);
    $("#my_profil").bind("click",my_profil);
@@ -26,13 +25,24 @@ function add_love(id){
   console.log(dict);
   var data = JSON.stringify(dict);
   console.log(data);
+  bindings();
   $.ajax({
     url: "/user/loved",
     type: "PUT",
     contentType:"application/json",
     data: data,
     success: function(json){
-        window.location.reload();
+        display_home();
+    },
+    match: function(json){
+        swal({
+          title: 'It\'s a match!',
+          imageUrl: 'http://missionmariage.com/blog/wp-content/uploads/2015/01/Macaron-coeur-Laduree.png',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false
+        })
+        display_home();
     }
   })
 }
@@ -45,8 +55,7 @@ function post_login(){
               password: $('input[id="password"]').val()
           };
          var datas=JSON.stringify(dict);
-         console.log("test");
-         // test form
+         bindings();
          $.ajax({
                 url: "/user",
                 type: "POST",
@@ -54,10 +63,17 @@ function post_login(){
                 data: datas,
                 success: function(json){
                     window.location.reload();
-                    // display_home() ;
+                },
+                error: function(json){
+                    swal({
+                      title: 'Error!',
+                      text: 'Password or Username is incorrect.',
+                      type: 'error',
+                      confirmButtonText: 'Cool'
+                    })
+                    console.log("test");
                 }
             });
-        bindings();
         return false;
     });
 }
@@ -116,6 +132,7 @@ function post_register(){
              desc: $('textarea[id="desc"]').val(),
              town: $('input[id="town"]').val()
         };
+        bindings();
         var datas=JSON.stringify(dict);
         console.log("test");
         $.ajax({
@@ -124,11 +141,17 @@ function post_register(){
                contentType:"application/json",
                data: datas,
                success: function(json){
-                   window.location.reload();
                    display_home();
+               },
+               error: function(json){
+                   swal({
+                     title: 'Error!',
+                     text: 'Something gone wrong, please check your infos',
+                     type: 'error',
+                     confirmButtonText: 'Cool'
+                   })
                }
            });
-       bindings();
        return false;
     });
 }
@@ -291,8 +314,15 @@ function add_user_liked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food added");
-    }
+        swal({
+          title: 'Food added',
+          imageUrl: 'http://1larwpdbnvqpcz84vezsi9nu.wpengine.netdna-cdn.com/wp-content/uploads/2013/02/East_More_Food.png',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false,
+          timer: 1500
+        })
+  }
   });
 }
 
@@ -308,7 +338,14 @@ function remove_user_liked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food removed");
+        swal({
+          title: 'Food removed',
+          imageUrl: 'http://eatchewlive.com/wp-content/uploads/2015/04/tumblr_m6c2kq0jqf1qj19hzo1_500.jpg',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false,
+          timer: 1500
+        })
     }
   });
 }
