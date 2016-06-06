@@ -237,18 +237,14 @@
                                            <img src="images/about/web1.png" alt="" class="img-responsive">
                                       </div>
                                       <div class="col-md-12 col-sm-9">
+                                        <h4>Here you cand find the eaters that you loved, and loved you back : contact them !</h4>
                                           <div class="c-tab">
-                                               <h4>Here you cand find the eaters that you loved, and loved you back : contact them !</h4>
                                                <div>
-                                                   <ul>
-                                                   {% for user in current_user.matched %}
-                                                    <li>
-                                                        <a href="#" onclick="get_profil(this.id)" id="{{user.username}}">{{user.username}}</a> : {{user.email}}
-                                                    </li>
-                                                   {% endfor %}
-                                                   </ul>
+                                                 <div>
+                                                   {% for user in current_user.matched %}<a href="#" onclick="get_profil(this.id)" id="{{user.username}}">{{user.username}}</a> : {{user.email}}{% endfor %}
+                                                  </div>
+                                                  <img src="https://media.giphy.com/media/l0K4kb8OCuf19HbwY/giphy.gif">
                                                </div>
-                                               <img src="https://media.giphy.com/media/l0K4kb8OCuf19HbwY/giphy.gif">
                                           </div>
                                       </div>
                                 </div>
@@ -257,17 +253,16 @@
                                            <img src="images/about/browse.png" alt="" class="img-responsive">
                                       </div>
                                       <div class="col-md-12 col-sm-9">
+                                          <h4>Plates that you like</h4>
+                                           <a href="#" onClick="display_all_plates('all');"> Add other plates</a>
                                           <div class="c-tab">
-                                               <h4>Plates that you like</h4>
                                                {% if current_user.liked==None %}
                                                  <p>Don't you like any of our plates ?</p>
-                                                 <a href="#" onClick="display_all_plates('all');"> See our selection</a>
                                                {% else %}
                                                  <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
-                                                 <a href="#" onClick="display_all_plates('all');"> Add other plates</a>
                                                {% endif %}
+                                               <img src="http://66.media.tumblr.com/tumblr_md2zyvIn1U1rxis0k.gif">
                                           </div>
-                                          <img src="http://66.media.tumblr.com/tumblr_md2zyvIn1U1rxis0k.gif">
                                       </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="cooked">
@@ -275,17 +270,20 @@
                                            <img src="images/about/web1.png" alt="" class="img-responsive">
                                       </div>
                                      <div class="col-md-12 col-sm-9">
+                                       {% if current_user.cooked==[] %}
+                                         <h4>Apparently nothing?</h4>
+                                       {% else %}
+                                         <h4>List of all the plate you can propose to your matches !</h4>
+                                        {% endif %}
                                           <div class="c-tab">
                                                {% if current_user.cooked==[] %}
-                                                 <h4>Apparently nothing?</h4>
                                                  <p>We are sure you know how to cook something...</p>
                                                {% else %}
-                                                 <h4>List of all the plate you can propose to your matches !</h4>
                                                  <p>{% for plate in current_user.cooked %}{{plate.name}}<br>{% endfor %}</p>
                                                {% endif %}
                                                <a href="#" onClick="display_all_cook('all');"> Increase your cooked list </a>
+                                               <img src="https://media.giphy.com/media/vKRvPapJ49rJm/giphy.gif"/>
                                           </div>
-                                          <img src="https://media.giphy.com/media/vKRvPapJ49rJm/giphy.gif"/>
                                       </div>
                                 </div>
 
