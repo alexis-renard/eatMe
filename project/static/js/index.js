@@ -366,7 +366,14 @@ function add_user_cooked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food added");
+        swal({
+          title: 'Food added',
+          imageUrl: 'http://1larwpdbnvqpcz84vezsi9nu.wpengine.netdna-cdn.com/wp-content/uploads/2013/02/East_More_Food.png',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false,
+          timer: 1500
+        })
     }
   });
 }
@@ -383,7 +390,14 @@ function remove_user_cooked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food removed");
+        swal({
+          title: 'Food removed',
+          imageUrl: 'http://eatchewlive.com/wp-content/uploads/2015/04/tumblr_m6c2kq0jqf1qj19hzo1_500.jpg',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false,
+          timer: 1500
+        })
     }
   });
 }
@@ -615,74 +629,6 @@ function search_cook(){
        $("#main_container").append(html);
        bindings();
         //include('jquery.easing.1.3.js');
-    }
-  });
-}
-
-function add_user_liked(id){
-  var dict={
-    "id":id
-  };
-  var datas = JSON.stringify(dict);
-  bindings();
-  $.ajax({
-    url:"http://localhost:5000/user/liked/add",
-    type : "PUT",
-    contentType : "application/json",
-    data: datas,
-    success : function(json){
-      alert("food added");
-    }
-  });
-}
-
-function remove_user_liked(id){
-  var dict={
-    "id":id
-  };
-  var datas = JSON.stringify(dict);
-  bindings();
-  $.ajax({
-    url:"http://localhost:5000/user/liked/remove",
-    type : "PUT",
-    contentType : "application/json",
-    data: datas,
-    success : function(json){
-      alert("food removed");
-    }
-  });
-}
-
-function add_user_cooked(id){
-  var dict={
-    "id":id
-  };
-  var datas = JSON.stringify(dict);
-  bindings();
-  $.ajax({
-    url:"http://localhost:5000/user/cooked/add",
-    type : "PUT",
-    contentType : "application/json",
-    data: datas,
-    success : function(json){
-      alert("food added");
-    }
-  });
-}
-
-function remove_user_cooked(id){
-  var dict={
-    "id":id
-  };
-  var datas = JSON.stringify(dict);
-  bindings();
-  $.ajax({
-    url:"http://localhost:5000/user/cooked/remove",
-    type : "PUT",
-    contentType : "application/json",
-    data: datas,
-    success : function(json){
-      alert("food removed");
     }
   });
 }
