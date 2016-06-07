@@ -23,3 +23,58 @@
   img: salade.png
   class: [Vegetarien]
   category: [Entree]
+- entryId: 6
+  name: Tiramisu
+  img: tiramisu.jpeg
+  class: [Vegetarien]
+  category: [Dessert]
+- entryId: 7
+  name: Mousse au chocolat
+  img: moussechocolat.jpg
+  class: [Vegetarien]
+  category: [Dessert]
+- entryId: 8
+  name: Panacota
+  img: panacota.jpg
+  class: [Vegetarien]
+  category: [Dessert]
+- entryId: 9
+  name: Saucisson
+  img: saucisson.jpg
+  class: [Gras]
+  category: [Apéro]
+- entryId: 10
+  name: Olive Vertes
+  img: olivesvertes.jpg
+  class: [Bio]
+  category: [Apéro]
+- entryId: 11
+  name: Salade Niçoise
+  img: saladeniçoise.jpg
+  class: [Bio]
+  category: [Entree]
+- entryId: 12
+  name: Tapas
+  img: tapas.jpg
+  class: [Gras]
+  category: [Apéro]
+- entryId: 13
+  name: Corne de Gazelle
+  img: cornegazelle.jpg
+  class: [Gras]
+  category: [Dessert]
+- entryId: 14
+  name: Tarte à la Framboise
+  img: tarteframboise.jpg
+  class: [Vegetarien]
+  category: [Dessert]
+- entryId: 15
+  name: Melon et Jambon de Parme
+  img: melonjambon.jpg
+  class: [Bio]
+  category: [Entree]
+- entryId: 16
+  name: Saint Jacques
+  img: saintjacques.jpg
+  class: [Gastronomique]
+  category: [Plat]

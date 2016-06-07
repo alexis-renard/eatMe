@@ -52,9 +52,9 @@ def login():
         password = m.hexdigest()
         if (user.password == password):
             login_user(user)
-            return jsonify(login="success"),200
-        return jsonify(login="password or username incorrect"),401
-    return jsonify(login="password or username incorrect"),401
+            return jsonify(state="success"),200
+        return jsonify(state="error"),401
+    return jsonify(state="error"),401
 
 @app.route("/user", methods=("PUT",))
 def register():
@@ -83,7 +83,7 @@ def register():
         db.session.commit()
         login_user(u)
         return jsonify(state="success"),200
-    return jsonify(state="username already taken"),401
+    return jsonify(state="error"),401
 
 
 @login_required
@@ -128,7 +128,7 @@ def add_user_liked():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food already liked")
+        return jsonify(state="error")
 
 @login_required
 @app.route("/user/liked/remove", methods=("PUT",))
@@ -140,7 +140,7 @@ def remove_user_liked():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food not liked yet")
+        return jsonify(state="error")
 
 @login_required
 @app.route("/user/cooked", methods=("GET",))
@@ -157,7 +157,7 @@ def add_user_cooked_plate():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food already cooked")
+        return jsonify(state="error")
 
 @login_required
 @app.route("/user/cooked/remove", methods=("PUT",))
@@ -169,33 +169,25 @@ def remove_user_cooked_plate():
         db.session.commit()
         return jsonify(state=True)
     else:
-        return jsonify(state=False, error="food not cooked yet")
+        return jsonify(state="error")
 
 
 @login_required
 @app.route("/user/loved", methods=("PUT",))
 def add_user_loved():
     user = current_user
-    print("current user taken")
     datas = request.get_json()
-    print(datas.get('username',''))
     loved_user = get_user(datas.get('username',''))
     if loved_user not in user.loved:
-        print(" if loved user not in user loved")
         user.loved.append(loved_user)
-        print("append user.loved")
         db.session.commit()
-        print("commit")
         if user in loved_user.loved:
-            print("user in loved_user.loved")
             user.matched.append(loved_user)
-            print("append")
             db.session.commit()
-            print("commit")
             return jsonify(state=True, match=True)
         return jsonify(state=True, match=False)
     else:
-        return jsonify(state=False, error="user already loved")
+        return jsonify(state="error")
 
 @app.route("/user/profil", methods=("GET",))
 def get_myprofil():
@@ -255,6 +247,8 @@ def user_modif():
             user.desc=desc
         else:
             return jsonify(state=False, error="Description can't be empty"),400
+    db.session.commit()
+    login_user(user)
     return jsonify(state=True),200
 
                 ##############
@@ -379,21 +373,23 @@ def get_all_plates_route():
     plates = []
     for elem in plate_dict:
         plates.append(elem.serialize())
-    return jsonify(plates=plates, admin=current_user.admin)
+    user = current_user.serialize();
+    return jsonify(plates=plates, admin=user["admin"], cooked=user["cooked"], liked=user["liked"])
 
 @login_required
 @app.route("/plates_by_class/<string:name>", methods=('GET',))
 def plate_by_class_route(name):
     plates_dict = {}
+    user = current_user.serialize();
     if name == 'all':
         plates = get_all_food()
         for elem in plates:
             plates_dict[elem.name] = elem.serialize()
             print(current_user.admin)
-        return jsonify(plates=plates_dict, admin=current_user.admin)
+        return jsonify(plates=plates_dict, admin=current_user.admin, cooked=user["cooked"], liked=user["liked"])
     else:
         plates = get_food_by_category(name)
-        return jsonify(plates=plates, admin=current_user.admin)
+        return jsonify(plates=plates, admin=current_user.admin, cooked=user["cooked"], liked=user["liked"])
 
 @login_required
 @app.route("/plates_by_category/<string:name>", methods=('GET',))

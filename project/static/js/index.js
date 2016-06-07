@@ -9,7 +9,6 @@ $(document).ready(function() {
  function bindings(){
    $("#login_form").bind("submit", post_login);
    $("#register_form").bind("submit", post_register);
-
    $("#login").bind("click", display_login);
    $("#register").bind("click",display_register);
    $("#my_profil").bind("click",my_profil);
@@ -18,6 +17,8 @@ $(document).ready(function() {
    $(".plus_cook").bind("click", add_user_cooked);
    $(".minus_cook").bind("click", remove_user_cooked);
    $(".fa-times").bind("click", delete_plate);
+   $(".c-tab>div>div>a").bind("click", display_profil_matched);
+   $("#editprofil").bind("click", post_modif);
  }
 
 function add_love(id){
@@ -32,7 +33,19 @@ function add_love(id){
     contentType:"application/json",
     data: data,
     success: function(json){
+        match = json.match;
+        if (match) {
+            swal({
+              title: 'It\'s a match!',
+              imageUrl: 'http://missionmariage.com/blog/wp-content/uploads/2015/01/Macaron-coeur-Laduree.png',
+              imageWidth: 400,
+              imageHeight: 200,
+              animation: true,
+              time :3000
+            })
+        }
         window.location.reload();
+        bindings();
     }
   })
 }
@@ -45,8 +58,7 @@ function post_login(){
               password: $('input[id="password"]').val()
           };
          var datas=JSON.stringify(dict);
-         console.log("test");
-         // test form
+         bindings();
          $.ajax({
                 url: "/user",
                 type: "POST",
@@ -54,7 +66,15 @@ function post_login(){
                 data: datas,
                 success: function(json){
                     window.location.reload();
-                    // display_home() ;
+                },
+                error: function(json){
+                    swal({
+                      title: 'Error!',
+                      text: 'Password or Username is incorrect.',
+                      type: 'error',
+                      confirmButtonText: 'Cool'
+                    })
+                    console.log("test");
                 }
             });
         bindings();
@@ -116,6 +136,7 @@ function post_register(){
              desc: $('textarea[id="desc"]').val(),
              town: $('input[id="town"]').val()
         };
+        bindings();
         var datas=JSON.stringify(dict);
         console.log("test");
         $.ajax({
@@ -126,12 +147,21 @@ function post_register(){
                success: function(json){
                    window.location.reload();
                    display_home();
+               },
+               error: function(json){
+                   swal({
+                     title: 'Error!',
+                     text: 'Something gone wrong, please check your infos',
+                     type: 'error',
+                     confirmButtonText: 'Cool'
+                   })
                }
            });
        bindings();
        return false;
     });
 }
+
 
 function display_register(){
     $("#main_container").empty();
@@ -184,7 +214,6 @@ function display_register(){
     html +="                    </form>";
     html +="                </div>";
     html +="            </div>";
-    html +="";
     html +="            <div class=\"col-md-6 right\">";
     html +="                <div class=\"form-level\">";
     html +="                    <textarea name=\"desc\" id=\"desc\"  rows=\"10\" class=\"textarea-block\" placeholder=\"Description\"></textarea>";
@@ -197,7 +226,6 @@ function display_register(){
     $("#main_container").prepend(html);
     post_register();
 }
-
 
 
 function display_all_plates(category){
@@ -232,15 +260,15 @@ function display_all_plates(category){
         html+='            </div>';
         html+='        </div>';
         html+='    <div id="Search">';
-        html+='    <input name=\"Search\" placeholder=\"Search\" id=\"inputSearch\"  value=\"\" type=\"text\" class=\"input-block\">';
+        html+='       <input name=\"Search\" placeholder=\"Search\" id=\"inputSearch\"  value=\"\" type=\"text\" class=\"input-block\">';
+        html+='       <a id="Search"  href="#" onClick="search_plate(\'all\');" class="">Search</a>';
         html+='    </div>';
         html+='    <div id="isotope-filter" class="skew3 text-center">';
-        html+='        <a id="all"  href="#" onClick="display_all_plates(\'all\');" class="active ">All</a>';
-        html+='        <a id="Entrée"  href="#" onClick="display_all_plates(\'Entree\');" class="">Entrée</a>';
-        html+='        <a id="Plat" href="#" onClick="display_all_plates(\'Plat\');" class="">Plat</a>';
-        html+='        <a id="Dessert"  href="#" onClick="display_all_plates(\'Dessert\');" class="">Dessert</a>';
-        html+='        <a id="Apéro"  href="#" onClick="display_all_plates(\'Apero\');" class="">Apéro</a>';
-        html+='        <a id="Search"  href="#" onClick="search_plate(\'all\');" class="">Search</a>';
+        html+='        <a id="all"  href="#" onClick="display_few_plates(\'all\');" class="">All</a>';
+        html+='        <a id="Entrée"  href="#" onClick="display_few_plates(\'Entree\');" class="">Entrée</a>';
+        html+='        <a id="Plat" href="#" onClick="display_few_plates(\'Plat\');" class="">Plat</a>';
+        html+='        <a id="Dessert"  href="#" onClick="display_few_plates(\'Dessert\');" class="">Dessert</a>';
+        html+='        <a id="Apéro"  href="#" onClick="display_few_plates(\'Apéro\');" class="">Apéro</a>';
         html+='    </div>';
         html+='    <div class="clearfix"></div>';
         html+='         <div class="text-center ">';
@@ -253,13 +281,16 @@ function display_all_plates(category){
           html+='                            <figcaption>';
           html+='                                <h5>'+category[i]["name"]+'</h5>';
           html+='                                <div class="links">';
-          html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-          html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
-          html+='                                    </a>';
-          html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-          html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
-          html+='                                    </a>';
-        console.log(data.admin);
+        if(category[i]["name"] in data.liked){
+            html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+            html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
+            html+='                                    </a>';
+        }
+        else{
+            html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+            html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
+            html+='                                    </a>';
+        }
         if (data.admin==1){
           html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
           html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
@@ -280,6 +311,60 @@ function display_all_plates(category){
   });
 }
 
+function display_few_plates(category){
+    if ( category == 'all') {
+      var source="/allplates";
+      var choice = "";
+    }
+    else {
+      var source="/plates_by_class/"+category;
+      var choice = {"choice" : category};
+    }
+    $.ajax({
+      url : source,
+      type : "GET",
+      datatype: "json",
+      data :choice,
+      success: function(data){
+        $("#portfolio_items").empty();
+        var category=data.plates;
+        var html = "";
+        html+='              <ul class="portfolio-wrap" id="portfolio_items">';
+        // debut li
+        for(var i=0; i<category.length; i++){
+          html+='                    <li class="col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design">';
+          html+='                        <figure>';
+          html+='                            <img src="../static/images/food/'+category[i]["img"]+'" alt="" />';
+          html+='                            <figcaption>';
+          html+='                                <h5>'+category[i]["name"]+'</h5>';
+          html+='                                <div class="links">';
+        if(category[i]["name"] in data.liked){
+            html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+            html+='                                       <i class="fa fa-minus minus_like" onClick="remove_user_liked('+category[i]["id"]+');"></i>';
+            html+='                                    </a>';
+        }
+        else{
+            html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+            html+='                                        <i class="fa fa-plus plus_like" onClick="add_user_liked('+category[i]["id"]+');"></i>';
+            html+='                                    </a>';
+        }
+        if (data.admin==1){
+          html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+          html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
+          html+='                                    </a>';
+        };
+          html+='                                </div>';
+          html+='                            </figcaption>';
+          html+='                        </figure>';
+          html+='                    </li>';
+        }
+        //fin li
+        html+='                </ul>';
+        $("#portfolio_items").append(html);
+    }
+  });
+}
+
 function add_user_liked(id){
   var dict={
     "id":id
@@ -292,8 +377,15 @@ function add_user_liked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food added");
-    }
+        swal({
+          title: 'Food added',
+          imageUrl: 'http://1larwpdbnvqpcz84vezsi9nu.wpengine.netdna-cdn.com/wp-content/uploads/2013/02/East_More_Food.png',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: true,
+          timer: 3000
+        })
+  }
   });
 }
 
@@ -309,7 +401,14 @@ function remove_user_liked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food removed");
+        swal({
+          title: 'Food removed',
+          imageUrl: 'http://eatchewlive.com/wp-content/uploads/2015/04/tumblr_m6c2kq0jqf1qj19hzo1_500.jpg',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false,
+          timer: 1500
+        })
     }
   });
 }
@@ -326,7 +425,14 @@ function add_user_cooked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food added");
+        swal({
+          title: 'Food added',
+          imageUrl: 'http://1larwpdbnvqpcz84vezsi9nu.wpengine.netdna-cdn.com/wp-content/uploads/2013/02/East_More_Food.png',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false,
+          timer: 1500
+        })
     }
   });
 }
@@ -343,13 +449,19 @@ function remove_user_cooked(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("food removed");
+        swal({
+          title: 'Food removed',
+          imageUrl: 'http://eatchewlive.com/wp-content/uploads/2015/04/tumblr_m6c2kq0jqf1qj19hzo1_500.jpg',
+          imageWidth: 400,
+          imageHeight: 200,
+          animation: false,
+          timer: 1500
+        })
     }
   });
 }
 
 function display_all_cook(category){
-    $("#main_container").empty();
     if ( category == 'all') {
       var source="/allplates";
       var choice = "";
@@ -364,6 +476,7 @@ function display_all_cook(category){
       contentType: "application/json",
       data : choice,
       success: function(data){
+       $("#main_container").empty();
        var category = data.plates;
        console.log(data);
        console.log(category.length);
@@ -381,15 +494,15 @@ function display_all_cook(category){
        html+='            </div>';
        html+='        </div>';
        html+='    <div id="Search">';
-       html+='    <input name=\"Search\" placeholder=\"Search\" id=\"inputSearch\"  value=\"\" type=\"text\" class=\"input-block\">';
+       html+='        <input name=\"Search\" placeholder=\"Search\" id=\"inputSearch\"  value=\"\" type=\"text\" class=\"input-block\">';
+       html+='        <a id="Search"  href="#" onClick="search_cook();" class="">Search</a>';
        html+='    </div>';
        html+='    <div id="isotope-filter" class="skew3 text-center">';
-       html+='        <a id="all"  href="#" onClick="display_all_cook(\'all\');" class="active ">All</a>';
-       html+='        <a id="Entrée"  href="#" onClick="display_all_cook(\'Entree\');" class="">Entrée</a>';
-       html+='        <a id="Plat" href="#" onClick="display_all_cook(\'Plat\');" class="">Plat</a>';
-       html+='        <a id="Dessert"  href="#" onClick="display_all_cook(\'Dessert\');" class="">Dessert</a>';
-       html+='        <a id="Apéro"  href="#" onClick="display_all_cook(\'Apero\');" class="">Apéro</a>';
-       html+='        <a id="Search"  href="#" onClick="search_cook();" class="">Search</a>';
+       html+='        <a id="all"  href="#" onClick="display_few_cook(\'all\');" class="">All</a>';
+       html+='        <a id="Entrée"  href="#" onClick="display_few_cook(\'Entree\');" class="">Entrée</a>';
+       html+='        <a id="Plat" href="#" onClick="display_few_cook(\'Plat\');" class="">Plat</a>';
+       html+='        <a id="Dessert"  href="#" onClick="display_few_cook(\'Dessert\');" class="">Dessert</a>';
+       html+='        <a id="Apéro"  href="#" onClick="display_few_cook(\'Apéro\');" class="">Apéro</a>';
        html+='    </div>';
        html+='    <div class="clearfix"></div>';
        html+='         <div class="text-center ">';
@@ -402,15 +515,21 @@ function display_all_cook(category){
        html+='                            <figcaption>';
        html+='                                <h5>'+category[i]["name"]+'</h5>';
        html+='                                <div class="links">';
-       html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-       html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
-       html+='                                    </a>';
-       html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-       html+='                                       <i class="fa fa-minus minus_cook" onClick="remove_user_cooked('+category[i]["id"]+');"></i>';
-       html+='                                    </a>';
+       if(category[i]["name"] in data.cooked){
+           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+           html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
+           html+='                                    </a>';
+       }
+       else{
+           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+           html+='                                       <i class="fa fa-minus minus_cook" onClick="remove_user_cooked('+category[i]["id"]+');"></i>';
+           html+='                                    </a>';
+       }
+       if (data.admin==1){
        html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
        html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
        html+='                                    </a>';
+    };
        html+='                                </div>';
        html+='                            </figcaption>';
        html+='                        </figure>';
@@ -428,42 +547,75 @@ function display_all_cook(category){
   });
 }
 
+function display_few_cook(category){
+    if ( category == 'all') {
+      var source="/allplates";
+      var choice = "";
+    }
+    else {
+      var source="/plates_by_class/"+category;
+      var choice = {"choice" : category};
+    }
+    $.ajax({
+      url : source,
+      type : "GET",
+      contentType: "application/json",
+      data : choice,
+      success: function(data){
+       $("#portfolio_items").empty();
+       var category = data.plates;
+       console.log(data);
+       console.log(category.length);
+       var html = "";
+       html+='              <ul class="portfolio-wrap" id="portfolio_items">';
+       // debut li
+       for(var i=0; i<category.length; i++){
+       html+='                    <li class="col-xs-12 col-sm-6 col-md-3 single-portfolio identity web-design">';
+       html+='                        <figure>';
+       html+='                            <img src="../static/images/food/'+category[i]["img"]+'" alt="" />';
+       html+='                            <figcaption>';
+       html+='                                <h5>'+category[i]["name"]+'</h5>';
+       html+='                                <div class="links">';
+       if(category[i]["name"] in data.cooked){
+           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+           html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
+           html+='                                    </a>';
+       }
+       else{
+           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+           html+='                                       <i class="fa fa-minus minus_cook" onClick="remove_user_cooked('+category[i]["id"]+');"></i>';
+           html+='                                    </a>';
+       }
+       if (data.admin==1){
+       html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+       html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
+       html+='                                    </a>';
+    };
+       html+='                                </div>';
+       html+='                            </figcaption>';
+       html+='                        </figure>';
+       html+='                    </li>';
+       }
+       //fin li
+       html+='                </ul>';
+       $("#portfolio_items").append(html);
+       bindings();
+        //include('jquery.easing.1.3.js');
+    }
+  });
+}
+
 function search_plate(){
     var search=document.getElementById("inputSearch").value;
     console.log(search);
-    $("#main_container").empty();
     $.ajax({
       url : "/addplates/search/"+search,
       type : "GET",
       contentType: "application/json",
       success: function(data){
-       var category = data.results;
+        $("#portfolio_items").empty();
+        var category = data.results;
         html = "";
-        html+='<section id="portfolio">';
-        html+='        <div class="container">';
-        html+='            <div class="row">';
-        html+='                <div class="col-md-12 col-sm-12 col-xs-12">';
-        html+='                    <div class="feature_header text-center">';
-        html+='                        <h3 class="feature_title">Your <b>plates</b></h3>';
-        html+='                        <h4 class="feature_sub">Here you can add, or delete plates you like. </h4>';
-        html+='                        <div class="divider"></div>';
-        html+='                    </div>';
-        html+='                </div>  <!-- Col-md-12 End -->';
-        html+='            </div>';
-        html+='        </div>';
-        html+='    <div id="Search">';
-        html+='    <input name=\"Search\" placeholder=\"Search\" id=\"inputSearch\"  value=\"\" type=\"text\" class=\"input-block\">';
-        html+='    </div>';
-        html+='    <div id="isotope-filter" class="skew3 text-center">';
-        html+='        <a id="all"  href="#" onClick="display_all_plates(\'all\');" class="active ">All</a>';
-        html+='        <a id="Entrée"  href="#" onClick="display_all_plates(\'Entree\');" class="">Entrée</a>';
-        html+='        <a id="Plat" href="#" onClick="display_all_plates(\'Plat\');" class="">Plat</a>';
-        html+='        <a id="Dessert"  href="#" onClick="display_all_plates(\'Dessert\');" class="">Dessert</a>';
-        html+='        <a id="Apéro"  href="#" onClick="display_all_plates(\'Apero\');" class="">Apéro</a>';
-        html+='        <a id="Search"  href="#" onClick="search_plate();" class="">Search</a>';
-        html+='    </div>';
-        html+='    <div class="clearfix"></div>';
-        html+='         <div class="text-center ">';
         html+='              <ul class="portfolio-wrap" id="portfolio_items">';
         // debut li
        $.each(category, function(i, obj) {
@@ -489,10 +641,7 @@ function search_plate(){
        });
        //fin li
        html+='                </ul>';
-       html+='        </div> <!-- Container Full End -->';
-       html+='</section>  <!-- Portfolio Section End -->';
-       html+= "<script type='text/javascript' src='/static/js/jquery.easing.1.3.js'></script>";
-       $("#main_container").append(html);
+       $("#portfolio_items").append(html);
        bindings();
         //include('jquery.easing.1.3.js');
     }
@@ -502,39 +651,14 @@ function search_plate(){
 function search_cook(){
     var search=document.getElementById("inputSearch").value;
     console.log(search);
-    $("#main_container").empty();
     $.ajax({
       url : "/addcook/search/"+search,
       type : "GET",
       contentType: "application/json",
       success: function(data){
+        $("#portfolio_items").empty();
        var category = data.results;
         html = "";
-        html+='<section id="portfolio">';
-        html+='        <div class="container">';
-        html+='            <div class="row">';
-        html+='                <div class="col-md-12 col-sm-12 col-xs-12">';
-        html+='                    <div class="feature_header text-center">';
-        html+='                        <h3 class="feature_title">Your <b>cooks</b></h3>';
-        html+='                        <h4 class="feature_sub">Here you can add, or delete plates you like. </h4>';
-        html+='                        <div class="divider"></div>';
-        html+='                    </div>';
-        html+='                </div>  <!-- Col-md-12 End -->';
-        html+='            </div>';
-        html+='        </div>';
-        html+='    <div id="Search">';
-        html+='    <input name=\"Search\" placeholder=\"Search\" id=\"inputSearch\"  value=\"\" type=\"text\" class=\"input-block\">';
-        html+='    </div>';
-        html+='    <div id="isotope-filter" class="skew3 text-center">';
-        html+='        <a id="all"  href="#" onClick="display_all_cook(\'all\');" class="active ">All</a>';
-        html+='        <a id="Entrée"  href="#" onClick="display_all_cook(\'Entree\');" class="">Entrée</a>';
-        html+='        <a id="Plat" href="#" onClick="display_all_cook(\'Plat\');" class="">Plat</a>';
-        html+='        <a id="Dessert"  href="#" onClick="display_all_cook(\'Dessert\');" class="">Dessert</a>';
-        html+='        <a id="Apéro"  href="#" onClick="display_all_cook(\'Apero\');" class="">Apéro</a>';
-        html+='        <a id="Search"  href="#" onClick="search_cook();" class="">Search</a>';
-        html+='    </div>';
-        html+='    <div class="clearfix"></div>';
-        html+='         <div class="text-center ">';
         html+='              <ul class="portfolio-wrap" id="portfolio_items">';
         // debut li
        $.each(category, function(i, obj) {
@@ -562,17 +686,12 @@ function search_cook(){
        });
        //fin li
        html+='                </ul>';
-       html+='        </div> <!-- Container Full End -->';
-       html+='</section>  <!-- Portfolio Section End -->';
-       html+= "<script type='text/javascript' src='/static/js/jquery.easing.1.3.js'></script>";
-       $("#main_container").append(html);
+       $("#portfolio_items").append(html);
        bindings();
         //include('jquery.easing.1.3.js');
     }
   });
 }
-
-
 
 
 function my_profil(){
@@ -634,7 +753,7 @@ function my_profil(){
         html+="                       <iframe src='"+data.user.img+"' width='350' height='281' allowfullscreen></iframe>";
         html +="            </div>";
         html +="            <div class=\"col-md-12 text-center\">";
-        html +="                <button class=\"btn btn-main featured\">Change profil</button>";
+        html +="                <button id=\"editprofil\" class=\"btn btn-main featured\" onclick=\"post_modif()\" >Change profil</button>";
         html +="            </div>";
         html +="        </div>";
         html +="    </div>";
@@ -642,6 +761,46 @@ function my_profil(){
         $("#main_container").append(html);
       }
     });
+}
+
+function post_modif(){
+    var dict={
+         username: $('input[id="username"]').val(),
+         password: $('input[id="password"]').val(),
+         firstName: $('input[id="firstName"]').val(),
+         lastName: $('input[id="lastName"]').val(),
+         email: $('input[id="mail"]').val(),
+         picture: $('input[id="img"]').val(),
+         desc: $('textarea[id="desc"]').val(),
+    };
+    bindings();
+    var datas=JSON.stringify(dict);
+    console.log("test");
+    $.ajax({
+           url: "/user/profil",
+           type: "PUT",
+           contentType:"application/json",
+           data: datas,
+           success: function(json){
+               swal({
+                 title: 'Profil updated!',
+                 imageUrl: 'http://udoit.dance/wp-content/uploads/2016/01/Update.jpg',
+                 imageWidth: 400,
+                 imageHeight: 200,
+                 animation: false
+               })
+               display_home();
+           },
+           error: function(json){
+               swal({
+                 title: 'Error!',
+                 text: 'Something gone wrong, please check your infos',
+                 type: 'error',
+                 confirmButtonText: 'Cool'
+               })
+           }
+       });
+   bindings();
 }
 
 function display_home(){
@@ -885,7 +1044,7 @@ function display_home(){
         html+="                                                   <ul>";
         html+="                                                   {% for user in current_user.matched %}";
         html+="                                                    <li>";
-        html+="                                                        <a href='#' onclick='get_profil(this.id)' id='{{user.username}}'>{{user.username}}</a> : {{user.email}}";
+        html+="                                                        <a href='#' onclick='get_profil_matched(this.id)' id='{{user.username}}'>{{user.username}}</a> : {{user.email}}";
         html+="                                                    </li>";
         html+="                                                   {% endfor %}";
         html+="                                                   </ul>";
@@ -1031,6 +1190,102 @@ function display_profil(json){
   html+="                    <div class='row'>";
   html+="                      <div class='col-md-1 col-md-push-5'>";
   html+="                       <button id='"+json.user.username+"' onclick='add_love(this.id)' class='btn btn-danger btn-lg'><i class='fa fa-heart' aria-hidden='true'></i></button>";
+  html+="                      </div>";
+  html+="                    </div>";
+  html+="                </div>";
+  html+="            </div>";
+  html+="        </div><!-- row End -->";
+  html+="    </div>";
+  html+="</section>";
+  $("#main_container").append(html);
+}
+
+function get_profil_matched(id){
+    console.log(id);
+    var dict={
+         "username": id
+    };
+    var datas=JSON.stringify(dict);
+    $.ajax({
+      url : "http://localhost:5000/user/profil",
+      type : "POST",
+      contentType:"application/json",
+      data: datas,
+      success: function(data){
+        display_profil_matched(data);
+      }
+  });
+}
+
+function display_profil_matched(json){
+  var html ="";
+  $("#main_container").empty();
+  html+="<div class='clearfix'></div>";
+  html+="</br>";
+  html+="</br>";
+  html+="<section id='video-fact'>";
+  html+="    <div class='container'>";
+  html+="         <div class='row'>";
+  html+="                 <div class='col-md-6 '>";
+  html+="                    <div class='landing-video'>";
+  html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
+  html+="                                <!-- Change the url -->";
+  html+="                            <iframe src='"+json.user.img+"' width='350' height='281' allowfullscreen></iframe>";
+  html+="                        </div>";
+  html+="                    </div>";
+  html+="                </div>";
+  html+="                <div class='col-md-6 '>";
+  html+="                    <div class='video-text'>";
+  html+="                        <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>";
+  html+="                          <div class='panel panel-default'>";
+  html+="                            <div class='panel-heading active' role='tab' id='headingOne'>";
+  html+="                              <h4 class='panel-title'>";
+  html+="                                <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>";
+  html+="                                  What like to eat:";
+  html+="                                </a>";
+  html+="                              </h4>";
+  html+="                            </div>";
+  html+="                            <div id='collapseOne' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='headingOne'>";
+  html+="                              <div class='panel-body p1'>";
+  html+="                                <ul>";
+  $.each(json.user.liked, function(i, obj) {
+    html+="<li>"+obj+"</li>";
+  });
+  html+="                                </ul>";
+  html+="                              </div>";
+  html+="                            </div>";
+  html+="                          </div>";
+  html+="                      <div class='panel panel-default'>";
+  html+="                        <div class='panel-heading ' role='tab' id='headingTwo'>";
+  html+="                          <h4 class='panel-title'>";
+  html+="                            <a class='accordion-toggle collapsed'  data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>";
+  html+="                              What like to cook:";
+  html+="                            </a>";
+  html+="                          </h4>";
+  html+="                        </div>";
+  html+="                        <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingTwo'>";
+  html+="                          <div class='panel-body p1'>";
+  html+="                                <ul>";
+  $.each(json.user.cooked, function(i, obj) {
+    html+="<li>"+obj+"</li>";
+  });
+  html+="                                </ul>";
+  html+="                          </div>";
+  html+="                        </div>";
+  html+="                      </div>";
+  html+="                      <div class='panel panel-default'>";
+  html+="                        <div class='panel-heading ' role='tab' id='headingThree'>";
+  html+="                          <h4 class='panel-title'>";
+  html+="                            <a class='accordion-toggle collapsed' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>";
+  html+="                              Description:";
+  html+="                            </a>";
+  html+="                          </h4>";
+  html+="                        </div>";
+  html+="                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'>";
+  html+="                          <div class='panel-body p1'>";
+  html+="                            "+json.user.desc+"";
+  html+="                          </div>";
+  html+="                        </div>";
   html+="                      </div>";
   html+="                    </div>";
   html+="                </div>";

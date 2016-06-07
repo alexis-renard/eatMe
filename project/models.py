@@ -125,7 +125,8 @@ class User(db.Model, UserMixin):
             'cooked': cooked,
             'matched': matches,
             'received': received_messages,
-            'send': send_messages
+            'send': send_messages,
+            'admin': self.admin
         }
 
     def get_id(self):

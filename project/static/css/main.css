@@ -5,3 +5,11 @@ body{
 	display: flex;
 	flex-direction: column;
 }
+
+#search_text{
+	color:white;
+}
+
+#logo{
+	height: 250%;
+}
