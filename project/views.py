@@ -248,6 +248,7 @@ def user_modif():
         else:
             return jsonify(state=False, error="Description can't be empty"),400
     db.session.commit()
+    login_user(user)
     return jsonify(state=True),200
 
                 ##############
