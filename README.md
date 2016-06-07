@@ -1,13 +1,19 @@
 # WELCOME TO EATME PROJECT
+
 ---
-## About the idea
+
+## 1. About the idea
+
 EatMe is the idea of 3 IT students, who had to create an API REST in their cursus. What about a dating website around food ? What about meeting people with all the plates you like or cook ?
 Developped by :
-...Raphael Lepiller
-...Clement Gaal
-...Alexis Renard
+* Raphael Lepiller
+* Clement Gaal
+* Alexis Renard
+
+
 ---
-## Run the app
+
+## 2. Run the app
 In order to run our application in your localhost, please follow
 
 Create your virtual environnement :
