@@ -253,13 +253,13 @@
                                       </div>
                                       <div class="col-md-12 col-sm-9">
                                           <h4>Plates that you like</h4>
-                                           <a href="#" onClick="display_all_plates('all');"> Add other plates</a>
                                           <div class="c-tab">
                                                {% if current_user.liked==None %}
                                                  <p>Don't you like any of our plates ?</p>
                                                {% else %}
                                                  <p>{% for plate in current_user.liked %}{{plate.name}}<br>{% endfor %}</p>
                                                {% endif %}
+                                               <a href="#" onClick="display_all_plates('all');"> Add other plates</a>
                                           </div>
                                       </div>
                                 </div>

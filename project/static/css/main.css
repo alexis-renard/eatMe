@@ -5,10 +5,7 @@ body{
 	display: flex;
 	flex-direction: column;
 }
-.c-tab{
-	display: flex;
-	justify-content: space-around;
-}
+
 #search_text{
 	color:white;
 }
