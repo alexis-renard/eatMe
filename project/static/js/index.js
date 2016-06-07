@@ -1307,10 +1307,21 @@ function delete_plate(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("Food has been removed form database");
+      swal({
+        title: 'Food deleted from DB!',
+        imageUrl: 'http://www.hhblife.com/wp-content/uploads/2012/10/hhb-life-10-ways-to-stop-eating-after-dinner-300x200.jpg',
+        imageWidth: 400,
+        imageHeight: 200,
+        animation: false
+      })
     },
     error : function(json){
-      alert("An error has occured : "+json.error);
+      swal({
+        title: 'Error!',
+        text: 'Something gone wrong, sorry...',
+        type: 'error',
+        confirmButtonText: 'Cool'
+      })
     }
   });
 }
