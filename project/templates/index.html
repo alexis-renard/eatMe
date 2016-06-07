@@ -241,7 +241,7 @@
                                           <div class="c-tab">
                                                <div>
                                                  <div>
-                                                   {% for user in current_user.matched %}<a href="#" onclick="get_profil(this.id)" id="{{user.username}}">{{user.username}}</a> : {{user.email}}{% endfor %}
+                                                   {% for user in current_user.matched %}<a href="#" onclick="get_profil_matched(this.id)" id="{{user.username}}">{{user.username}}</a> : {{user.email}}{% endfor %}
                                                   </div>
                                                   <img src="https://media.giphy.com/media/l0K4kb8OCuf19HbwY/giphy.gif">
                                                </div>
