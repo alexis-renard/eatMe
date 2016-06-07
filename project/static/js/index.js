@@ -225,7 +225,6 @@ function display_register(){
 
 
 function display_all_plates(category){
-    $("#main_container").empty();
     if ( category == 'all') {
       var source="/allplates";
       var choice = "";
@@ -240,6 +239,7 @@ function display_all_plates(category){
       datatype: "json",
       data :choice,
       success: function(data){
+        $("#main_container").empty();
         var category=data.plates;
         var html = "";
         html+='<section id="portfolio">';
@@ -491,13 +491,13 @@ function display_all_cook(category){
 function search_plate(){
     var search=document.getElementById("inputSearch").value;
     console.log(search);
-    $("#main_container").empty();
     $.ajax({
       url : "/addplates/search/"+search,
       type : "GET",
       contentType: "application/json",
       success: function(data){
-       var category = data.results;
+        $("#main_container").empty();
+        var category = data.results;
         html = "";
         html+='<section id="portfolio">';
         html+='        <div class="container">';
@@ -520,7 +520,6 @@ function search_plate(){
         html+='        <a id="Plat" href="#" onClick="display_all_plates(\'Plat\');" class="">Plat</a>';
         html+='        <a id="Dessert"  href="#" onClick="display_all_plates(\'Dessert\');" class="">Dessert</a>';
         html+='        <a id="Apéro"  href="#" onClick="display_all_plates(\'Apero\');" class="">Apéro</a>';
-        html+='        <a id="Search"  href="#" onClick="search_plate();" class="">Search</a>';
         html+='    </div>';
         html+='    <div class="clearfix"></div>';
         html+='         <div class="text-center ">';
