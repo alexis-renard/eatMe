@@ -516,20 +516,20 @@ function display_all_cook(category){
        html+='                                <h5>'+category[i]["name"]+'</h5>';
        html+='                                <div class="links">';
        if(category[i]["name"] in data.cooked){
-           html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
-           html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
-           html+='                                    </a>';
-       }
-       else{
            html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
            html+='                                       <i class="fa fa-minus minus_cook" onClick="remove_user_cooked('+category[i]["id"]+');"></i>';
            html+='                                    </a>';
        }
+       else{
+         html+='                                    <a href="#" data-rel="prettyPhoto" class="img-responsive">';
+         html+='                                        <i class="fa fa-plus plus_cook" onClick="add_user_cooked('+category[i]["id"]+');"></i>';
+         html+='                                    </a>';
+       }
        if (data.admin==1){
-       html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
-       html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
-       html+='                                    </a>';
-    };
+           html+='                                      <a href="#" data-rel="prettyPhoto" class="img-responsive"> ';
+           html+='                                         <i class="fa fa-times" onClick="delete_plate('+category[i]["id"]+');"></i>';
+           html+='                                    </a>';
+       };
        html+='                                </div>';
        html+='                            </figcaption>';
        html+='                        </figure>';
@@ -1307,7 +1307,7 @@ function delete_plate(id){
     contentType : "application/json",
     data: datas,
     success : function(json){
-      alert("Food has been removed form Database");
+      alert("Food has been removed form database");
     },
     error : function(json){
       alert("An error has occured : "+json.error);
