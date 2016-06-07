@@ -18,6 +18,7 @@ $(document).ready(function() {
    $(".minus_cook").bind("click", remove_user_cooked);
    $(".fa-times").bind("click", delete_plate);
    $(".c-tab>div>div>a").bind("click", display_profil_matched);
+   $("#editprofil").bind("click", post_modif);
  }
 
 function add_love(id){
@@ -159,6 +160,7 @@ function post_register(){
        return false;
     });
 }
+
 
 function display_register(){
     $("#main_container").empty();
@@ -693,7 +695,7 @@ function my_profil(){
         html+="                       <iframe src='"+data.user.img+"' width='350' height='281' allowfullscreen></iframe>";
         html +="            </div>";
         html +="            <div class=\"col-md-12 text-center\">";
-        html +="                <button class=\"btn btn-main featured\">Change profil</button>";
+        html +="                <button id=\"editprofil\" class=\"btn btn-main featured\" onclick=\"post_modif()\" >Change profil</button>";
         html +="            </div>";
         html +="        </div>";
         html +="    </div>";
@@ -701,6 +703,46 @@ function my_profil(){
         $("#main_container").append(html);
       }
     });
+}
+
+function post_modif(){
+    var dict={
+         username: $('input[id="username"]').val(),
+         password: $('input[id="password"]').val(),
+         firstName: $('input[id="firstName"]').val(),
+         lastName: $('input[id="lastName"]').val(),
+         email: $('input[id="mail"]').val(),
+         picture: $('input[id="img"]').val(),
+         desc: $('textarea[id="desc"]').val(),
+    };
+    bindings();
+    var datas=JSON.stringify(dict);
+    console.log("test");
+    $.ajax({
+           url: "/user/profil",
+           type: "PUT",
+           contentType:"application/json",
+           data: datas,
+           success: function(json){
+               swal({
+                 title: 'Profil updated!',
+                 imageUrl: 'http://udoit.dance/wp-content/uploads/2016/01/Update.jpg',
+                 imageWidth: 400,
+                 imageHeight: 200,
+                 animation: false
+               })
+               display_home();
+           },
+           error: function(json){
+               swal({
+                 title: 'Error!',
+                 text: 'Something gone wrong, please check your infos',
+                 type: 'error',
+                 confirmButtonText: 'Cool'
+               })
+           }
+       });
+   bindings();
 }
 
 function display_home(){
