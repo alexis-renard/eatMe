@@ -19,7 +19,6 @@ In order to run our application in your localhost, please follow
 Create your virtual environnement :
 ```
 virtualenv -p python3 venv
-source venv/bin/activate
 ```
 
 Activate your virtual environnement :
