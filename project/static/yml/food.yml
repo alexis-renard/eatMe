@@ -58,3 +58,23 @@
   img: tapas.jpg
   class: [Gras]
   category: [Apéro]
+- entryId: 13
+  name: Corne de Gazelle
+  img: cornegazelle.jpg
+  class: [Gras]
+  category: [Dessert]
+- entryId: 14
+  name: Tarte à la Framboise
+  img: tarteframboise.jpg
+  class: [Vegetarien]
+  category: [Dessert]
+- entryId: 15
+  name: Melon et Jambon de Parme
+  img: melonjambon.jpg
+  class: [Bio]
+  category: [Entree]
+- entryId: 16
+  name: Saint Jacques
+  img: saintjacques.jpg
+  class: [Gastronomique]
+  category: [Plat]
