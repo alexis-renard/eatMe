@@ -213,6 +213,7 @@ def user_modif():
     lastName = datas.get("lastName",'')
     email = datas.get("email",'')
     desc = datas.get("desc",'')
+    img = datas.get("picture",'')
     m = sha256()
     m.update(password)
     password = m.hexdigest()
@@ -247,6 +248,9 @@ def user_modif():
             user.desc=desc
         else:
             return jsonify(state=False, error="Description can't be empty"),400
+    if img!=user.img:
+        if img!='':
+            user.img=img
     db.session.commit()
     login_user(user)
     return jsonify(state=True),200

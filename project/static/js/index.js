@@ -41,7 +41,7 @@ function add_love(id){
               imageWidth: 400,
               imageHeight: 200,
               animation: true,
-              time :3000
+              time :5000
             })
         }
         window.location.reload();
