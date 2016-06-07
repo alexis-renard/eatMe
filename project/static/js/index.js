@@ -18,6 +18,7 @@ $(document).ready(function() {
    $(".minus_cook").bind("click", remove_user_cooked);
    $(".fa-times").bind("click", delete_plate);
    $(".c-tab>div>div>a").bind("click", display_profil_matched);
+   $("#editprofil").bind("click", post_modif);
  }
 
 function add_love(id){
@@ -160,6 +161,7 @@ function post_register(){
     });
 }
 
+
 function display_register(){
     $("#main_container").empty();
     var html = "";
@@ -264,7 +266,7 @@ function display_all_plates(category){
         html+='        <a id="Entrée"  href="#" onClick="display_few_plates(\'Entree\');" class="">Entrée</a>';
         html+='        <a id="Plat" href="#" onClick="display_few_plates(\'Plat\');" class="">Plat</a>';
         html+='        <a id="Dessert"  href="#" onClick="display_few_plates(\'Dessert\');" class="">Dessert</a>';
-        html+='        <a id="Apéro"  href="#" onClick="display_few_plates(\'Apero\');" class="">Apéro</a>';
+        html+='        <a id="Apéro"  href="#" onClick="display_few_plates(\'Apéro\');" class="">Apéro</a>';
         html+='    </div>';
         html+='    <div class="clearfix"></div>';
         html+='         <div class="text-center ">';
@@ -498,7 +500,7 @@ function display_all_cook(category){
        html+='        <a id="Entrée"  href="#" onClick="display_few_cook(\'Entree\');" class="">Entrée</a>';
        html+='        <a id="Plat" href="#" onClick="display_few_cook(\'Plat\');" class="">Plat</a>';
        html+='        <a id="Dessert"  href="#" onClick="display_few_cook(\'Dessert\');" class="">Dessert</a>';
-       html+='        <a id="Apéro"  href="#" onClick="display_few_cook(\'Apero\');" class="">Apéro</a>';
+       html+='        <a id="Apéro"  href="#" onClick="display_few_cook(\'Apéro\');" class="">Apéro</a>';
        html+='    </div>';
        html+='    <div class="clearfix"></div>';
        html+='         <div class="text-center ">';
@@ -610,7 +612,7 @@ function search_plate(){
       contentType: "application/json",
       success: function(data){
         $("#portfolio_items").empty();
-       var category = data.results;
+        var category = data.results;
         html = "";
         html+='              <ul class="portfolio-wrap" id="portfolio_items">';
         // debut li
@@ -749,7 +751,7 @@ function my_profil(){
         html+="                       <iframe src='"+data.user.img+"' width='350' height='281' allowfullscreen></iframe>";
         html +="            </div>";
         html +="            <div class=\"col-md-12 text-center\">";
-        html +="                <button class=\"btn btn-main featured\">Change profil</button>";
+        html +="                <button id=\"editprofil\" class=\"btn btn-main featured\" onclick=\"post_modif()\" >Change profil</button>";
         html +="            </div>";
         html +="        </div>";
         html +="    </div>";
@@ -757,6 +759,46 @@ function my_profil(){
         $("#main_container").append(html);
       }
     });
+}
+
+function post_modif(){
+    var dict={
+         username: $('input[id="username"]').val(),
+         password: $('input[id="password"]').val(),
+         firstName: $('input[id="firstName"]').val(),
+         lastName: $('input[id="lastName"]').val(),
+         email: $('input[id="mail"]').val(),
+         picture: $('input[id="img"]').val(),
+         desc: $('textarea[id="desc"]').val(),
+    };
+    bindings();
+    var datas=JSON.stringify(dict);
+    console.log("test");
+    $.ajax({
+           url: "/user/profil",
+           type: "PUT",
+           contentType:"application/json",
+           data: datas,
+           success: function(json){
+               swal({
+                 title: 'Profil updated!',
+                 imageUrl: 'http://udoit.dance/wp-content/uploads/2016/01/Update.jpg',
+                 imageWidth: 400,
+                 imageHeight: 200,
+                 animation: false
+               })
+               display_home();
+           },
+           error: function(json){
+               swal({
+                 title: 'Error!',
+                 text: 'Something gone wrong, please check your infos',
+                 type: 'error',
+                 confirmButtonText: 'Cool'
+               })
+           }
+       });
+   bindings();
 }
 
 function display_home(){
