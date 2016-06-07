@@ -36,4 +36,6 @@ Then run the app :
 python manage.py runserver
 ```
 
-*Then go to your [localhost](http://localhost:5000)*
+*Now go to your [localhost](http://localhost:5000)*
+
+#### Eating has never been so fun - EatMe Project ©
