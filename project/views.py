@@ -184,7 +184,7 @@ def add_user_loved():
         if user in loved_user.loved:
             user.matched.append(loved_user)
             db.session.commit()
-            return jsonify(state="match", match=True)
+            return jsonify(state=True, match=True)
         return jsonify(state=True, match=False)
     else:
         return jsonify(state="error")

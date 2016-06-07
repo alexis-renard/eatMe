@@ -17,6 +17,7 @@ $(document).ready(function() {
    $(".plus_cook").bind("click", add_user_cooked);
    $(".minus_cook").bind("click", remove_user_cooked);
    $(".fa-times").bind("click", delete_plate);
+   $(".c-tab>div>div>a").bind("click", display_profil_matched);
  }
 
 function add_love(id){
@@ -25,24 +26,24 @@ function add_love(id){
   console.log(dict);
   var data = JSON.stringify(dict);
   console.log(data);
-  bindings();
   $.ajax({
     url: "/user/loved",
     type: "PUT",
     contentType:"application/json",
     data: data,
     success: function(json){
-        display_home();
-    },
-    match: function(json){
-        swal({
-          title: 'It\'s a match!',
-          imageUrl: 'http://missionmariage.com/blog/wp-content/uploads/2015/01/Macaron-coeur-Laduree.png',
-          imageWidth: 400,
-          imageHeight: 200,
-          animation: false
-        })
-        display_home();
+        match = json.match;
+        if (match) {
+            swal({
+              title: 'It\'s a match!',
+              imageUrl: 'http://missionmariage.com/blog/wp-content/uploads/2015/01/Macaron-coeur-Laduree.png',
+              imageWidth: 400,
+              imageHeight: 200,
+              animation: false
+            })
+        }
+        window.location.reload();
+        bindings();
     }
   })
 }
@@ -943,7 +944,7 @@ function display_home(){
         html+="                                                   <ul>";
         html+="                                                   {% for user in current_user.matched %}";
         html+="                                                    <li>";
-        html+="                                                        <a href='#' onclick='get_profil(this.id)' id='{{user.username}}'>{{user.username}}</a> : {{user.email}}";
+        html+="                                                        <a href='#' onclick='get_profil_matched(this.id)' id='{{user.username}}'>{{user.username}}</a> : {{user.email}}";
         html+="                                                    </li>";
         html+="                                                   {% endfor %}";
         html+="                                                   </ul>";
@@ -1089,6 +1090,102 @@ function display_profil(json){
   html+="                    <div class='row'>";
   html+="                      <div class='col-md-1 col-md-push-5'>";
   html+="                       <button id='"+json.user.username+"' onclick='add_love(this.id)' class='btn btn-danger btn-lg'><i class='fa fa-heart' aria-hidden='true'></i></button>";
+  html+="                      </div>";
+  html+="                    </div>";
+  html+="                </div>";
+  html+="            </div>";
+  html+="        </div><!-- row End -->";
+  html+="    </div>";
+  html+="</section>";
+  $("#main_container").append(html);
+}
+
+function get_profil_matched(id){
+    console.log(id);
+    var dict={
+         "username": id
+    };
+    var datas=JSON.stringify(dict);
+    $.ajax({
+      url : "http://localhost:5000/user/profil",
+      type : "POST",
+      contentType:"application/json",
+      data: datas,
+      success: function(data){
+        display_profil_matched(data);
+      }
+  });
+}
+
+function display_profil_matched(json){
+  var html ="";
+  $("#main_container").empty();
+  html+="<div class='clearfix'></div>";
+  html+="</br>";
+  html+="</br>";
+  html+="<section id='video-fact'>";
+  html+="    <div class='container'>";
+  html+="         <div class='row'>";
+  html+="                 <div class='col-md-6 '>";
+  html+="                    <div class='landing-video'>";
+  html+="                        <div class='video-embed wow fadeIn' data-wow-duration='1s'>";
+  html+="                                <!-- Change the url -->";
+  html+="                            <iframe src='"+json.user.img+"' width='350' height='281' allowfullscreen></iframe>";
+  html+="                        </div>";
+  html+="                    </div>";
+  html+="                </div>";
+  html+="                <div class='col-md-6 '>";
+  html+="                    <div class='video-text'>";
+  html+="                        <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>";
+  html+="                          <div class='panel panel-default'>";
+  html+="                            <div class='panel-heading active' role='tab' id='headingOne'>";
+  html+="                              <h4 class='panel-title'>";
+  html+="                                <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>";
+  html+="                                  What like to eat:";
+  html+="                                </a>";
+  html+="                              </h4>";
+  html+="                            </div>";
+  html+="                            <div id='collapseOne' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='headingOne'>";
+  html+="                              <div class='panel-body p1'>";
+  html+="                                <ul>";
+  $.each(json.user.liked, function(i, obj) {
+    html+="<li>"+obj+"</li>";
+  });
+  html+="                                </ul>";
+  html+="                              </div>";
+  html+="                            </div>";
+  html+="                          </div>";
+  html+="                      <div class='panel panel-default'>";
+  html+="                        <div class='panel-heading ' role='tab' id='headingTwo'>";
+  html+="                          <h4 class='panel-title'>";
+  html+="                            <a class='accordion-toggle collapsed'  data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>";
+  html+="                              What like to cook:";
+  html+="                            </a>";
+  html+="                          </h4>";
+  html+="                        </div>";
+  html+="                        <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingTwo'>";
+  html+="                          <div class='panel-body p1'>";
+  html+="                                <ul>";
+  $.each(json.user.cooked, function(i, obj) {
+    html+="<li>"+obj+"</li>";
+  });
+  html+="                                </ul>";
+  html+="                          </div>";
+  html+="                        </div>";
+  html+="                      </div>";
+  html+="                      <div class='panel panel-default'>";
+  html+="                        <div class='panel-heading ' role='tab' id='headingThree'>";
+  html+="                          <h4 class='panel-title'>";
+  html+="                            <a class='accordion-toggle collapsed' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>";
+  html+="                              Description:";
+  html+="                            </a>";
+  html+="                          </h4>";
+  html+="                        </div>";
+  html+="                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'>";
+  html+="                          <div class='panel-body p1'>";
+  html+="                            "+json.user.desc+"";
+  html+="                          </div>";
+  html+="                        </div>";
   html+="                      </div>";
   html+="                    </div>";
   html+="                </div>";
