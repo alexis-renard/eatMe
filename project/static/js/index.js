@@ -789,7 +789,7 @@ function post_modif(){
                  imageHeight: 200,
                  animation: false
                })
-               display_home();
+               window.location.reload();
            },
            error: function(json){
                swal({
