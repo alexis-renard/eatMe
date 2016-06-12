@@ -101,7 +101,6 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             db.session.commit()
 
 
-
     # Gestion love_list
     for user in users_table:
         love_list = user["love"]
@@ -116,9 +115,11 @@ def loaddb(user_file,town_file,country_file,food_file,category_file,class_file):
             users[user["username"]].matched.append(users[username])
         db.session.commit()
 
-    db.session.commit()
-
-
+    for num in range(0,4):
+        m = Message(sender="Gerard",receiver="Clement",content="je suis le message"+str(num)+"")
+        db.session.add(m)
+    m = Message(sender="Suala",receiver="Gerard",content="je perle d'unicité")
+    db.session.add(m)
     db.session.commit()
 
 

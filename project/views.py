@@ -52,7 +52,7 @@ def login():
         password = m.hexdigest()
         if (user.password == password):
             login_user(user)
-            return jsonify(state="success"),200
+            return jsonify(state="success", user=user.serialize()),200
         return jsonify(state="error"),401
     return jsonify(state="error"),401
 
@@ -258,6 +258,17 @@ def user_modif():
                 ##############
                 ## Messages ##
                 ##############
+
+@login_required
+@app.route("/allmessagesusers", methods=('GET',))
+def display_all_message_users_route():
+    messages_db = get_all_messages()
+    print (messages_db)
+    messages_json = {}
+    for message in messages_db:
+        messages_json[message.id]=message.serialize()
+    return jsonify(messages=messages_json)
+
 
 @login_required
 @app.route("/allmessages", methods=('GET',))
