@@ -1,4 +1,4 @@
-# WELCOME TO EATME PROJECT
+# THE EATME PROJECT
 
 
 ## 1. About the idea
@@ -43,5 +43,7 @@ python manage.py runserver
 
 *Now you can go to your [localhost](http://localhost:5000)*
 
-#### Eating has never been so fun - EatMe Project ©
+#### Eating has never been so fun - EatMe Project
 ---
+
+*Feel free to fork !*
